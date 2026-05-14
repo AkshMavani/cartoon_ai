@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="main_primary">#111111</color>
+    <color name="gradient_primary">#e359ff</color>
+    <color name="gradient_primary_H">#bd03ff</color>
+    <color name="gradient_secondary">#3847e1</color>
+    <color name="gradient_secondary_H">#548cff</color>
+    <color name="text_primary">#ffffff</color>
+    <color name="button_secondary">#ffffff</color>
+    <color name="text_secondary">#000000</color>
+    <color name="button_primary">#e82155</color>
+    <color name="belvedere_image_stream_status_bar_color">#fff5f5f5</color>
+    <color name="bg_bottom_navigation">#202020</color>
+    <color name="main_secondary">#211f27</color>
+    <color name="text_gray">#6b6a6a</color>
+    <color name="main_tertiary">#252525</color>
+</resources>

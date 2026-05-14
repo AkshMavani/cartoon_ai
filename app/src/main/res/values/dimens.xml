@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="status_bar_height">4dp</dimen>
+    <dimen name="icon_large">28dp</dimen>
+    <dimen name="icon_medium">24dp</dimen>
+    <dimen name="icon_small">20dp</dimen>
+    <dimen name="button_radius">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="button_height">62dp</dimen>
+    <dimen name="button_height_result">56dp</dimen>
+    <dimen name="header_height">60dp</dimen>
+    <dimen name="icon_xlarge">36dp</dimen>
+    <dimen name="text_header">18sp</dimen>
+</resources>

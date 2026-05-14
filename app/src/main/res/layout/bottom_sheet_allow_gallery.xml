@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheetAllowGallery"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="64dp"
+    android:layout_marginHorizontal="8dp"
+    app:cardBackgroundColor="@color/main_tertiary"
+    app:cardCornerRadius="16dp">
+    <LinearLayout
+        android:gravity="bottom|center_horizontal"
+        android:orientation="vertical"
+        android:id="@+id/viewDontPermission"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="@dimen/activity_vertical_margin">
+        <ImageView
+            android:id="@+id/imgBanner"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/allow_access_photos"/>
+        <com.skylock.ai_cartoon.textview.TextViewApp
+            android:textColor="@color/text_primary"
+            android:gravity="center"
+            android:id="@+id/tvDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/access_photo"/>
+        <com.skylock.ai_cartoon.textview.TextViewApp
+            android:id="@+id/tvGoSetting"
+            android:layout_width="match_parent"
+            android:layout_marginTop="32dp"
+            android:text="@string/go_to_set"
+            style="@style/button_primary"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
