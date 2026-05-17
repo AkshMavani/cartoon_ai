@@ -1314,4 +1314,33 @@
     <string name="your_satisfaction_is_our_top_priority">Your satisfaction is our top priority</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- ══════════════════════════════════════════════════════════════════
+     Add these entries to your res/values/strings.xml
+     Each ErrorEvent maps to one title + one message pair.
+     ══════════════════════════════════════════════════════════════════ -->
+
+    <!-- NO_INTERNET -->
+    <string name="dialog_title_no_internet">No Internet Connection</string>
+    <string name="dialog_msg_no_internet">Please check your connection and tap Retry.</string>
+
+    <!-- SERVER_TIMEOUT -->
+    <string name="dialog_title_timeout">Request Timed Out</string>
+    <string name="dialog_msg_timeout">The server took too long to respond. Please try again.</string>
+
+    <!-- MAX_POLL_EXCEEDED (80+ get_image requests with no result) -->
+    <string name="dialog_title_taking_long">Still Working\u2026</string>
+    <string name="dialog_msg_taking_long">Your cartoon is taking longer than expected. Tap Retry to try again.</string>
+
+    <!-- NO_RESPONSE (null body from server) -->
+    <string name="dialog_msg_no_response">The server didn\'t send a valid response. Please try again.</string>
+
+    <!-- SERVER_ERROR (generic / unexpected server code) -->
+    <!-- Reuses existing: label_sorry_an_error_occurred + label_content_sorry_an_error_occurred -->
+    <string name="dialog_title_server_error">Server Error</string>
+    <string name="error_no_internet">No internet connection. Please check your network and try again.</string>
+
+    <string name="error_timeout">Request timed out. Please try again later.</string>
+
+    <string name="error_server">Something went wrong on the server. Please try again.</string>
 </resources>

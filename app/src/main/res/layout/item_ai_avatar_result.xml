@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    item_ai_avatar_result.xml
+    A single result thumbnail card shown in the horizontal rvResult RecyclerView.
+
+    ┌──────────┐
+    │  image   │  ← imgResult (square thumbnail with rounded corners)
+    │          │
+    └──────────┘
+     Result 1     ← tvTitle
+    [border shown when selected via viewSelected]
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="64dp"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <!-- Thumbnail container with selection border -->
+    <FrameLayout
+        android:layout_width="60dp"
+        android:layout_height="60dp">
+
+        <!-- Thumbnail image -->
+        <ImageView
+            android:id="@+id/imgResult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <!-- Selection indicator — visible cyan border overlay -->
+        <View
+            android:id="@+id/viewSelected"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_result_selected"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <!-- Result label -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        tools:text="Result 1" />
+
+</LinearLayout>

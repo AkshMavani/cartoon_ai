@@ -15,24 +15,26 @@ import okhttp3.ConnectionPool;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.TlsVersion;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 public final class ClientBuilder {
 
     public static final ClientBuilder INSTANCE = new ClientBuilder();
 
-    private ClientBuilder() {}
+    private ClientBuilder() {
+    }
 
     public OkHttpClient.Builder getUnsafeOkHttpClient() {
         try {
             X509TrustManager trustManager = new X509TrustManager() {
                 @Override
                 public void checkClientTrusted(X509Certificate[] chain, String authType)
-                        throws CertificateException {}
+                        throws CertificateException {
+                }
 
                 @Override
                 public void checkServerTrusted(X509Certificate[] chain, String authType)
-                        throws CertificateException {}
+                        throws CertificateException {
+                }
 
                 @Override
                 public X509Certificate[] getAcceptedIssuers() {
@@ -58,23 +60,17 @@ public final class ClientBuilder {
             return new OkHttpClient.Builder()
                     .sslSocketFactory(socketFactory, trustManager)
                     .hostnameVerifier((hostname, session) -> true)
-                    // ✅ Fix: Connection pool — prevents stale connections
                     .connectionPool(new ConnectionPool(5, 30, TimeUnit.SECONDS))
-                    // ✅ Fix: Support all connection specs including cleartext
                     .connectionSpecs(Arrays.asList(
                             spec,
                             ConnectionSpec.CLEARTEXT
                     ))
-                    // ✅ Fix: Retry on connection failure
                     .retryOnConnectionFailure(true)
-                    // ✅ Fix: Follow redirects
                     .followRedirects(true)
                     .followSslRedirects(true)
-                    // ✅ Fix: Timeouts
                     .connectTimeout(60L, TimeUnit.SECONDS)
                     .readTimeout(60L, TimeUnit.SECONDS)
                     .writeTimeout(60L, TimeUnit.SECONDS)
-                    // ✅ Fix: Keep-alive / ping interval
                     .pingInterval(20L, TimeUnit.SECONDS);
 
         } catch (Exception e) {

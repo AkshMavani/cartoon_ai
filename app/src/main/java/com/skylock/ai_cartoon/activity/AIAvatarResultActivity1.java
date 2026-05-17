@@ -1,7 +1,6 @@
 package com.skylock.ai_cartoon.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,18 +10,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.skylock.ai_cartoon.R;
 
-public class ActivityEnhance extends AppCompatActivity {
+public class AIAvatarResultActivity1 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_enhance);
+        setContentView(R.layout.activity_aiavatar_result_1);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        Log.e("calling1111", "onCreate: call");
     }
 }

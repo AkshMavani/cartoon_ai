@@ -2,29 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="8dp"
+    android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:background="?attr/selectableItemBackground">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/iv_style_icon"
         android:layout_width="@dimen/_120sdp"
         android:layout_height="@dimen/_120sdp"
-        android:scaleType="centerCrop"
-        android:contentDescription="Style Icon" />
+        android:contentDescription="Style Icon"
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tv_style_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textSize="12sp"
-        android:maxLines="1"
         android:ellipsize="end"
         android:gravity="center"
-        android:maxWidth="90dp" />
+        android:maxWidth="90dp"
+        android:maxLines="1"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
 
 </LinearLayout>

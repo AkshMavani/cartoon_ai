@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cvDialogCustomRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,64 +10,83 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
+
     <LinearLayout
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Robot illustration -->
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:src="@drawable/ic_robot"/>
+            android:src="@drawable/ic_robot" />
+
+        <!-- Dynamic title — driven by ErrorEvent type -->
         <com.skylock.ai_cartoon.textview.TextViewApp
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_primary"
+            android:id="@+id/tvDialogTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/label_sorry_an_error_occurred"/>
-        <com.skylock.ai_cartoon.textview.TextViewApp
-            android:textSize="15sp"
-            android:textColor="@color/text_primary"
+            android:layout_marginTop="12dp"
             android:gravity="center"
-            android:layout_gravity="center"
+            android:text="@string/label_sorry_an_error_occurred"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Dynamic message — driven by ErrorEvent type -->
+        <com.skylock.ai_cartoon.textview.TextViewApp
+            android:id="@+id/tvDialogMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
-            android:text="@string/label_content_sorry_an_error_occurred"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/label_content_sorry_an_error_occurred"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp" />
+
+        <!-- Buttons -->
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_15sdp">
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:orientation="horizontal">
+
+            <!-- Cancel / OK -->
             <com.skylock.ai_cartoon.textview.TextViewApp
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                android:gravity="center"
                 android:id="@+id/tvOk"
-                android:background="@drawable/bg_round_gray_error"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_40sdp"
-                android:text="@string/label_ok"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:layout_marginStart="8dp"/>
-            <com.skylock.ai_cartoon.textview.TextViewApp
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/white"
+                android:background="@drawable/bg_round_gray_error"
                 android:gravity="center"
+                android:text="@string/label_ok"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <!-- Retry -->
+            <com.skylock.ai_cartoon.textview.TextViewApp
                 android:id="@+id/tvTryAgain"
-                android:background="@drawable/bg_processing_gradient"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
-                android:text="@string/label_try_again"
+                android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:layout_marginStart="8dp"/>
+                android:background="@drawable/bg_processing_gradient"
+                android:gravity="center"
+                android:text="@string/label_try_again"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

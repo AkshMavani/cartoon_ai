@@ -32,6 +32,15 @@
         android:theme="@style/Theme.Ai_cartoon"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".enhance.AIAvatarEnhanceProcessingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ProcessingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AIAvatarResultActivity1"
+            android:exported="false" />
+        <activity
             android:name=".activity.AIAvatarResultActivity"
             android:exported="false" />
         <activity

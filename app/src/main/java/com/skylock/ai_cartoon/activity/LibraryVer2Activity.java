@@ -33,7 +33,6 @@ import com.skylock.ai_cartoon.adapter.ChooseMultiplePhotosAdapter;
 import com.skylock.ai_cartoon.adapter.LibraryPagerAdapter;
 import com.skylock.ai_cartoon.base.BaseActivity;
 import com.skylock.ai_cartoon.databinding.ActivityLibraryVer2Binding;
-
 import com.skylock.ai_cartoon.fragment.LibraryFragment;
 import com.skylock.ai_cartoon.model.AlbumModel;
 import com.skylock.ai_cartoon.model.ImageModel;
@@ -60,17 +59,16 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
 
     private static final String TAG = "LibraryVer2Activity";
     private static final int REQUEST_CAMERA_PERMISSION = 1;
-
+    public boolean isMultiple;
     // ---- Fields (matching original) ----
     private Logger logger = Logger.getLogger(LibraryVer2Activity.class.getName());
     private BottomSheetRecommend bottomSheetRecommend;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ChooseMultiplePhotosAdapter chooseMultiplePhotosAdapter;
-     private int firstVisiblePosition;
+    private int firstVisiblePosition;
     private int heightItemMultiplePhoto;
     private boolean isChangeMultiple;
     private boolean isCreated;
-    public boolean isMultiple;
     private boolean isRequestPermissionCamera;
     private LibraryPagerAdapter libraryPagerViewPager;
     private Uri photoUri;
@@ -99,7 +97,7 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
     // Lazy getters — exactly matching original Kotlin lazy delegates
     // -----------------------------------------------------------------------
 
-    public final String getFeature() {
+    public String getFeature() {
         if (featureCache == null) {
             String s = getIntent().getStringExtra("feature");
             featureCache = (s == null) ? "library_screen_error" : s;
@@ -122,13 +120,22 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
         return getIntent().getBooleanExtra("is_premium_item", false);
     }
 
-    public Logger getLogger() { return this.logger; }
-    public void setLogger(Logger logger) { this.logger = logger; }
+    public Logger getLogger() {
+        return this.logger;
+    }
+
+    public void setLogger(Logger logger) {
+        this.logger = logger;
+    }
 
 
-    private BottomSheetDialog getRequestPermissionDialog() { return requestPermissionDialog; }
+    private BottomSheetDialog getRequestPermissionDialog() {
+        return requestPermissionDialog;
+    }
 
-    private PickMediaViewModel getPickMediaViewModel() { return pickMediaViewModel; }
+    private PickMediaViewModel getPickMediaViewModel() {
+        return pickMediaViewModel;
+    }
 
     // -----------------------------------------------------------------------
     // initView — replaces onCreate logic
@@ -139,7 +146,7 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
         super.initView(savedInstanceState);
 
         // Lazy inits
-         pickMediaViewModel = new ViewModelProvider(this).get(PickMediaViewModel.class);
+        pickMediaViewModel = new ViewModelProvider(this).get(PickMediaViewModel.class);
         requestPermissionDialog = new BottomSheetDialog(this, R.style.SheetDialog);
 
         // Must register BEFORE activity starts
@@ -155,7 +162,7 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
         clearMultiPhotos();
         getDataIntent();
 
-         System.out.println("onClickFeature:x" + System.currentTimeMillis());
+        System.out.println("onClickFeature:x" + System.currentTimeMillis());
 
         // ivQuestion visibility — VISIBLE for ENHANCE/AI_FILTER/HEADSHOT, else INVISIBLE
         String feature = getFeature();
@@ -209,7 +216,10 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
                     boolean allGranted = true;
                     if (!(values instanceof Collection) || !values.isEmpty()) {
                         for (Boolean granted : values) {
-                            if (!granted) { allGranted = false; break; }
+                            if (!granted) {
+                                allGranted = false;
+                                break;
+                            }
                         }
                     }
                     if (allGranted) {
@@ -276,9 +286,12 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
     protected void onResume() {
         super.onResume();
 
-        if (getBinding().adViewContainer != null) getBinding().adViewContainer.setVisibility(View.GONE);
-        if (getBinding().imgMultiplePro != null) getBinding().imgMultiplePro.setVisibility(View.GONE);
-        if (getBinding().applyAnimation != null) getBinding().applyAnimation.setVisibility(View.GONE);
+        if (getBinding().adViewContainer != null)
+            getBinding().adViewContainer.setVisibility(View.GONE);
+        if (getBinding().imgMultiplePro != null)
+            getBinding().imgMultiplePro.setVisibility(View.GONE);
+        if (getBinding().applyAnimation != null)
+            getBinding().applyAnimation.setVisibility(View.GONE);
 
         if (isCreated) {
             new Thread(() -> {
@@ -421,7 +434,7 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
     private void actionLayoutDenyPermission() {
         // Matches: actionLayoutDenyPermission$lambda$20
         getBinding().denyPermission.camera.setOnClickListener(v -> {
-          //  getFirebaseAnalytics().logEvent("a04_Library_Request_Permission_Photo", new Bundle());
+            //  getFirebaseAnalytics().logEvent("a04_Library_Request_Permission_Photo", new Bundle());
             requestPermissionLauncher.launch(Constants.arrayGallery);
             requestPermissionCamera();
         });
@@ -511,7 +524,7 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
     // -----------------------------------------------------------------------
 
     private void goToFeatureAction(String uri) {
-        Log.e("CallfromStatuactivityFeature", "goToFeatureAction: " );
+        Log.e("CallfromStatuactivityFeature", "goToFeatureAction: ");
         Log.e(TAG, "4");
         String feature = getFeature();
         boolean isCartoon = feature.equals(Feature.AI_HUGGING.getValue())
@@ -519,11 +532,11 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
                 || feature.equals(Feature.HEADSHOT.getValue())
                 || feature.equals(Feature.HAIR_STYLE.getValue());
 
-       // if (isCartoon) {
+        if (isCartoon) {
             startCartoonActivity(new PhotoLibrary(uri));
-       /* } else {
+        } else {
             Constants.startActivityFeature(this, getFeature(), uri, 0, 0, false);
-        }*/
+        }
         // Matches: goToFeatureAction$lambda$22 (IO thread)
         new Thread(() -> GalleryUtils.INSTANCE.getAllPhotosBackground(this)).start();
     }
@@ -610,7 +623,7 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
 
         Iterator<ImageModel> it = Constants.MULTI_PHOTOS_NEW.iterator();
         while (it.hasNext()) {
-            LibraryFragment.INSTANCE.onSelectOnePhoto(this, it.next());
+            LibraryFragment.Companion.onSelectOnePhoto(this, it.next());
         }
 
         Intent intent = new Intent(this, ActivityEnhance.class);
@@ -659,7 +672,9 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
 
         // Matches: LibraryVer2Activity$showMultiplePhoto$1
         loadAnimation.setAnimationListener(new Animation.AnimationListener() {
-            @Override public void onAnimationStart(Animation animation) {}
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -678,7 +693,9 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
                 }
             }
 
-            @Override public void onAnimationRepeat(Animation animation) {}
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
 
         getBinding().bottomMultiplePhoto.startAnimation(loadAnimation);

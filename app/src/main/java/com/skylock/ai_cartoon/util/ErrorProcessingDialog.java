@@ -1,103 +1,205 @@
 package com.skylock.ai_cartoon.util;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.skylock.ai_cartoon.R;
 import com.skylock.ai_cartoon.callback.ProcessingListener;
 import com.skylock.ai_cartoon.databinding.DialogErrorProcessingBinding;
+import com.skylock.ai_cartoon.viewmodel.CartoonViewModel.ErrorEvent;
 
-/* loaded from: classes.dex */
+/**
+ * ErrorProcessingDialog — Production-ready dialog for all error cases.
+ * <p>
+ * Usage from Activity:
+ * <p>
+ * ErrorProcessingDialog.display(
+ * getSupportFragmentManager(),
+ * ErrorEvent.NO_INTERNET,   // drives the title + message shown
+ * new ProcessingListener() {
+ * public void onRetry()  { viewModel.retryFromScratch(); progress = 0; autoProcess(); }
+ * public void onCancel() { finish(); }
+ * }
+ * );
+ * <p>
+ * The dialog is non-cancelable: the user MUST tap Retry or Cancel.
+ */
 public class ErrorProcessingDialog extends DialogFragment {
+
+    private static final String TAG = "ErrorProcessingDialog";
+    private static final String ARG_TYPE = "error_type";
+
     private DialogErrorProcessingBinding binding;
-    private ProcessingListener processingListener;
+    private ProcessingListener listener;
 
-    public static ErrorProcessingDialog display(FragmentManager fragmentManager, ProcessingListener processingListener) {
-        ErrorProcessingDialog errorProcessingDialog = new ErrorProcessingDialog();
-        errorProcessingDialog.processingListener = processingListener;
-        errorProcessingDialog.show(fragmentManager, ErrorProcessingDialog.class.getName());
-        return errorProcessingDialog;
+    // ── Factory ───────────────────────────────────────────────────────────────
+
+    public static ErrorProcessingDialog display(
+            @NonNull FragmentManager fm,
+            @NonNull ErrorEvent errorEvent,
+            @NonNull ProcessingListener listener) {
+
+        // Avoid duplicate dialogs
+        if (fm.findFragmentByTag(TAG) != null) return null;
+
+        ErrorProcessingDialog dialog = new ErrorProcessingDialog();
+        dialog.listener = listener;
+
+        Bundle args = new Bundle();
+        args.putString(ARG_TYPE, errorEvent.name());
+        dialog.setArguments(args);
+
+        dialog.show(fm, TAG);
+        return dialog;
     }
 
-    @SuppressLint("ResourceType")
-    @Override // androidx.fragment.app.DialogFragment, androidx.fragment.app.Fragment
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        setStyle(0, 0x7f150037);
+    /**
+     * Legacy overload — kept for backward compatibility.
+     * Shows a generic "something went wrong" dialog.
+     */
+    public static ErrorProcessingDialog display(
+            @NonNull FragmentManager fm,
+            @NonNull ProcessingListener listener) {
+        return display(fm, ErrorEvent.SERVER_ERROR, listener);
     }
 
-    @Override // androidx.fragment.app.DialogFragment, androidx.fragment.app.Fragment
+    // ── Lifecycle ─────────────────────────────────────────────────────────────
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        }
+        return dialog;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        binding = DialogErrorProcessingBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setCancelable(false); // User MUST act — no dismiss by tapping outside
+
+        // Resolve which error type we are showing
+        ErrorEvent errorEvent = ErrorEvent.SERVER_ERROR;
+        if (getArguments() != null) {
+            try {
+                errorEvent = ErrorEvent.valueOf(
+                        getArguments().getString(ARG_TYPE, ErrorEvent.SERVER_ERROR.name()));
+            } catch (IllegalArgumentException ignored) { /* fall through to default */ }
+        }
+
+        applyErrorContent(errorEvent);
+        setupButtons();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         Dialog dialog = getDialog();
-        if (dialog != null) {
-            dialog.getWindow().setLayout(-2, -2);
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-            try {
-                getDialog().getWindow().setFlags(8, 8);
-                getDialog().getWindow().getDecorView().setSystemUiVisibility(5380);
-                getDialog().getWindow().clearFlags(1024);
-            } catch (Exception unused) {
-            }
+        if (dialog != null && dialog.getWindow() != null) {
+            // Full-width card with transparent background handled by CardView
+            dialog.getWindow().setLayout(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
     }
 
-    @Override // androidx.fragment.app.Fragment
-    public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
-        super.onCreateView(layoutInflater, viewGroup, bundle);
-        DialogErrorProcessingBinding inflate = DialogErrorProcessingBinding.inflate(layoutInflater, viewGroup, false);
-        this.binding = inflate;
-        inflate.tvOk.setOnClickListener(new View.OnClickListener() { // from class: mobi.zeezoo.photoenhancer.feature.view.dialog.ErrorProcessingDialog$$ExternalSyntheticLambda0
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ErrorProcessingDialog.this.lambda$onCreateView$0(view);
-            }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    // ── Content ───────────────────────────────────────────────────────────────
+
+    /**
+     * Map each ErrorEvent to the correct title + message strings.
+     * Add or adjust cases to match your strings.xml entries.
+     */
+    private void applyErrorContent(ErrorEvent event) {
+        String title;
+        String message;
+
+        switch (event) {
+            case NO_INTERNET:
+                title = getString(R.string.dialog_title_no_internet);
+                // "No Internet Connection"
+                message = getString(R.string.dialog_msg_no_internet);
+                // "Please check your connection and try again."
+                break;
+
+            case SERVER_TIMEOUT:
+                title = getString(R.string.dialog_title_timeout);
+                // "Request Timed Out"
+                message = getString(R.string.dialog_msg_timeout);
+                // "The server took too long to respond. Please try again."
+                break;
+
+            case MAX_POLL_EXCEEDED:
+                title = getString(R.string.dialog_title_taking_long);
+                // "Still Working…"
+                message = getString(R.string.dialog_msg_taking_long);
+                // "Your cartoon is taking longer than expected. Retry to check again."
+                break;
+
+            case NO_RESPONSE:
+                title = getString(R.string.dialog_title_server_error);
+                // "Server Error"
+                message = getString(R.string.dialog_msg_no_response);
+                // "The server didn't send a valid response. Please try again."
+                break;
+
+            case SERVER_ERROR:
+            default:
+                title = getString(R.string.label_sorry_an_error_occurred);
+                message = getString(R.string.label_content_sorry_an_error_occurred);
+                break;
+        }
+
+        binding.tvDialogTitle.setText(title);
+        binding.tvDialogMessage.setText(message);
+    }
+
+    private void setupButtons() {
+        binding.tvTryAgain.setOnClickListener(v -> {
+            dismissSafely();
+            if (listener != null) listener.onRetry();
         });
-        this.binding.tvTryAgain.setOnClickListener(new View.OnClickListener() { // from class: mobi.zeezoo.photoenhancer.feature.view.dialog.ErrorProcessingDialog$$ExternalSyntheticLambda1
-            @Override // android.view.View.OnClickListener
-            public final void onClick(View view) {
-                ErrorProcessingDialog.this.lambda$onCreateView$1(view);
-            }
+
+        binding.tvOk.setOnClickListener(v -> {
+            dismissSafely();
+            if (listener != null) listener.onCancel();
         });
-        return this.binding.getRoot();
     }
 
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCreateView$0(View view) {
-        ProcessingListener processingListener = this.processingListener;
-        if (processingListener != null) {
-            processingListener.onCancel();
-        }
-        dismiss();
-    }
-
-    /* JADX INFO: Access modifiers changed from: private */
-    public /* synthetic */ void lambda$onCreateView$1(View view) {
-        ProcessingListener processingListener = this.processingListener;
-        if (processingListener != null) {
-            processingListener.onRetry();
-        }
-        dismiss();
-    }
-
-    @Override // androidx.fragment.app.DialogFragment
-    public void dismiss() {
+    private void dismissSafely() {
         try {
-            FragmentActivity activity = getActivity();
-            if (activity == null || activity.isFinishing()) {
-                return;
-            }
-            super.dismiss();
+            if (isAdded()) dismissAllowingStateLoss();
         } catch (Exception e) {
-            e.printStackTrace();
+            // Fragment already detached — safe to swallow
         }
     }
 }
