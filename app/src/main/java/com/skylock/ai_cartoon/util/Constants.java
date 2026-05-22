@@ -10,6 +10,8 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.util.TypedValue;
 
@@ -19,9 +21,11 @@ import androidx.core.content.ContextCompat;
 import com.skylock.ai_cartoon.activity.ActivityProcess;
 import com.skylock.ai_cartoon.model.DemoLibraryModel;
 import com.skylock.ai_cartoon.model.ImageModel;
+import com.skylock.ai_cartoon.remove_obj.RemoveObjActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -33,24 +37,12 @@ import java.util.List;
 
 /* loaded from: classes3.dex */
 public class Constants {
-    public static String ACCOUNT_ID = "";
-    public static String ADMOB = "admob";
-    public static boolean ADS_ADMOB = true;
-    public static String ADS_INTER_TYPE = "admob";
-    public static String ADS_REWARD_TYPE = "admob";
     public static final String AI_HUGGING = "ai_hugging";
-    public static String APPFLYER_KEY = "Qnh77rpQng8Bd6fmtHHaQd";
-    public static String APPLOVIN = "applovin";
-    private static final String CHILD_DIR = "images";
-    private static final int COMPRESS_QUALITY = 100;
     public static final String DISCOUNT_ACTIVE = "DISCOUNT_ACTIVE";
     public static final String EVENT_NOEL = "event_noel_new_app";
-    private static final String FILE_EXTENSION = ".png";
     public static final String HAIR_STYLE = "hairstyle";
     public static final boolean IS_NOEL = false;
-    private static final String KEY_STORED_DATE = "storedDate";
     public static final String LIBRARY_RECOMMEND = "LIBRARY_RECOMMEND";
-    private static final String TEMP_FILE_NAME = "img";
     public static final String TIME_DISCOUNT = "time_bg_discount";
     public static final long TIME_UNIT = 1800000;
     public static final String TOOLTIP_CAMERA = "tooltip_camera";
@@ -63,6 +55,18 @@ public class Constants {
     public static final String[] arrayCamera;
     public static final String[] arrayGallery;
     public static final String[] arrayGalleryAndroid14;
+    private static final String CHILD_DIR = "images";
+    private static final int COMPRESS_QUALITY = 100;
+    private static final String FILE_EXTENSION = ".png";
+    private static final String KEY_STORED_DATE = "storedDate";
+    private static final String TEMP_FILE_NAME = "img";
+    public static String ACCOUNT_ID = "";
+    public static String ADMOB = "admob";
+    public static boolean ADS_ADMOB = true;
+    public static String ADS_INTER_TYPE = "admob";
+    public static String ADS_REWARD_TYPE = "admob";
+    public static String APPFLYER_KEY = "Qnh77rpQng8Bd6fmtHHaQd";
+    public static String APPLOVIN = "applovin";
     public static Boolean IS_NETWORK_CONNECTED = false;
     public static Boolean IS_GO_HOME = false;
     public static Boolean IS_SHOW_NETWORK_DISCONNECTED = false;
@@ -113,6 +117,16 @@ public class Constants {
 
     public static Boolean IS_LOADING_PHOTOS = true;
 
+    static {
+        String[] strArr = Build.VERSION.SDK_INT < 34 ? new String[]{"android.permission.READ_MEDIA_IMAGES"} : new String[]{"android.permission.READ_MEDIA_VISUAL_USER_SELECTED", "android.permission.READ_MEDIA_IMAGES"};
+        arrayGalleryAndroid14 = strArr;
+        if (Build.VERSION.SDK_INT < 33) {
+            strArr = new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE"};
+        }
+        arrayGallery = strArr;
+        arrayCamera = new String[]{"android.permission.CAMERA"};
+    }
+
     public static boolean checkIsPremiumPro(String str) {
         return true;
     }
@@ -126,16 +140,6 @@ public class Constants {
             return;
         }
         p0.startActivity(p1);
-    }
-
-    static {
-        String[] strArr = Build.VERSION.SDK_INT < 34 ? new String[]{"android.permission.READ_MEDIA_IMAGES"} : new String[]{"android.permission.READ_MEDIA_VISUAL_USER_SELECTED", "android.permission.READ_MEDIA_IMAGES"};
-        arrayGalleryAndroid14 = strArr;
-        if (Build.VERSION.SDK_INT < 33) {
-            strArr = new String[]{"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE"};
-        }
-        arrayGallery = strArr;
-        arrayCamera = new String[]{"android.permission.CAMERA"};
     }
 
     public static String getPath(Context context, Uri uri) {
@@ -292,12 +296,12 @@ public class Constants {
 
 
     public static void startActivityFeature(Context context, String str, String str2, Integer num, Integer num2, Boolean bool) {
-        Log.e("CallfromStatuactivityFeature", "startActivityFeature: " );
-        Intent intent = new Intent(context, (Class<?>) ActivityProcess.class);
+        Log.e("CallfromStatuactivityFeature", "startActivityFeature: ");
+        Intent intent = new Intent(context, ActivityProcess.class);
         if (str.equals(Feature.AI_FILTER.getValue())) {
-            intent = new Intent(context, (Class<?>) ActivityProcess.class);
+            intent = new Intent(context, ActivityProcess.class);
         } else if (str.equals(Feature.REMOVEOBJ.getValue())) {
-            intent = new Intent(context, (Class<?>) ActivityProcess.class);
+            intent = new Intent(context, RemoveObjActivity.class);
         }
         ArrayList arrayList = new ArrayList();
         ImageModel imageModel = new ImageModel();
@@ -309,7 +313,7 @@ public class Constants {
         intent.putExtra("image_height", num2);
         intent.putExtra("feature", str);
         intent.putExtra("process_and_delete", bool);
-
+        context.startActivity(intent);
     }
 
 /*
@@ -414,7 +418,7 @@ public class Constants {
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 
-    public static void showToast(final Context context, final String str) {
+    public static void showToast(final String str) {
       /*  ThreadUtils.runOnMainThread(new Action() { // from class: mobi.zeezoo.photoenhancer.utils.Constants.3
             @Override // io.reactivex.functions.Action
             public void run() throws Exception {
@@ -501,15 +505,12 @@ public class Constants {
     }
 
 
-
-
-
     public static void openTerms(Context context) {
         try {
             safedk_Context_startActivity_97cb3195734cf5c9cc3418feeafa6dd6(context, new Intent("android.intent.action.VIEW", Uri.parse("https://sites.google.com/view/zeezooterms")));
         } catch (Exception e) {
             e.printStackTrace();
-            showToast(context, "Cannot open browser");
+            showToast("Cannot open browser");
         }
     }
 
@@ -518,7 +519,7 @@ public class Constants {
             safedk_Context_startActivity_97cb3195734cf5c9cc3418feeafa6dd6(context, new Intent("android.intent.action.VIEW", Uri.parse("https://sites.google.com/view/photoenhancerzeezoo")));
         } catch (Exception e) {
             e.printStackTrace();
-            showToast(context, "Cannot open browser");
+            showToast("Cannot open browser");
         }
     }
 
@@ -556,4 +557,48 @@ public class Constants {
         System.out.println("Constants_jacky=======" + j);
         return j == 0 ? Calendar.getInstance().getTime() : new Date(j);
     }*/
+
+    public static void vibrate(Context context, long duration) {
+        try {
+            Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+            if (vibrator != null && vibrator.hasVibrator()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    vibrator.vibrate(duration);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static File convertContentToFile(Context context, String str) throws IOException {
+        InputStream openInputStream = null;
+        Uri parse = Uri.parse(str);
+        File file = null;
+        try {
+            openInputStream = context.getContentResolver().openInputStream(parse);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        file = File.createTempFile("temp_file", null, context.getCacheDir());
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        byte[] bArr = new byte[4096];
+        while (true) {
+            int read = openInputStream.read(bArr);
+            if (read == -1) {
+                break;
+            }
+            fileOutputStream.write(bArr, 0, read);
+        }
+        fileOutputStream.close();
+        if (openInputStream != null) {
+            openInputStream.close();
+        }
+        return file;
+    }
+
 }

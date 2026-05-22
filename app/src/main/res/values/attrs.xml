@@ -5,19 +5,29 @@
         <attr name="gridInnerStroke" format="dimension" />
         <attr name="gridInnerColor" format="color" />
         <attr name="setInnerGridMode" format="integer">
-            <enum name="off" value="0"/>
-            <enum name="on" value="1"/>
+            <enum name="off" value="0" />
+            <enum name="on" value="1" />
         </attr>
 
         <attr name="gridOuterStroke" format="dimension" />
         <attr name="gridOuterColor" format="color" />
         <attr name="setOuterGridMode" format="integer">
-            <enum name="off" value="0"/>
-            <enum name="on" value="1"/>
+            <enum name="off" value="0" />
+            <enum name="on" value="1" />
         </attr>
         <attr name="gridLeftRightMargin" format="dimension" />
         <attr name="gridTopBottomMargin" format="dimension" />
         <attr name="outsideLayerColor" format="color" />
     </declare-styleable>
-
+    <attr name="image_before_disable_zoom" format="boolean"></attr>
+    <attr name="scaleSlideType">
+        <enum name="matrix" value="0" />
+        <enum name="fitXY" value="1" />
+        <enum name="fitStart" value="2" />
+        <enum name="fitCenter" value="3" />
+        <enum name="fitEnd" value="4" />
+        <enum name="center" value="5" />
+        <enum name="centerCrop" value="6" />
+        <enum name="centerInside" value="7" />
+    </attr>
 </resources>

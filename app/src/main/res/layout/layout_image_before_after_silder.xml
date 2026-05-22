@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/main_primary">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imgBg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/transparent"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/imgAfter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/flBefore"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:id="@+id/imgBefore"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="0dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="right">
+
+                        <TextView
+                            android:id="@+id/tvBefore"
+                            android:layout_width="72dp"
+                            android:layout_height="26dp"
+                            android:layout_margin="16dp"
+                            android:background="@drawable/bg_mark_before_after"
+                            android:gravity="center"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="3dp"
+                            android:text="before"
+                            android:visibility="gone" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/flSlider"
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_line_image_slide">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <FrameLayout
+                            android:id="@+id/flSliderTop"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginBottom="0dp"
+                            android:layout_weight="1"
+                            android:background="#fffefe" />
+
+                        <FrameLayout
+                            android:id="@+id/flSliderBottom"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            android:background="#fffefe" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvAfter"
+                    android:layout_width="72dp"
+                    android:layout_height="26dp"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/bg_mark_before_after"
+                    android:gravity="center"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="3dp"
+                    android:text="after"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <com.skylock.ai_cartoon.enhance.SeekBarTouch
+            android:id="@+id/seekSlider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="800"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:progress="400"
+            android:progressDrawable="@drawable/seek_bar_custom"
+            android:progressTint="@android:color/transparent"
+            android:splitTrack="false"
+            android:thumb="@drawable/cycle_arrow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgFlipback"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_margin="24dp"
+            android:src="@drawable/ic_flipback_new_v2"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/btnBeautifier"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_icon_secondary"
+            android:padding="7dp"
+            android:src="@drawable/ic_face_retouching"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/imgFlipback"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/btnChangePhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_icon_secondary"
+            android:padding="8dp"
+            android:text="change_photo"
+            android:textColor="@color/text_primary"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
+
+        <LinearLayout
+            android:id="@+id/llTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_gradient_menu_home"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingHorizontal="20dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -11,4 +11,6 @@
     <dimen name="header_height">60dp</dimen>
     <dimen name="icon_xlarge">36dp</dimen>
     <dimen name="text_header">18sp</dimen>
+    <dimen name="more_tool_icon">20dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
 </resources>

@@ -28,13 +28,16 @@ public class SharePreferenceRepositoryImpl {
         return instance;
     }
 
-    // --- Demo Library Management ---
-
     public List<DemoLibraryModel> getListDemoLibraryModel() {
         String json = SharePrefUtils.getString(KEY_DEMO_LIBRARY);
-        if (json.isEmpty()) return new ArrayList<>();
 
-        Type type = new TypeToken<List<DemoLibraryModel>>(){}.getType();
+        if (json == null || json.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        Type type = new TypeToken<List<DemoLibraryModel>>() {
+        }.getType();
+
         return gson.fromJson(json, type);
     }
 
@@ -43,5 +46,11 @@ public class SharePreferenceRepositoryImpl {
         SharePrefUtils.saveKey(KEY_DEMO_LIBRARY, json);
     }
 
+    public boolean isBooleanKey(String key) {
+        return SharePrefUtils.getBoolean(key, false);
+    }
 
+    public void setBooleanKey(String key, boolean value) {
+        SharePrefUtils.saveBoolean(key, value);
+    }
 }

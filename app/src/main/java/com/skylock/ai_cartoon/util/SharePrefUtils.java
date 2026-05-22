@@ -7,26 +7,16 @@ import kotlin.jvm.internal.Intrinsics;
 import kotlin.text.StringsKt;
 
 public final class SharePrefUtils {
-    private static final String PREF_NAME = "AppName";
-    private static SharedPreferences sharePref;
     public static final SharePrefUtils INSTANCE = new SharePrefUtils();
     public static final int $stable = 8;
+    private static final String PREF_NAME = "AppName";
+    private static SharedPreferences sharePref;
 
     private SharePrefUtils() {
     }
 
-    public final void init(Context context) {
-        Intrinsics.checkNotNullParameter(context, "context");
-        if (sharePref != null) {
-            return;
-        }
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, 0);
-        Intrinsics.checkNotNullExpressionValue(sharedPreferences, "getSharedPreferences(...)");
-        sharePref = sharedPreferences;
-    }
-
     /* JADX WARN: Multi-variable type inference failed */
-    public static  <T> void saveKey(String key, T value) {
+    public static <T> void saveKey(String key, T value) {
         Intrinsics.checkNotNullParameter(key, "key");
         SharedPreferences sharedPreferences = null;
         if (value instanceof String) {
@@ -89,7 +79,7 @@ public final class SharePrefUtils {
             sharedPreferences = null;
         }
         String string = sharedPreferences.getString(key, "");
-        return (string == null || (obj = StringsKt.trim((CharSequence) string).toString()) == null) ? "" : obj;
+        return (string == null || (obj = StringsKt.trim(string).toString()) == null) ? "" : obj;
     }
 
     public static /* synthetic */ int getInt$default(SharePrefUtils sharePrefUtils, String str, int i, int i2, Object obj) {
@@ -99,24 +89,14 @@ public final class SharePrefUtils {
         return sharePrefUtils.getInt(str, i);
     }
 
-    public final int getInt(String key, int defaultValue) {
-        Intrinsics.checkNotNullParameter(key, "key");
-        SharedPreferences sharedPreferences = sharePref;
-        if (sharedPreferences == null) {
-            Intrinsics.throwUninitializedPropertyAccessException("sharePref");
-            sharedPreferences = null;
-        }
-        return sharedPreferences.getInt(key, defaultValue);
-    }
-
     public static /* synthetic */ boolean getBoolean$default(SharePrefUtils sharePrefUtils, String str, boolean z, int i, Object obj) {
         if ((i & 2) != 0) {
             z = false;
         }
-        return sharePrefUtils.getBoolean(str, z);
+        return getBoolean(str, z);
     }
 
-    public final boolean getBoolean(String key, boolean defaultValue) {
+    public static boolean getBoolean(String key, boolean defaultValue) {
         Intrinsics.checkNotNullParameter(key, "key");
         SharedPreferences sharedPreferences = sharePref;
         if (sharedPreferences == null) {
@@ -133,16 +113,6 @@ public final class SharePrefUtils {
         return sharePrefUtils.getLong(str, j);
     }
 
-    public final long getLong(String key, long defaultValue) {
-        Intrinsics.checkNotNullParameter(key, "key");
-        SharedPreferences sharedPreferences = sharePref;
-        if (sharedPreferences == null) {
-            Intrinsics.throwUninitializedPropertyAccessException("sharePref");
-            sharedPreferences = null;
-        }
-        return sharedPreferences.getLong(key, defaultValue);
-    }
-
     public static /* synthetic */ float getFloat$default(SharePrefUtils sharePrefUtils, String str, float f, int i, Object obj) {
         if ((i & 2) != 0) {
             f = 0.0f;
@@ -150,19 +120,11 @@ public final class SharePrefUtils {
         return sharePrefUtils.getFloat(str, f);
     }
 
-    public final float getFloat(String key, float defaultValue) {
-        Intrinsics.checkNotNullParameter(key, "key");
+    public static void setGenderString(String key, String value) {
         SharedPreferences sharedPreferences = sharePref;
-        if (sharedPreferences == null) {
-            Intrinsics.throwUninitializedPropertyAccessException("sharePref");
-            sharedPreferences = null;
-        }
-        return sharedPreferences.getFloat(key, defaultValue);
+        sharedPreferences.edit().putString(key, value).apply();
     }
-    public static void setGenderString(String key, String value){
-        SharedPreferences sharedPreferences=sharePref;
-        sharedPreferences.edit().putString(key, (String) value).apply();
-    }
+
     public static String getGenderString(String key) {
         // 1. Check if sharePref is initialized to avoid NullPointerException
         if (sharePref == null) {
@@ -174,5 +136,54 @@ public final class SharePrefUtils {
 
         // 3. Return the value, safely handling potential nulls
         return (value != null) ? value : "";
+    }
+
+    public static void saveBoolean(String key, boolean value) {
+
+        if (sharePref == null) {
+            return;
+        }
+
+        sharePref.edit().putBoolean(key, value).apply();
+    }
+
+    public void init(Context context) {
+        Intrinsics.checkNotNullParameter(context, "context");
+        if (sharePref != null) {
+            return;
+        }
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, 0);
+        Intrinsics.checkNotNullExpressionValue(sharedPreferences, "getSharedPreferences(...)");
+        sharePref = sharedPreferences;
+    }
+
+    public int getInt(String key, int defaultValue) {
+        Intrinsics.checkNotNullParameter(key, "key");
+        SharedPreferences sharedPreferences = sharePref;
+        if (sharedPreferences == null) {
+            Intrinsics.throwUninitializedPropertyAccessException("sharePref");
+            sharedPreferences = null;
+        }
+        return sharedPreferences.getInt(key, defaultValue);
+    }
+
+    public long getLong(String key, long defaultValue) {
+        Intrinsics.checkNotNullParameter(key, "key");
+        SharedPreferences sharedPreferences = sharePref;
+        if (sharedPreferences == null) {
+            Intrinsics.throwUninitializedPropertyAccessException("sharePref");
+            sharedPreferences = null;
+        }
+        return sharedPreferences.getLong(key, defaultValue);
+    }
+
+    public float getFloat(String key, float defaultValue) {
+        Intrinsics.checkNotNullParameter(key, "key");
+        SharedPreferences sharedPreferences = sharePref;
+        if (sharedPreferences == null) {
+            Intrinsics.throwUninitializedPropertyAccessException("sharePref");
+            sharedPreferences = null;
+        }
+        return sharedPreferences.getFloat(key, defaultValue);
     }
 }

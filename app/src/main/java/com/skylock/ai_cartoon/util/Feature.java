@@ -1,15 +1,17 @@
 package com.skylock.ai_cartoon.util;
 
 
-
 import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -37,6 +39,14 @@ public enum Feature {
 
     Feature(String value) {
         this.value = value;
+    }
+
+    public static void addCountFeature(String feature) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String dateStr = formatter.format(Calendar.getInstance().getTime());
+
+        String str = "count_" + feature + "_" + dateStr;
+        SharePrefUtils.saveKey(str, SharePrefUtils.INSTANCE.getLong(str, 0L) + 1);
     }
 
     public String getValue() {
@@ -96,11 +106,11 @@ public enum Feature {
         public static void addCountFeature(@NonNull String feature) {
             Objects.requireNonNull(feature);
 
-                @SuppressLint({"NewApi", "LocalSuppress"}) String dateKey = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            @SuppressLint({"NewApi", "LocalSuppress"}) String dateKey = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             String key = "count_" + feature + "_" + dateKey;
 
             long currentCount = SharePrefUtils.INSTANCE.getLong(key, 0L);
-            SharePrefUtils.INSTANCE.saveKey(key, currentCount + 1);
+            SharePrefUtils.saveKey(key, currentCount + 1);
         }
 
         public static boolean isLimitAiHeadshot() {
@@ -116,11 +126,10 @@ public enum Feature {
 
             Log.d("FEATURE", "isLimitAiHeadshot: " + usageCount + " Limit: " + limit);
             return usageCount >= limit;*/
-            return  false;
+            return false;
         }
 
 
-
-
     }
+
 }

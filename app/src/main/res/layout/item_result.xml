@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootItemCartoonAI"
+    android:layout_width="62dp"
+    android:layout_height="62dp"
+    android:layout_marginHorizontal="6dp"
+    android:layout_marginVertical="4dp"
+    android:background="@drawable/bg_result_selected"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="2dp"
+        android:visibility="visible">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/imgItemCartoonAI"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background"
+            app:riv_corner_radius="14dp"
+            app:riv_mutate_background="true" />
+
+        <FrameLayout
+            android:id="@+id/flName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_gradient_item_result"
+            android:paddingVertical="2dp"
+            android:visibility="visible">
+
+            <com.skylock.ai_cartoon.textview.TextViewApp
+                android:id="@+id/tvName"
+                style="@style/text_primary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Result 1"
+                android:textSize="@dimen/_7sdp" />
+        </FrameLayout>
+    </FrameLayout>
+</LinearLayout>

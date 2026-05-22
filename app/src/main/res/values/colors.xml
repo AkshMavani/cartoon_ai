@@ -16,4 +16,8 @@
     <color name="main_secondary">#211f27</color>
     <color name="text_gray">#6b6a6a</color>
     <color name="main_tertiary">#252525</color>
+    <color name="image_bg">#161618</color>
+    <color name="transparent">#00000000</color>
+    <color name="selected_icon_expand">#949494</color>
+    <color name="text_tertiary">#989996</color>
 </resources>

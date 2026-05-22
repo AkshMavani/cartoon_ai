@@ -1,6 +1,5 @@
 package com.skylock.ai_cartoon.fragment;
 
-
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -10,17 +9,19 @@ import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
-import com.skylock.ai_cartoon.activity.ActivityEnhance;
+import com.skylock.ai_cartoon.R;
+import com.skylock.ai_cartoon.activity.AIAvatarProcessingActivity;
 import com.skylock.ai_cartoon.activity.CropImageActivity;
 import com.skylock.ai_cartoon.activity.LibraryVer2Activity;
-import com.skylock.ai_cartoon.R;
 import com.skylock.ai_cartoon.adapter.AddPhotoLibraryNewAdapter;
 import com.skylock.ai_cartoon.adapter.PhotoLibraryNewAdapter;
 import com.skylock.ai_cartoon.base.BaseFragment;
 import com.skylock.ai_cartoon.databinding.FragmentLibraryBinding;
+import com.skylock.ai_cartoon.enhance.ProcessTypeConfig;
 import com.skylock.ai_cartoon.model.DemoLibraryModel;
 import com.skylock.ai_cartoon.model.ImageModel;
 import com.skylock.ai_cartoon.util.Constants;
@@ -36,30 +37,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> {
 
     public static final Companion INSTANCE = new Companion();
-
+    private final List<ImageModel> demoPhotos = new ArrayList<>();
     private AddPhotoLibraryNewAdapter addPhotoLibraryNewAdapter;
-
     private long lastSelectImage;
     private int pos;
     private int positionImg;
     private String style;
     private String feature = "library_fragment";
-
     private List<ImageModel> photos = new ArrayList<>();
-    private final List<ImageModel> demoPhotos = new ArrayList<>();
-
     private PhotoLibraryNewAdapter photoLibraryAdapter;
-
-    private PhotoLibraryNewAdapter getPhotoLibraryAdapter() {
-        if (photoLibraryAdapter == null) {
-            photoLibraryAdapter = new PhotoLibraryNewAdapter("library");
-        }
-        return photoLibraryAdapter;
-    }
 
     public static LibraryFragment newInstance(int pos, List<ImageModel> photos, String style, int positionImg) {
         LibraryFragment fragment = new LibraryFragment();
@@ -68,6 +57,13 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
         fragment.style = style;
         fragment.positionImg = positionImg;
         return fragment;
+    }
+
+    private PhotoLibraryNewAdapter getPhotoLibraryAdapter() {
+        if (photoLibraryAdapter == null) {
+            photoLibraryAdapter = new PhotoLibraryNewAdapter("library");
+        }
+        return photoLibraryAdapter;
     }
 
     @Override
@@ -88,7 +84,6 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
 
     @Override
     public void initView() {
-
         getPhotoLibraryAdapter().setOnRemovePhoto(position -> {
             ImageModel imageModel = getPhotoLibraryAdapter().getPhotos().get(position);
             if (imageModel != null) {
@@ -103,68 +98,59 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
     }
 
     private void onItemClicked(int position) {
-        // Log the initial entry and position
         Log.d("LibraryDebug", "onItemClicked entry -> position: " + position);
 
         if (position < 0) {
             Log.e("LibraryDebug", "onItemClicked: Position is invalid (less than 0)");
-            Constants.showToast(requireContext(), getString(R.string.photo_loading));
+            Constants.showToast(getString(R.string.photo_loading));
             return;
         }
 
-        // Check if the activity is in Multiple Selection mode
         boolean isMultiple = false;
         if (requireActivity() instanceof LibraryVer2Activity) {
             isMultiple = ((LibraryVer2Activity) requireActivity()).isMultiple;
         }
         Log.d("LibraryDebug", "isMultiple mode: " + isMultiple);
 
-        // Debounce check to prevent double clicks
         long currentTimeMillis = System.currentTimeMillis();
         if (currentTimeMillis - this.lastSelectImage < 1000 && !isMultiple) {
-            Log.w("LibraryDebug", "Click ignored: Debounce active (less than 1000ms since last click)");
+            Log.w("LibraryDebug", "Click ignored: Debounce active");
             return;
         }
         this.lastSelectImage = currentTimeMillis;
 
-        // Get the image model from the adapter
         ImageModel imageModel = getPhotoLibraryAdapter().getPhotos().get(position);
         Log.d("LibraryDebug", "Selected Image URI: " + imageModel.getPhotoUri());
 
-        // Case 1: Multiple Selection Mode
+        // Multiple selection mode
         if (isMultiple) {
             if (imageModel.isCamera()) {
-                Log.d("LibraryDebug", "Multiple mode: Camera item clicked, requesting permission");
                 if (requireActivity() instanceof LibraryVer2Activity) {
                     ((LibraryVer2Activity) requireActivity()).requestPermissionCamera();
                 }
             } else {
-                Log.d("LibraryDebug", "Multiple mode: Adding photo to collection");
                 onSelectMultiPhotos(imageModel);
             }
             return;
         }
 
-        // Case 2: Demo/Icon items (Not actual photos)
+        // Demo/Icon items
         Integer icon = imageModel.getIcon();
         if (icon != null && icon != 0) {
-            Log.d("LibraryDebug", "Icon item clicked (Demo)");
-            Constants.showToast(requireContext(), "Development...");
+            Constants.showToast("Development...");
             return;
         }
 
-        // Case 3: Single Selection - Camera
+        // Camera
         if (imageModel.isCamera()) {
-            Log.d("LibraryDebug", "Single mode: Camera item clicked");
             if (requireActivity() instanceof LibraryVer2Activity) {
                 ((LibraryVer2Activity) requireActivity()).requestPermissionCamera();
             }
             return;
         }
 
-        // Case 4: Feature - Remove Object
+        // Remove Object
         if (feature.equals(Feature.REMOVEOBJ.getValue())) {
-            Log.d("LibraryDebug", "Navigating to REMOVE_OBJECT feature");
             Companion.onSelectOnePhoto(requireContext(), imageModel);
             Constants.startActivityFeature(
                     requireContext(), feature,
@@ -176,20 +162,31 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
             return;
         }
 
-        // Case 5: Feature - AI Filters / Cartoon / Headshot
+        // Cartoon / AI Filter / Headshot
         if (feature.equals(Feature.AI_HUGGING.getValue())
                 || feature.equals(Feature.AI_FILTER.getValue())
                 || feature.equals(Feature.HEADSHOT.getValue())
                 || feature.equals(Feature.HAIR_STYLE.getValue())) {
-
-            Log.d("LibraryDebug", "Navigating to Cartoon/AI activity with feature: " + feature);
             Companion.onSelectOnePhoto(requireContext(), imageModel);
             startCartoonActivity(imageModel);
             return;
         }
 
-        // Case 6: Default fallback (e.g., Enhance)
+        // NEW: AI tools (brighten, dehaze, colorize, descratch, retouch, enhance, etc.)
+        if (ProcessTypeConfig.INSTANCE.getConfig(feature) != null) {
+            // Single image processing using AIAvatarProcessingActivity
+            Companion.onSelectOnePhoto(requireContext(), imageModel);
+            Intent intent = new Intent(requireActivity(), AIAvatarProcessingActivity.class);
+            intent.putExtra("feature", feature);
+            intent.putExtra("image_before", imageModel.getPhotoUri());
+            startActivity(intent);
+            requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_nothing);
+            return;
+        }
+
+        // Default fallback (e.g., legacy multi‑photo enhance)
         Log.d("LibraryDebug", "Default Case: Adding to MULTI_PHOTOS_NEW and processing");
+        Constants.MULTI_PHOTOS_NEW.clear();          // Clear previous selections
         Constants.MULTI_PHOTOS_NEW.add(imageModel);
         onProcessMultiPhotos();
     }
@@ -240,15 +237,10 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
 
     private void initAdapterAddPhoto() {
         this.photos.removeIf(ImageModel::isAddPhoto);
-
-        List<ImageModel> subList = this.photos.subList(
-                this.demoPhotos.size() + 1, this.photos.size()
-        );
-
+        List<ImageModel> subList = this.photos.subList(this.demoPhotos.size() + 1, this.photos.size());
         ImageModel addPhotoItem = new ImageModel();
         addPhotoItem.setAddPhoto(true);
         subList.add(0, addPhotoItem);
-
         this.addPhotoLibraryNewAdapter = new AddPhotoLibraryNewAdapter("library");
         this.addPhotoLibraryNewAdapter.setPhotos(subList);
     }
@@ -271,7 +263,6 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
         intent.putExtra("style", this.style);
         intent.putExtra("position_img", this.positionImg);
         startActivity(intent);
-      //  ActivityExtKt.applyTransition(requireActivity(), R.anim.slide_in_right, R.anim.slide_nothing);
     }
 
     public void onProcessMultiPhotos() {
@@ -279,11 +270,17 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
             Companion.onSelectOnePhoto(requireContext(), imageModel);
         }
 
-        Intent intent = new Intent(requireActivity(), ActivityEnhance.class);
+        Intent intent = new Intent(requireActivity(), AIAvatarProcessingActivity.class);
         intent.putExtra("feature", this.feature);
 
         if (requireActivity() instanceof LibraryVer2Activity) {
-            if (!((LibraryVer2Activity) requireActivity()).isMultiple) {
+            LibraryVer2Activity activity = (LibraryVer2Activity) requireActivity();
+            if (!activity.isMultiple && Constants.MULTI_PHOTOS_NEW.size() == 1) {
+                ImageModel single = Constants.MULTI_PHOTOS_NEW.get(0);
+                String imageUri = single.getUri();
+                if (imageUri == null) imageUri = single.getPhotoUri();
+                intent.putExtra("image_before", imageUri);
+            } else {
                 intent.putExtra("images", (Serializable) Constants.MULTI_PHOTOS_NEW);
             }
         }
@@ -339,12 +336,10 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
         if (Constants.isFullAccessPhoto(requireContext()) != 0) {
             int end = isMultiple ? 1 : this.demoPhotos.size() + 1;
             updateImages(this.photos.subList(0, end));
-
             List<ImageModel> subList = this.photos.subList(end, this.photos.size());
             ImageModel addPhotoItem = new ImageModel();
             addPhotoItem.setAddPhoto(true);
             subList.add(0, addPhotoItem);
-
             if (this.addPhotoLibraryNewAdapter != null) {
                 this.addPhotoLibraryNewAdapter.setPhotos(subList);
             }
@@ -402,14 +397,10 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
 
         if (Constants.isFullAccessPhoto(requireContext()) != 0) {
             updateImages(this.photos.subList(0, this.demoPhotos.size() + 1));
-
-            List<ImageModel> subList = this.photos.subList(
-                    this.demoPhotos.size() + 1, this.photos.size()
-            );
+            List<ImageModel> subList = this.photos.subList(this.demoPhotos.size() + 1, this.photos.size());
             ImageModel addPhotoItem = new ImageModel();
             addPhotoItem.setAddPhoto(true);
             subList.add(0, addPhotoItem);
-
             if (this.addPhotoLibraryNewAdapter != null) {
                 this.addPhotoLibraryNewAdapter.setPhotos(subList);
             }
@@ -418,63 +409,76 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
         }
     }
 
-    // ─── BaseFragment also needed ──────────────────────────────────────────────
+    // ─────────────────────────────────────────────────────────────────────────
+    // Companion (enhanced with temp file recreation)
+    // ─────────────────────────────────────────────────────────────────────────
 
     public static final class Companion {
 
-        private Companion() {}
+        private Companion() {
+        }
 
         public static void onSelectOnePhoto(Context context, ImageModel photo) {
             if (photo == null) {
-                Constants.showToast(context, context.getString(R.string.server_busy_try_again_10s));
+                Constants.showToast(context.getString(R.string.server_busy_try_again_10s));
                 return;
             }
 
-            File file = new File(photo.getPhotoUri());
+            String originalPath = photo.getPhotoUri();
+            if (originalPath == null) return;
+
+            File originalFile = new File(originalPath);
             long largeSizeThreshold = Build.VERSION.SDK_INT > 27 ? 5_000_000L : 2_000_000L;
 
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inSampleSize = 2;
-            if (file.length() > 10_000_000L) {
+            long fileLen = originalFile.length();
+            if (fileLen > 10_000_000L) {
                 options.inSampleSize = 5;
                 options.inPreferredConfig = Bitmap.Config.RGB_565;
-            } else if (file.length() > 7_000_000L) {
+            } else if (fileLen > 7_000_000L) {
                 options.inSampleSize = 4;
-            } else if (file.length() > 5_000_000L) {
+            } else if (fileLen > 5_000_000L) {
                 options.inSampleSize = 3;
             }
 
-            if (file.length() >= largeSizeThreshold) {
+            if (fileLen >= largeSizeThreshold) {
+                String albumName = photo.getAlbumName();
+                if (albumName == null) albumName = "temp";
                 File tempFile = new File(
                         new ContextWrapper(context).getCacheDir(),
-                        photo.getAlbumName() + "_Temp_" + file.getName()
+                        albumName + "_Temp_" + originalFile.getName()
                 );
 
-                if (tempFile.exists()) {
+                // If temp file exists and is valid, use it; otherwise recreate
+                if (tempFile.exists() && tempFile.length() > 0) {
+                    if (photo.getWidth() == 0 || photo.getHeight() == 0) {
+                        Bitmap bmp = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+                        if (bmp != null) {
+                            photo.setWidth(bmp.getWidth());
+                            photo.setHeight(bmp.getHeight());
+                        }
+                    }
                     photo.setPath(tempFile.getAbsolutePath());
                     photo.setUri("file://" + tempFile.getAbsolutePath());
                     return;
                 }
 
                 Bitmap bitmap = null;
-                try {
-                    FileInputStream fis = new FileInputStream(file);
+                try (FileInputStream fis = new FileInputStream(originalFile)) {
                     bitmap = BitmapFactory.decodeStream(fis, null, options);
-                    fis.close();
                 } catch (IOException e) {
+                    e.printStackTrace();
                     return;
                 }
-
                 if (bitmap == null) return;
 
-                photo.setHeight(bitmap.getHeight());
                 photo.setWidth(bitmap.getWidth());
+                photo.setHeight(bitmap.getHeight());
 
-                try {
-                    FileOutputStream fos = new FileOutputStream(tempFile);
+                try (FileOutputStream fos = new FileOutputStream(tempFile)) {
                     boolean compressed = bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                     fos.flush();
-                    fos.close();
                     if (compressed) {
                         photo.setPath(tempFile.getAbsolutePath());
                         photo.setUri("file://" + tempFile.getAbsolutePath());
@@ -482,14 +486,13 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             } else {
-                Bitmap bitmap = BitmapFactory.decodeFile(photo.getPhotoUri(), options);
+                Bitmap bitmap = BitmapFactory.decodeFile(originalPath, options);
                 if (bitmap == null) return;
-                photo.setHeight(bitmap.getHeight());
                 photo.setWidth(bitmap.getWidth());
-                photo.setPath(file.getAbsolutePath());
-                photo.setUri("file://" + file.getAbsolutePath());
+                photo.setHeight(bitmap.getHeight());
+                photo.setPath(originalFile.getAbsolutePath());
+                photo.setUri("file://" + originalFile.getAbsolutePath());
             }
         }
     }

@@ -9,7 +9,7 @@ android {
     compileSdk {
         version = release(36)
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
     defaultConfig {
@@ -67,5 +67,7 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxjava:3.1.8")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
     implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
-    
+
+    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
 }

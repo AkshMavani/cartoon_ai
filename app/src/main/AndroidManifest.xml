@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -19,6 +18,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".base.MyApp"
@@ -31,26 +31,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ai_cartoon"
         android:usesCleartextTraffic="true">
-        <activity
-            android:name=".enhance.AIAvatarEnhanceProcessingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ProcessingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.AIAvatarResultActivity1"
-            android:exported="false" />
+
+        
         <activity
             android:name=".activity.AIAvatarResultActivity"
             android:exported="false" />
         <activity
-            android:name=".fragment.StyleListFragment"
+            android:name=".remove_obj.RemoveObjActivity"
             android:exported="false" />
+
         <activity
             android:name=".activity.AIAvatarProcessingActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ActivityEnhance"
+            android:name=".enhance.ActivityEnhanceResult"
             android:exported="false" />
         <activity
             android:name=".activity.ActivityProcess"

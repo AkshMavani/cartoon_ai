@@ -33,6 +33,7 @@ import com.skylock.ai_cartoon.adapter.ChooseMultiplePhotosAdapter;
 import com.skylock.ai_cartoon.adapter.LibraryPagerAdapter;
 import com.skylock.ai_cartoon.base.BaseActivity;
 import com.skylock.ai_cartoon.databinding.ActivityLibraryVer2Binding;
+import com.skylock.ai_cartoon.enhance.ActivityEnhanceResult;
 import com.skylock.ai_cartoon.fragment.LibraryFragment;
 import com.skylock.ai_cartoon.model.AlbumModel;
 import com.skylock.ai_cartoon.model.ImageModel;
@@ -195,7 +196,7 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
             } else if (!Constants.MULTI_PHOTOS_NEW.isEmpty()) {
                 onProcessMultiPhotos();
             } else {
-                Constants.showToast(LibraryVer2Activity.this, getString(R.string.select_least_one_photo));
+                Constants.showToast(getString(R.string.select_least_one_photo));
             }
         });
     }
@@ -261,11 +262,11 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
                                 goToFeatureAction(path);
                             } else {
                                 Log.e(TAG, "3");
-                                Constants.showToast(this, getString(R.string.error));
+                                Constants.showToast(getString(R.string.error));
                             }
                         } else {
                             Log.e(TAG, "3");
-                            Constants.showToast(this, getString(R.string.error));
+                            Constants.showToast(getString(R.string.error));
                         }
                     }
                 }
@@ -626,7 +627,7 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
             LibraryFragment.Companion.onSelectOnePhoto(this, it.next());
         }
 
-        Intent intent = new Intent(this, ActivityEnhance.class);
+        Intent intent = new Intent(this, ActivityEnhanceResult.class);
         intent.putExtra("feature", getFeature());
         intent.putExtra("position", getPositionImg());
         startActivity(intent);

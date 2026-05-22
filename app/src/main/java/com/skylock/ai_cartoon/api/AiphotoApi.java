@@ -1,9 +1,10 @@
 package com.skylock.ai_cartoon.api;
 
- import com.skylock.ai_cartoon.model.AiphotoResponse;
- import com.skylock.ai_cartoon.model.GetImageRequest;
- import com.skylock.ai_cartoon.model.HealthResponse;
- import com.skylock.ai_cartoon.model.ImageResponse;
+import com.skylock.ai_cartoon.model.AiphotoResponse;
+import com.skylock.ai_cartoon.model.GetImageRequest;
+import com.skylock.ai_cartoon.model.HealthResponse;
+import com.skylock.ai_cartoon.model.ImageResponse;
+import com.skylock.ai_cartoon.remove_obj.MaskRemoveResponse;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public interface AiphotoApi {
 
     @GET("health")
     Call<HealthResponse> checkHealth(@Header("Authorization") String str);
+
     @POST("get_images")
     Call<AiphotoResponse> getPhoto(@Body GetImageRequest getImageRequest);
 
@@ -65,4 +67,14 @@ public interface AiphotoApi {
     @POST("get_image_version")
     @Multipart
     Call<AiphotoResponse> processVersionPhoto(@Part("images") List<ImageResponse> list, @Part("type") RequestBody requestBody, @Part("version") Integer num);
+
+
+    @POST("get_mask")
+    @Multipart
+    Call<MaskRemoveResponse> getMaskRemove(
+            @Part MultipartBody.Part part,
+            @Part("url") RequestBody requestBody,
+            @Header("Authorization") String authorization
+    );
+
 }
