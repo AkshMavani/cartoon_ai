@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -45,6 +46,17 @@ public class ActivityEnhanceResult extends AppCompatActivity
     private static final long CLICK_DEBOUNCE_MS = 600L;
     private final List<ResultItem> resultItemList = new ArrayList<>();
     private final Handler uiHandler = new Handler(Looper.getMainLooper());
+
+    // ─── Cache file registry ──────────────────────────────────────────────────
+    // Every local cache file created during this session is registered here.
+    // All entries are deleted in onDestroy so the device cache never accumulates.
+    // Only btnSave explicitly writes to the gallery; all other paths stay here.
+    private final List<File> sessionCacheFiles = new ArrayList<>();
+
+    // True when the user tapped btnVersion3 (triple upscale). In this mode
+    // AIAvatarProcessingActivity is told to cache the final result locally
+    // rather than returning a raw HTTPS URL, so nothing leaks to the gallery.
+    private boolean isCacheOnlySession = false;
     // ─── Views ────────────────────────────────────────────────────────────────
     private ImageBeforeAfterSlider imageBeforeAfterSlider;
     private ImageView btnSave;
@@ -134,7 +146,13 @@ public class ActivityEnhanceResult extends AppCompatActivity
 
     private void setupClickListeners() {
         TextView btnVersion3 = findViewById(R.id.btnVersion3);
-        btnVersion3.setOnClickListener(v -> startTripleUpscale());
+        if (btnVersion3 != null) {
+            btnVersion3.setOnClickListener(v -> {
+                if (!isSafeClick()) return;
+                hideTooltip();
+                startTripleUpscale();
+            });
+        }
         if (btnSave != null) {
             btnSave.setOnClickListener(v -> {
                 if (!isSafeClick()) return;
@@ -146,29 +164,44 @@ public class ActivityEnhanceResult extends AppCompatActivity
             btnGenerate.setOnClickListener(v -> {
                 if (!isSafeClick()) return;
                 hideTooltip();
-                String urlToEnhance = faceSelected != null ? faceSelected.getUrlAfter() : afterImageUrl;
+
+                // Always enhance from the currently selected item's "after" URL,
+                // so each generate pass builds on whichever result the user picked.
+                String urlToEnhance = faceSelected != null
+                        ? faceSelected.getUrlAfter()
+                        : afterImageUrl;
 
                 if (urlToEnhance == null || urlToEnhance.isEmpty()) {
                     Toast.makeText(this, "No image available to enhance", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Intent setup matching the expectations of AIAvatarProcessingActivity
+                // ── Disable button while processing so user can't double-tap ──
+                btnGenerate.setEnabled(false);
+                btnGenerate.setAlpha(0.5f);
+
+                // Build the intent for the processing screen.
+                // FLAG_ACTIVITY_SINGLE_TOP ensures that when AIAvatarProcessingActivity
+                // finishes and calls startActivity(resultIntent back to us), Android
+                // routes it through onNewIntent() rather than creating a second copy
+                // of this activity — so all accumulated results are preserved.
                 Intent intent = new Intent(this, com.skylock.ai_cartoon.activity.AIAvatarProcessingActivity.class);
                 intent.putExtra("image_before", urlToEnhance);
-                intent.putExtra("feature", featureSelected); // e.g., "enhance"
-
-                // Explicitly set upscale passes to 0 for a standard single-pass operation
+                intent.putExtra("feature", featureSelected);
                 intent.putExtra("total_upscale_passes", 0);
                 intent.putExtra("upscale_remaining", 0);
-                intent.putExtra("original_before_uri", beforeImageUrl); // Retain your absolute root image path
+                // Pass the original root before image so the result screen can
+                // always show the real original on the left side of the slider.
+                intent.putExtra("original_before_uri", beforeImageUrl);
+                // Tell AIAvatarProcessingActivity to return the result back HERE
+                // via FLAG_ACTIVITY_SINGLE_TOP + onNewIntent instead of finishing us.
+                intent.putExtra("return_to_enhance_result", true);
 
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_nothing);
-
-                // Finishes the current result screen so navigating back takes the user
-                // out of the generation flow completely rather than accumulating screens.
-                finish();
+                // ── Do NOT call finish() ──────────────────────────────────────
+                // Keeping this activity alive is what allows onNewIntent() to
+                // receive each successive result and append it to the RecyclerView.
             });
         }
 
@@ -214,19 +247,48 @@ public class ActivityEnhanceResult extends AppCompatActivity
      */
 
     private void startTripleUpscale() {
-        if (beforeImageUrl == null || beforeImageUrl.isEmpty()) {
+        // Use the currently selected item's after URL as the input so the user
+        // can chain triple-upscale on top of a previous generate result.
+        String urlToUpscale = faceSelected != null
+                ? faceSelected.getUrlAfter()
+                : afterImageUrl;
+
+        if (urlToUpscale == null || urlToUpscale.isEmpty()) {
             Toast.makeText(this, "No image to upscale", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // Mark this activity as cache-only: all results stay in cache, never
+        // written to gallery automatically. The user must tap btnSave explicitly.
+        isCacheOnlySession = true;
+
+        // Disable button while processing
+        TextView btnVersion3 = findViewById(R.id.btnVersion3);
+        if (btnVersion3 != null) {
+            btnVersion3.setEnabled(false);
+            btnVersion3.setAlpha(0.5f);
+        }
+        if (btnGenerate != null) {
+            btnGenerate.setEnabled(false);
+            btnGenerate.setAlpha(0.5f);
+        }
+
         Intent intent = new Intent(this, AIAvatarProcessingActivity.class);
-        intent.putExtra("image_before", beforeImageUrl);
-        intent.putExtra("feature", "enhance");      // ← change to your feature key if different
+        intent.putExtra("image_before", urlToUpscale);
+        intent.putExtra("feature", featureSelected);
         intent.putExtra("total_upscale_passes", 3);
         intent.putExtra("upscale_remaining", 3);
         intent.putExtra("original_before_uri", beforeImageUrl);
+        // Signal: return the result as a local cache file path, not an HTTPS URL,
+        // and route it back here via onNewIntent (singleTop).
+        intent.putExtra("return_to_enhance_result", true);
+        intent.putExtra("cache_only_result", true);
+
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_nothing);
-        finish();
+        // ── Do NOT finish() ─────────────────────────────────────────────────
+        // The activity must stay alive so onNewIntent receives the result
+        // and appends it to the RecyclerView without losing existing items.
     }
     // ─── Item selection ───────────────────────────────────────────────────────
 
@@ -391,6 +453,11 @@ public class ActivityEnhanceResult extends AppCompatActivity
     }
 
     // ─── onNewIntent — receives result when coming back from processing ────────
+    // This is triggered by AIAvatarProcessingActivity when it finishes and
+    // "return_to_enhance_result" is true. Because ActivityEnhanceResult is
+    // declared singleTop in AndroidManifest.xml, Android reuses the existing
+    // instance and calls this method instead of re-running onCreate — so the
+    // full resultItemList is still intact and the new item is simply appended.
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -402,8 +469,32 @@ public class ActivityEnhanceResult extends AppCompatActivity
 
         if (newAfterUrl != null && !newAfterUrl.isEmpty()) {
             afterImageUrl = newAfterUrl;
-            if (newBeforeUrl != null) beforeImageUrl = newBeforeUrl;
-            addResultItem(beforeImageUrl, afterImageUrl, null);
+            String beforeForThisItem = (newBeforeUrl != null && !newBeforeUrl.isEmpty())
+                    ? newBeforeUrl
+                    : beforeImageUrl;
+
+            // Register the result file in the session cache registry if it is a
+            // local path (cache_only_result mode). This ensures it is cleaned up
+            // in onDestroy and never accidentally left on the device.
+            if (!newAfterUrl.startsWith("http")) {
+                File resultFile = new File(newAfterUrl);
+                if (resultFile.exists() && !sessionCacheFiles.contains(resultFile)) {
+                    sessionCacheFiles.add(resultFile);
+                }
+            }
+
+            addResultItem(beforeForThisItem, newAfterUrl, null);
+        }
+
+        // Re-enable all action buttons now that processing is complete
+        if (btnGenerate != null) {
+            btnGenerate.setEnabled(true);
+            btnGenerate.setAlpha(1.0f);
+        }
+        TextView btnVersion3 = findViewById(R.id.btnVersion3);
+        if (btnVersion3 != null) {
+            btnVersion3.setEnabled(true);
+            btnVersion3.setAlpha(1.0f);
         }
     }
 
@@ -543,6 +634,17 @@ public class ActivityEnhanceResult extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         uiHandler.removeCallbacksAndMessages(null);
+        // ── Clean up every cache file created during this session ─────────────
+        // These are intermediate/final results that the user did NOT explicitly
+        // save to the gallery. Deleting them here keeps the device cache lean.
+        for (File f : sessionCacheFiles) {
+            if (f != null && f.exists()) {
+                boolean deleted = f.delete();
+                Log.d("ActivityEnhanceResult",
+                        "Cache cleanup: " + f.getName() + " deleted=" + deleted);
+            }
+        }
+        sessionCacheFiles.clear();
     }
 
     // ─── ImageBeforeAfterSlider.ViewListener ──────────────────────────────────

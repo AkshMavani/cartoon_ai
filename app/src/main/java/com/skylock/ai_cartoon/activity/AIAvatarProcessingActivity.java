@@ -404,10 +404,21 @@ public final class AIAvatarProcessingActivity extends BaseActivity {
                         ? originalBeforeUri
                         : imageUri;
 
+                boolean returnToExisting = getIntent().getBooleanExtra("return_to_enhance_result", false);
+
                 Intent intent = new Intent(AIAvatarProcessingActivity.this,
                         ActivityEnhanceResult.class);
                 intent.putExtra("before_path", beforeToShow);
                 intent.putExtra("after_url", resultUrl);
+
+                if (returnToExisting) {
+                    // ActivityEnhanceResult is singleTop — this routes the result
+                    // into its onNewIntent() so the existing instance (with all
+                    // previously accumulated results) receives the new item and
+                    // appends it to the RecyclerView without any data loss.
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                }
+
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_nothing);
                 finish();

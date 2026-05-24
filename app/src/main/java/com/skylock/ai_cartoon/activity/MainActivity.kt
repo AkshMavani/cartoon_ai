@@ -102,7 +102,12 @@ class MainActivity : AppCompatActivity() {
             "Aging Man" to getAgingManStyles(),    // <-- ADD
             "Aging Woman" to getAgingWomanStyles(),
             "Haircut" to getHaircutStyles(),    // <-- ADD
-            "Figurine & Art" to getFigurineStyles()    // <-- ADD
+            "Trendings" to getFigurineStyles(),  // <-- ADD
+            "AI Photo Cartoon" to getAIPhotoCartoonStyles(),
+            "3D Cartoon" to get3DCartoonStyles(),
+            "Comic" to getComicStyles(),
+            "Toon Mix" to getToonmixStyles(),
+            "Illustration" to getIllustrationStyles()
         )
 
         viewPager.adapter = StylePagerAdapter(this, tabs.map { it.second })
@@ -167,137 +172,137 @@ class MainActivity : AppCompatActivity() {
     private fun getCartoonStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Ghibli",
-            iconUrl = "https://res.zeezoo.mobi/cartoon2/styles/01new/ghibli/ghibli_icon01.png",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_ghibli_runninghub_1946470668230619137_1779591514733.jpg",
             styleKey = "ghibli_runninghub_1946470668230619137"
         ),
         CartoonStyle(
             name = "3D Emoji",
-            iconUrl = "https://res.zeezoo.mobi/cartoon2/styles/01new/3demoji/icon.png",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_3demoji_1779591607429.jpg",
             styleKey = "3demoji"
         ),
         CartoonStyle(
             name = "GPT-4o Travel",
-            iconUrl = "https://res.zeezoo.mobi/cartoon2/styles/gpt4o_travel/travel_icon.jpg",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_polaroid_1779592022848.jpg",
             styleKey = "polaroid"
         ),
         CartoonStyle(
             name = "GPT-4o Best Friend",
-            iconUrl = "https://res.zeezoo.mobi/cartoon2/styles/gpt4o_bestfriend/gpt4o_bestfriends_icon.jpg",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_polaroid2_1779594219342.jpg",
             styleKey = "polaroid2"
         ),
         CartoonStyle(
             name = "GPT-4o Summer",
-            iconUrl = "https://res.zeezoo.mobi/cartoon2/styles/gpt4o_summer/icon.jpg",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_polaroid3summer_1779594884132.jpg",
             styleKey = "polaroid3summer"
         ),
         CartoonStyle(
             name = "Qwen 3D Chibi",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwen3dchibi/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwen3dchibi_1779595204347.jpg",
             styleKey = "qwen3dchibi"
         ),
         CartoonStyle(
             name = "Pixar 3D",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenpixar3d/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenpixar3d_1779595333767.jpg",
             styleKey = "qwenpixar3d"
         ),
         CartoonStyle(
             name = "Avatar",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/avatar/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_avatar_1779595470732.jpg",
             styleKey = "avatar"
         ),
         CartoonStyle(
             name = "Wool",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/wool/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_wool_1779596717500.jpg",
             styleKey = "wool"
         ),
         CartoonStyle(
             name = "Keychain",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/keychain/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_keychain_1779596849186.jpg",
             styleKey = "keychain"
         ),
         CartoonStyle(
             name = "Comic",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwencomic/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwencomic_1779597102248.jpg",
             styleKey = "qwencomic"
         ),
         CartoonStyle(
             name = "Anime",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenanime/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenanime_1779597191225.jpg",
             styleKey = "qwenanime"
         ),
         CartoonStyle(
             name = "Clay",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenclay/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenclay_1779597288559.jpg",
             styleKey = "qwenclay"
         ),
         CartoonStyle(
             name = "Jojo",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenjojo/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenjojo_1779597390598.jpg",
             styleKey = "qwenjojo"
         ),
         CartoonStyle(
             name = "Lego",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenlego/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenlego_1779597746614.jpg",
             styleKey = "qwenlego"
         ),
         CartoonStyle(
             name = "Line Art",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenlineart/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenlineart_1779598153687.jpg",
             styleKey = "qwenlineart"
         ),
         CartoonStyle(
             name = "Macaron",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenmacaron/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenmacaron_1779598320493.jpg",
             styleKey = "qwenmacaron"
         ),
         CartoonStyle(
             name = "Oil Painting",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenoilpainting/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenoilpainting_1779599569918.jpg",
             styleKey = "qwenoilpainting"
         ),
         CartoonStyle(
             name = "Origami",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenorigami/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenorigami_1779600204239.jpg",
             styleKey = "qwenorigami"
         ),
         CartoonStyle(
             name = "Paper Cut",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenpaper/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenpaper_1779600458297.jpg",
             styleKey = "qwenpaper"
         ),
         CartoonStyle(
             name = "Picasso",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenpicasso/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenpicasso_1779600562993.jpg",
             styleKey = "qwenpicasso"
         ),
         CartoonStyle(
             name = "Pixel Art",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenpixel/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenpixel_1779600815879.jpg",
             styleKey = "qwenpixel"
         ),
         CartoonStyle(
             name = "Pop Art",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenpopart/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenpopart_1779601012759.jpg",
             styleKey = "qwenpopart"
         ),
         CartoonStyle(
             name = "Van Gogh",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwenvangogh/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenvangogh_1779601319603.jpg",
             styleKey = "qwenvangogh"
         ),
         CartoonStyle(
             name = "Graffiti",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwengraffiti/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwengraffiti_1779601440900.jpg",
             styleKey = "qwengraffiti"
         ),
         CartoonStyle(
             name = "GTA 5 Style",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwengta5/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwengta5_1779601556765.jpg",
             styleKey = "qwengta5"
         ),
         CartoonStyle(
             name = "Simpsons Style",
-            iconUrl = "https://res.zeezoo.mobi/genartstore2/filter_styles/qwensimpsons/icon.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwensimpsons_1779601653409.jpg",
             styleKey = "qwensimpsons"
         )
     )
@@ -305,62 +310,62 @@ class MainActivity : AppCompatActivity() {
     private fun getHairStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Black Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_black_1779616975121.jpg",
             styleKey = "black"
         ),
         CartoonStyle(
             name = "Blonde Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/blonde.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_blonde_1779616829597.jpg",
             styleKey = "blonde"
         ),
         CartoonStyle(
             name = "Pink Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/pink.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_pink_1779616812345.jpg",
             styleKey = "pink"
         ),
         CartoonStyle(
             name = "Purple Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/purple.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_purple_1779616972551.jpg",
             styleKey = "purple"
         ),
         CartoonStyle(
             name = "Orange Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/orange.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_orange_1779617300751.jpg",
             styleKey = "orange"
         ),
         CartoonStyle(
             name = "Blue Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/blue.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_blue_1779617124198.jpg",
             styleKey = "blue"
         ),
         CartoonStyle(
             name = "Green Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/green.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_green_1779617328062.jpg",
             styleKey = "green"
         ),
         CartoonStyle(
             name = "Rainbow Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/rainbow.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_rainbow_1779617543151.jpg",
             styleKey = "rainbow"
         ),
         CartoonStyle(
             name = "Red Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/red.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_red_1779617595286.jpg",
             styleKey = "red"
         ),
         CartoonStyle(
             name = "Silver Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/silver.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_silver_1779617742259.jpg",
             styleKey = "silver"
         ),
         CartoonStyle(
             name = "Yellow Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/yellow.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_yellow_1779617698367.jpg",
             styleKey = "yellow"
         ),
         CartoonStyle(
             name = "Brown Hair",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/brown.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_brown_1779617854613.jpg",
             styleKey = "brown"
         )
     )
@@ -2068,6 +2073,271 @@ class MainActivity : AppCompatActivity() {
         )
     )
 
+    private fun getAIPhotoCartoonStyles(): List<CartoonStyle> = listOf(
+        CartoonStyle(
+            name = "Ghibli",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "ghibli_runninghub_1946470668230619137"
+        ),
+        CartoonStyle(
+            name = "Anime Style",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "anime"
+        ),
+        CartoonStyle(
+            name = "Retro Style",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "retro_style_old_movies"
+        ),
+        CartoonStyle(
+            name = "Toonify 2",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "toonify2"
+        ),
+        CartoonStyle(
+            name = "Pixel 2",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "pixel2"
+        ),
+        CartoonStyle(
+            name = "Pixel 1",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "pixel"
+        ),
+        CartoonStyle(
+            name = "Animesh Flower",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "animeshflower"
+        ),
+        CartoonStyle(
+            name = "Anime Flat",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "animesh_flat"
+        ),
+        CartoonStyle(
+            name = "Toonify",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "toonify"
+        ),
+        CartoonStyle(
+            name = "Mistoon Anime",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "mistoon_anime"
+        ),
+        CartoonStyle(
+            name = "Pastel",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "pastel"
+        ),
+        CartoonStyle(
+            name = "Manmaru Mix",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "manmarumix"
+        )
+    )
+
+
+    private fun get3DCartoonStyles(): List<CartoonStyle> = listOf(
+        CartoonStyle(
+            name = "Figurine 3D",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "figurine02"
+        ),
+        CartoonStyle(
+            name = "3D Blind Box",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "3dblindbox"
+        ),
+        CartoonStyle(
+            name = "Chibi Cute",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "chibi_cute"
+        ),
+        CartoonStyle(
+            name = "3D Cartoon",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "cartoon3d2"
+        ),
+        CartoonStyle(
+            name = "PVC Figure",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "pvc_figure"
+        ),
+        CartoonStyle(
+            name = "Chibi Sunflower",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "chibisunflower"
+        ),
+        CartoonStyle(
+            name = "Spring Corner",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "springcorner"
+        ),
+        CartoonStyle(
+            name = "Toonify Chibi",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "toonifychibi"
+        ),
+        CartoonStyle(
+            name = "Chibi Space",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "chibispace"
+        )
+    )
+
+    private fun getComicStyles(): List<CartoonStyle> = listOf(
+        CartoonStyle(
+            name = "Dragon Ball",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "dragon_ball"
+        ),
+        CartoonStyle(
+            name = "Comic Lineart",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "comic_lineart"
+        ),
+        CartoonStyle(
+            name = "Comic Cartoonish",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "comic_cartoonish"
+        ),
+        CartoonStyle(
+            name = "Comic Sketch",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "comic_sketch"
+        ),
+        CartoonStyle(
+            name = "Comic Flat",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "comic_flat"
+        ),
+        CartoonStyle(
+            name = "Comic Sepia",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "comic_sepia"
+        ),
+        CartoonStyle(
+            name = "Comic 2",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "comic2"
+        )
+    )
+
+    private fun getToonmixStyles(): List<CartoonStyle> = listOf(
+        CartoonStyle(
+            name = "GTA V",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "gta5"
+        ),
+        CartoonStyle(
+            name = "Game Style",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "ylt_game_character_design"
+        ),
+        CartoonStyle(
+            name = "Cute Painting",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "cutepainting"
+        ),
+        CartoonStyle(
+            name = "Clay World",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "3d_cartoon_clay"
+        ),
+        CartoonStyle(
+            name = "GTA 5 Artwork",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "gta5_artwork"
+        ),
+        CartoonStyle(
+            name = "Animesh",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "animesh"
+        ),
+        CartoonStyle(
+            name = "Wool Felt",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "woolfelt"
+        ),
+        CartoonStyle(
+            name = "Elf",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "elf"
+        ),
+        CartoonStyle(
+            name = "Toon Mix",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "toonmix"
+        ),
+        CartoonStyle(
+            name = "Snow White",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "snow_white"
+        ),
+        CartoonStyle(
+            name = "Majic Mix Lux",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "majicmixlux"
+        ),
+        CartoonStyle(
+            name = "Toon You",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "toonyou"
+        ),
+        CartoonStyle(
+            name = "Cartoon Vision",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "cartoonvision"
+        ),
+        CartoonStyle(
+            name = "Meina Mix",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "Meinamix"
+        )
+    )
+
+    private fun getIllustrationStyles(): List<CartoonStyle> = listOf(
+        CartoonStyle(
+            name = "Pop Art",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "pop_art"
+        ),
+        CartoonStyle(
+            name = "Flat Children Illustrations",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "flat_children_illustrations"
+        ),
+        CartoonStyle(
+            name = "Dreamy Watercolor",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "dreamy_watercolor"
+        ),
+        CartoonStyle(
+            name = "Brush Strokes",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "brush_strokes"
+        ),
+        CartoonStyle(
+            name = "Flat Illustration Style",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "flat_illustration_style"
+        ),
+        CartoonStyle(
+            name = "Water Anime",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "wateranime"
+        ),
+        CartoonStyle(
+            name = "Illustration",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "illustration"
+        ),
+        CartoonStyle(
+            name = "Monet Oil Painting",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            styleKey = "monet_oil_painting_v1"
+        )
+    )
 
     private fun initActivityTool() {
         val currentRecycleTool = recycleTool ?: return
