@@ -2,6 +2,7 @@ package com.skylock.ai_cartoon.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -55,51 +56,32 @@ class MainActivity : AppCompatActivity() {
             "All" to getAllStyles(),
             "Cartoon" to getCartoonStyles(),
             "Hair" to getHairStyles(),
+            "Business " to getBusinessWomanStyles(),
+            "Movie Woman" to getMovieWomanStyles(),
+            "Driver Woman" to getDriverWomanStyles(),
+            "Media Woman" to getMediaWomanStyles(),
             "Birthday Man" to getBirthdayManStyles(),
-            "Birthday Woman" to getBirthdayWomanStyles(),
-            "Valentine Man" to getValentineManStyles(),
             "Valentine Woman" to getValentineWomanStyles(),
-            "Winter Man" to getWinterManStyles(),
             "Winter Woman" to getWinterWomanStyles(),
-            "Newyear Man" to getNewyearManStyles(),
             "Newyear Woman" to getNewyearWomanStyles(),
-            "Cute Man" to getCuteManStyles(),
             "Cute Woman" to getCuteWomanStyles(),
-            "Reward Man" to getRewardManStyles(),
             "Reward Woman" to getRewardWomanStyles(),
-            "Edgy Man" to getEdgyManStyles(),
             "Edgy Woman" to getEdgyWomanStyles(),
-            "Modern Man" to getModernManStyles(),
             "Modern Woman" to getModernWomanStyles(),
-            "Cinematic Man" to getCinematicManStyles(),
             "Cinematic Woman" to getCinematicWomanStyles(),
-            "Spotlight Man" to getSpotlightManStyles(),
             "Spotlight Woman" to getSpotlightWomanStyles(),
-            "Golden Man" to getGoldenManStyles(),
             "Golden Woman" to getGoldenWomanStyles(),
-            "Circle Man" to getCircleManStyles(),
             "Circle Woman" to getCircleWomanStyles(),
-            "Cube Man" to getCubeManStyles(),
             "Cube Woman" to getCubeWomanStyles(),
-            "Studio Man" to getStudioManStyles(),
             "Studio Woman" to getStudioWomanStyles(),
-            "Bwstudio Man" to getBwstudioManStyles(),
             "Bwstudio Woman" to getBwstudioWomanStyles(),
-            "Monochromatic Man" to getMonochromaticManStyles(),
             "Monochromatic Woman" to getMonochromaticWomanStyles(),
-            "LinkedIn Man" to getLinkedInManStyles(),
             "LinkedIn Woman" to getLinkedInWomanStyles(),
-            "Suit Man" to getSuitManStyles(),
             "Suit Woman" to getSuitWomanStyles(),
-            "Christmas Man" to getChristmasManStyles(),
             "Christmas Woman" to getChristmasWomanStyles(),
-            "BabyChristmas Man" to getBabyChristmasManStyles(),
             "BabyChristmas Woman" to getBabyChristmasWomanStyles(),
-            "Lunar Man" to getLunarManStyles(),
             "Lunar Woman" to getLunarWomanStyles(),
-            "VNLuna Man" to getVNLunaManStyles(),
             "VNLuna Woman" to getVNLunaWomanStyles(),
-            "Aging Man" to getAgingManStyles(),    // <-- ADD
             "Aging Woman" to getAgingWomanStyles(),
             "Haircut" to getHaircutStyles(),    // <-- ADD
             "Trendings" to getFigurineStyles(),  // <-- ADD
@@ -129,11 +111,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun goAIAvatar(style: String, feature: String, isPremiumItem: Boolean) {
+    fun goAIAvatar(style: String, feature: String, isGender: Boolean) {
         val intent = Intent(this, CartoonIntroActivity::class.java).apply {
             putExtra("style", style)
             putExtra("feature", feature)
-            putExtra("is_premium_item", isPremiumItem)
+            putExtra("is_gender", isGender)
         }
         startActivity(intent)
     }
@@ -141,30 +123,30 @@ class MainActivity : AppCompatActivity() {
     // ── Data ──────────────────────────────────────────────────────────────
 
     private fun getAllStyles(): List<CartoonStyle> =
-        getCartoonStyles() + getHairStyles() +
-                getBirthdayManStyles() + getBirthdayWomanStyles() +
-                getValentineManStyles() + getValentineWomanStyles() +
-                getWinterManStyles() + getWinterWomanStyles() +
-                getNewyearManStyles() + getNewyearWomanStyles() +
-                getCuteManStyles() + getCuteWomanStyles() +
-                getRewardManStyles() + getRewardWomanStyles() +
-                getEdgyManStyles() + getEdgyWomanStyles() +
-                getModernManStyles() + getModernWomanStyles() +
-                getCinematicManStyles() + getCinematicWomanStyles() +
-                getSpotlightManStyles() + getSpotlightWomanStyles() +
-                getGoldenManStyles() + getGoldenWomanStyles() +
-                getCircleManStyles() + getCircleWomanStyles() +
-                getCubeManStyles() + getCubeWomanStyles() +
-                getStudioManStyles() + getStudioWomanStyles() +
-                getBwstudioManStyles() + getBwstudioWomanStyles() +
-                getMonochromaticManStyles() + getMonochromaticWomanStyles() +
-                getLinkedInManStyles() + getLinkedInWomanStyles() +
-                getSuitManStyles() + getSuitWomanStyles() +
-                getChristmasManStyles() + getChristmasWomanStyles() +
-                getBabyChristmasManStyles() + getBabyChristmasWomanStyles() +
-                getLunarManStyles() + getLunarWomanStyles() +
-                getVNLunaManStyles() + getVNLunaWomanStyles() +
-                getAgingManStyles() + getAgingWomanStyles() +
+        getCartoonStyles() + getHairStyles() + getBusinessWomanStyles() + getMovieWomanStyles() + getDriverWomanStyles() + getMediaWomanStyles() +
+                getBirthdayManStyles() +
+                getValentineWomanStyles() +
+                getWinterWomanStyles() +
+                getNewyearWomanStyles() +
+                getCuteWomanStyles() +
+                getRewardWomanStyles() +
+                getEdgyWomanStyles() +
+                getModernWomanStyles() +
+                getCinematicWomanStyles() +
+                getSpotlightWomanStyles() +
+                getGoldenWomanStyles() +
+                getCircleWomanStyles() +
+                getCubeWomanStyles() +
+                getStudioWomanStyles() +
+                getBwstudioWomanStyles() +
+                getMonochromaticWomanStyles() +
+                getLinkedInWomanStyles() +
+                getSuitWomanStyles() +
+                getChristmasWomanStyles() +
+                getBabyChristmasWomanStyles() +
+                getLunarWomanStyles() +
+                getVNLunaWomanStyles() +
+                getAgingWomanStyles() +
                 getHaircutStyles() + getFigurineStyles()
 
     // ── Cartoon & Hair (unchanged) ─────────────────────────────────────────
@@ -172,137 +154,138 @@ class MainActivity : AppCompatActivity() {
     private fun getCartoonStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Ghibli",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_ghibli_runninghub_1946470668230619137_1779591514733.jpg",
+            iconUrl = "https://iili.io/C3FlCkg.png",
             styleKey = "ghibli_runninghub_1946470668230619137"
         ),
         CartoonStyle(
             name = "3D Emoji",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_3demoji_1779591607429.jpg",
+            iconUrl = "https://iili.io/C3FlvZx.png",
             styleKey = "3demoji"
         ),
         CartoonStyle(
             name = "GPT-4o Travel",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_polaroid_1779592022848.jpg",
+            iconUrl = "https://iili.io/C3FlyFI.jpg",
             styleKey = "polaroid"
         ),
+        //below  left
         CartoonStyle(
             name = "GPT-4o Best Friend",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_polaroid2_1779594219342.jpg",
+            iconUrl = "https://iili.io/C3FU3OJ.jpg",
             styleKey = "polaroid2"
         ),
         CartoonStyle(
             name = "GPT-4o Summer",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_polaroid3summer_1779594884132.jpg",
+            iconUrl = "https://iili.io/C3F0EHF.jpg",
             styleKey = "polaroid3summer"
         ),
         CartoonStyle(
             name = "Qwen 3D Chibi",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwen3dchibi_1779595204347.jpg",
+            iconUrl = "https://iili.io/C3F0bDb.png",
             styleKey = "qwen3dchibi"
         ),
         CartoonStyle(
             name = "Pixar 3D",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenpixar3d_1779595333767.jpg",
+            iconUrl = "https://iili.io/C3F1azG.png",
             styleKey = "qwenpixar3d"
         ),
         CartoonStyle(
             name = "Avatar",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_avatar_1779595470732.jpg",
+            iconUrl = "https://iili.io/C3F6d1p.jpg",
             styleKey = "avatar"
         ),
         CartoonStyle(
             name = "Wool",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_wool_1779596717500.jpg",
+            iconUrl = "https://iili.io/C3F6t6l.png",
             styleKey = "wool"
         ),
         CartoonStyle(
             name = "Keychain",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_keychain_1779596849186.jpg",
+            iconUrl = "https://iili.io/C3FPwSS.jpg",
             styleKey = "keychain"
         ),
         CartoonStyle(
             name = "Comic",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwencomic_1779597102248.jpg",
+            iconUrl = "https://iili.io/C3FsPu1.png",
             styleKey = "qwencomic"
         ),
         CartoonStyle(
             name = "Anime",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenanime_1779597191225.jpg",
+            iconUrl = "https://iili.io/C3FQ3OP.md.png",
             styleKey = "qwenanime"
         ),
         CartoonStyle(
             name = "Clay",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenclay_1779597288559.jpg",
+            iconUrl = "https://iili.io/C3FZWaR.png",
             styleKey = "qwenclay"
         ),
         CartoonStyle(
             name = "Jojo",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenjojo_1779597390598.jpg",
+            iconUrl = "https://iili.io/C3FbRaf.md.png",
             styleKey = "qwenjojo"
         ),
         CartoonStyle(
             name = "Lego",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenlego_1779597746614.jpg",
+            iconUrl = "https://iili.io/C3FmSxS.md.png",
             styleKey = "qwenlego"
         ),
         CartoonStyle(
             name = "Line Art",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenlineart_1779598153687.jpg",
+            iconUrl = "https://iili.io/C3Fp3eR.png",
             styleKey = "qwenlineart"
         ),
         CartoonStyle(
             name = "Macaron",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenmacaron_1779598320493.jpg",
+            iconUrl = "https://iili.io/C3FprIp.png",
             styleKey = "qwenmacaron"
         ),
         CartoonStyle(
             name = "Oil Painting",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenoilpainting_1779599569918.jpg",
+            iconUrl = "https://iili.io/C3K9WiP.md.png",
             styleKey = "qwenoilpainting"
         ),
         CartoonStyle(
             name = "Origami",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenorigami_1779600204239.jpg",
+            iconUrl = "https://iili.io/C3KHT7a.png",
             styleKey = "qwenorigami"
         ),
         CartoonStyle(
             name = "Paper Cut",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenpaper_1779600458297.jpg",
+            iconUrl = "https://iili.io/C3KduxR.png",
             styleKey = "qwenpaper"
         ),
         CartoonStyle(
             name = "Picasso",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenpicasso_1779600562993.jpg",
+            iconUrl = "https://iili.io/C3KdsdF.png",
             styleKey = "qwenpicasso"
         ),
         CartoonStyle(
             name = "Pixel Art",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenpixel_1779600815879.jpg",
+            iconUrl = "https://iili.io/C3K2E21.png",
             styleKey = "qwenpixel"
         ),
         CartoonStyle(
             name = "Pop Art",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenpopart_1779601012759.jpg",
+            iconUrl = "https://iili.io/C3K3znR.md.png",
             styleKey = "qwenpopart"
         ),
         CartoonStyle(
             name = "Van Gogh",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwenvangogh_1779601319603.jpg",
+            iconUrl = "https://iili.io/C3K3vMQ.png",
             styleKey = "qwenvangogh"
         ),
         CartoonStyle(
             name = "Graffiti",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwengraffiti_1779601440900.jpg",
+            iconUrl = "https://iili.io/C3KfaAF.md.png",
             styleKey = "qwengraffiti"
         ),
         CartoonStyle(
             name = "GTA 5 Style",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwengta5_1779601556765.jpg",
+            iconUrl = "https://iili.io/C3KKv3B.png",
             styleKey = "qwengta5"
         ),
         CartoonStyle(
             name = "Simpsons Style",
-            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_qwensimpsons_1779601653409.jpg",
+            iconUrl = "https://iili.io/C3KB6Zu.png",
             styleKey = "qwensimpsons"
         )
     )
@@ -370,397 +353,539 @@ class MainActivity : AppCompatActivity() {
         )
     )
 
+    private fun getBusinessWomanStyles(): List<CartoonStyle> = listOf(
+        CartoonStyle(
+            name = "Business Blue",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Business/woman/Blue.webp",
+            styleKey = "Business_Blue", isGender = true
+        ),
+        CartoonStyle(
+            name = "Business Black",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Business/woman/Black.webp",
+            styleKey = "Business_Black", isGender = true
+        ),
+        CartoonStyle(
+            name = "Business Light",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Business/woman/Light.webp",
+            styleKey = "Business_Light", isGender = true
+        ),
+        CartoonStyle(
+            name = "Business Yellow",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Business/woman/Yellow.webp",
+            styleKey = "Business_Yellow", isGender = true
+        ),
+        CartoonStyle(
+            name = "Business Red",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Business/woman/Red.webp",
+            styleKey = "Business_Red", isGender = true
+        ),
+        CartoonStyle(
+            name = "Business Beige",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Business/woman/Beige.webp",
+            styleKey = "Business_Beige", isGender = true
+        ),
+        CartoonStyle(
+            name = "Business Navy",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Business/woman/Navy.webp",
+            styleKey = "Business_Navy", isGender = true
+        )
+    )
+
+    private fun getMovieWomanStyles(): List<CartoonStyle> = listOf(
+        CartoonStyle(
+            name = "Movie Blur",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Movie/woman/Blur.webp",
+            styleKey = "Movie_Blur", isGender = true
+        ),
+        CartoonStyle(
+            name = "Movie Street",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Movie/woman/Street.webp",
+            styleKey = "Movie_Street", isGender = true
+        ),
+        CartoonStyle(
+            name = "Movie Grassland",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Movie/woman/Grassland.webp",
+            styleKey = "Movie_Grassland", isGender = true
+        ),
+        CartoonStyle(
+            name = "Movie News",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Movie/woman/News.webp",
+            styleKey = "Movie_News", isGender = true
+        ),
+        CartoonStyle(
+            name = "Movie Sky",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Movie/woman/Sky.webp",
+            styleKey = "Movie_Sky", isGender = true
+        ),
+        CartoonStyle(
+            name = "Movie Pool",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Movie/woman/Pool.webp",
+            styleKey = "Movie_Pool", isGender = true
+        )
+    )
+
+    private fun getDriverWomanStyles(): List<CartoonStyle> = listOf(
+        CartoonStyle(
+            name = "Driver Cyan",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Driver/woman/Cyan.webp",
+            styleKey = "Driver_Cyan",
+            isGender = true
+        ),
+        CartoonStyle(
+            name = "Driver Red",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Driver/woman/Red.webp",
+            styleKey = "Driver_Red",
+            isGender = true
+        ),
+        CartoonStyle(
+            name = "Driver Yellow",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Driver/woman/Yellow.webp",
+            styleKey = "Driver_Yellow",
+            isGender = true
+        ),
+        CartoonStyle(
+            name = "Driver Gray",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Driver/woman/Gray.webp",
+            styleKey = "Driver_Gray",
+            isGender = true
+        ),
+        CartoonStyle(
+            name = "Driver Dark",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Driver/woman/Dark.webp",
+            styleKey = "Driver_Dark",
+            isGender = true
+        ),
+        CartoonStyle(
+            name = "Driver Light",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Driver/woman/Light.webp",
+            styleKey = "Driver_Light",
+            isGender = true
+        )
+    )
+
+    private fun getMediaWomanStyles(): List<CartoonStyle> = listOf(
+        CartoonStyle(
+            name = "Media Chair",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Media/woman/Chair.webp",
+            styleKey = "Media_Chair",
+            isGender = true
+        ),
+        CartoonStyle(
+            name = "Media Light",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Media/woman/Light.webp",
+            styleKey = "Media_Light",
+            isGender = true
+        ),
+        CartoonStyle(
+            name = "Media Black",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Media/woman/Black.webp",
+            styleKey = "Media_Black",
+            isGender = true
+        ),
+        CartoonStyle(
+            name = "Media Gray",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Media/woman/Gray.webp",
+            styleKey = "Media_Gray",
+            isGender = true
+        ),
+        CartoonStyle(
+            name = "Media Brown",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Media/woman/Brown.webp",
+            styleKey = "Media_Brown",
+            isGender = true
+        ),
+        CartoonStyle(
+            name = "Media Dark",
+            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Media/woman/Dark.webp",
+            styleKey = "Media_Dark",
+            isGender = true
+        )
+    )
     // ── Birthday ───────────────────────────────────────────────────────────
 
     private fun getBirthdayManStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Birthday Lighting",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/man/Lighting.webp",
-            styleKey = "man_Birthday_Lighting"
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_woman_Birthday_Lighting_1779729599094.jpg",
+            styleKey = "Birthday_Lighting", isGender = true
         ),
         CartoonStyle(
             name = "Birthday Black",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/man/Black.webp",
-            styleKey = "man_Birthday_Black"
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_man_Birthday_Black_1779730540107.jpg",
+            styleKey = "Birthday_Black", isGender = true
         ),
         CartoonStyle(
             name = "Birthday Golden",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/man/Golden.webp",
-            styleKey = "man_Birthday_Golden"
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_woman_Birthday_Golden_1779730828043.jpg",
+            styleKey = "Birthday_Golden", isGender = true
         ),
         CartoonStyle(
             name = "Birthday Purple",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/man/Purple.webp",
-            styleKey = "man_Birthday_Purple"
+            styleKey = "Birthday_Purple", isGender = true
         ),
         CartoonStyle(
             name = "Birthday Red",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/man/Red.webp",
-            styleKey = "man_Birthday_Red"
+            styleKey = "Birthday_Red", isGender = true
         ),
         CartoonStyle(
             name = "Birthday Disco",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/man/Disco.webp",
-            styleKey = "man_Birthday_Disco"
-        )
-    )
-
-    private fun getBirthdayWomanStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Birthday Lighting",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/woman/Lighting.webp",
-            styleKey = "woman_Birthday_Lighting"
-        ),
-        CartoonStyle(
-            name = "Birthday Black",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/woman/Black.webp",
-            styleKey = "woman_Birthday_Black"
-        ),
-        CartoonStyle(
-            name = "Birthday Golden",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/woman/Golden.webp",
-            styleKey = "woman_Birthday_Golden"
-        ),
-        CartoonStyle(
-            name = "Birthday Purple",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/woman/Purple.webp",
-            styleKey = "woman_Birthday_Purple"
-        ),
-        CartoonStyle(
-            name = "Birthday Red",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/woman/Red.webp",
-            styleKey = "woman_Birthday_Red"
-        ),
-        CartoonStyle(
-            name = "Birthday Disco",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Birthday/woman/Disco.webp",
-            styleKey = "woman_Birthday_Disco"
+            styleKey = "Birthday_Disco", isGender = true
         )
     )
 
     // ── Valentine ──────────────────────────────────────────────────────────
 
-    private fun getValentineManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Valentine Nightcity",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Nightcity.webp",
-            styleKey = "man_Valentine_Nightcity"
-        ),
-        CartoonStyle(
-            name = "Valentine Oldmoney",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Oldmoney.webp",
-            styleKey = "man_Valentine_Oldmoney"
-        ),
-        CartoonStyle(
-            name = "Valentine Date",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Date.webp",
-            styleKey = "man_Valentine_Date"
-        ),
-        CartoonStyle(
-            name = "Valentine Party",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Party.webp",
-            styleKey = "man_Valentine_Party"
-        ),
-        CartoonStyle(
-            name = "Valentine Paris",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Paris.webp",
-            styleKey = "man_Valentine_Paris"
-        ),
-        CartoonStyle(
-            name = "Valentine Candle",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Candle.webp",
-            styleKey = "man_Valentine_Candle"
-        )
-    )
+    /* private fun getValentineManStyles(): List<CartoonStyle> = listOf(
+         CartoonStyle(
+             name = "Valentine Nightcity",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Nightcity.webp",
+             styleKey = "man_Valentine_Nightcity"
+         ),
+         CartoonStyle(
+             name = "Valentine Oldmoney",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Oldmoney.webp",
+             styleKey = "man_Valentine_Oldmoney"
+         ),
+         CartoonStyle(
+             name = "Valentine Date",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Date.webp",
+             styleKey = "man_Valentine_Date"
+         ),
+         CartoonStyle(
+             name = "Valentine Party",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Party.webp",
+             styleKey = "man_Valentine_Party"
+         ),
+         CartoonStyle(
+             name = "Valentine Paris",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Paris.webp",
+             styleKey = "man_Valentine_Paris"
+         ),
+         CartoonStyle(
+             name = "Valentine Candle",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/man/Candle.webp",
+             styleKey = "man_Valentine_Candle"
+         )
+     )*/
 
     private fun getValentineWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Valentine Nightcity",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/woman/Nightcity.webp",
-            styleKey = "woman_Valentine_Nightcity"
+            styleKey = "Valentine_Nightcity",
+            isGender = true
         ),
         CartoonStyle(
             name = "Valentine Oldmoney",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/woman/Oldmoney.webp",
-            styleKey = "woman_Valentine_Oldmoney"
+            styleKey = "Valentine_Oldmoney",
+            isGender = true
         ),
         CartoonStyle(
             name = "Valentine Date",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/woman/Date.webp",
-            styleKey = "woman_Valentine_Date"
+            styleKey = "Valentine_Date",
+            isGender = true
         ),
         CartoonStyle(
             name = "Valentine Party",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/woman/Party.webp",
-            styleKey = "woman_Valentine_Party"
+            styleKey = "Valentine_Party",
+            isGender = true
         ),
         CartoonStyle(
             name = "Valentine Paris",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/woman/Paris.webp",
-            styleKey = "woman_Valentine_Paris"
+            styleKey = "Valentine_Paris",
+            isGender = true
         ),
         CartoonStyle(
             name = "Valentine Candle",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Valentine/woman/Candle.webp",
-            styleKey = "woman_Valentine_Candle"
+            styleKey = "Valentine_Candle",
+            isGender = true
         )
     )
 
     // ── Winter ─────────────────────────────────────────────────────────────
 
-    private fun getWinterManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Winter Lighting",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/Lighting.webp",
-            styleKey = "man_Winter_Lighting"
-        ),
-        CartoonStyle(
-            name = "Winter Hooded",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/Hooded.webp",
-            styleKey = "man_Winter_Hooded"
-        ),
-        CartoonStyle(
-            name = "Winter Umbrella",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/Umbrella.webp",
-            styleKey = "man_Winter_Umbrella"
-        ),
-        CartoonStyle(
-            name = "Winter BlueSpruce",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/BlueSpruce.webp",
-            styleKey = "man_Winter_BlueSpruce"
-        ),
-        CartoonStyle(
-            name = "Winter Snowman",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/Snowman.webp",
-            styleKey = "man_Winter_Snowman"
-        ),
-        CartoonStyle(
-            name = "Winter Aurora",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/Aurora.webp",
-            styleKey = "man_Winter_Aurora"
-        )
-    )
+    /*   private fun getWinterManStyles(): List<CartoonStyle> = listOf(
+           CartoonStyle(
+               name = "Winter Lighting",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/Lighting.webp",
+               styleKey = "man_Winter_Lighting"
+           ),
+           CartoonStyle(
+               name = "Winter Hooded",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/Hooded.webp",
+               styleKey = "man_Winter_Hooded"
+           ),
+           CartoonStyle(
+               name = "Winter Umbrella",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/Umbrella.webp",
+               styleKey = "man_Winter_Umbrella"
+           ),
+           CartoonStyle(
+               name = "Winter BlueSpruce",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/BlueSpruce.webp",
+               styleKey = "man_Winter_BlueSpruce"
+           ),
+           CartoonStyle(
+               name = "Winter Snowman",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/Snowman.webp",
+               styleKey = "man_Winter_Snowman"
+           ),
+           CartoonStyle(
+               name = "Winter Aurora",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/man/Aurora.webp",
+               styleKey = "man_Winter_Aurora"
+           )
+       )*/
 
     private fun getWinterWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Winter Lighting",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/woman/Lighting.webp",
-            styleKey = "woman_Winter_Lighting"
+            styleKey = "Winter_Lighting",
+            isGender = true
         ),
         CartoonStyle(
             name = "Winter Hooded",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/woman/Hooded.webp",
-            styleKey = "woman_Winter_Hooded"
+            styleKey = "Winter_Hooded",
+            isGender = true
         ),
         CartoonStyle(
             name = "Winter Umbrella",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/woman/Umbrella.webp",
-            styleKey = "woman_Winter_Umbrella"
+            styleKey = "Winter_Umbrella",
+            isGender = true
         ),
         CartoonStyle(
             name = "Winter BlueSpruce",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/woman/BlueSpruce.webp",
-            styleKey = "woman_Winter_BlueSpruce"
+            styleKey = "Winter_BlueSpruce",
+            isGender = true
         ),
         CartoonStyle(
             name = "Winter Snowman",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/woman/Snowman.webp",
-            styleKey = "woman_Winter_Snowman"
+            styleKey = "Winter_Snowman",
+            isGender = true
         ),
         CartoonStyle(
             name = "Winter Aurora",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Winter/woman/Aurora.webp",
-            styleKey = "woman_Winter_Aurora"
+            styleKey = "Winter_Aurora",
+            isGender = true
         )
     )
 
     // ── Newyear ────────────────────────────────────────────────────────────
 
-    private fun getNewyearManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Newyear Sofa",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/Sofa.webp",
-            styleKey = "man_Newyear_Sofa"
-        ),
-        CartoonStyle(
-            name = "Newyear Disco",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/Disco.webp",
-            styleKey = "man_Newyear_Disco"
-        ),
-        CartoonStyle(
-            name = "Newyear Golden",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/Golden.webp",
-            styleKey = "man_Newyear_Golden"
-        ),
-        CartoonStyle(
-            name = "Newyear Balloons",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/Balloons.webp",
-            styleKey = "man_Newyear_Balloons"
-        ),
-        CartoonStyle(
-            name = "Newyear Party",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/Party.webp",
-            styleKey = "man_Newyear_Party"
-        ),
-        CartoonStyle(
-            name = "Newyear Yacht",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/yacht.webp",
-            styleKey = "man_Newyear_yacht"
-        )
-    )
-
+    /*  private fun getNewyearManStyles(): List<CartoonStyle> = listOf(
+          CartoonStyle(
+              name = "Newyear Sofa",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/Sofa.webp",
+              styleKey = "man_Newyear_Sofa"
+          ),
+          CartoonStyle(
+              name = "Newyear Disco",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/Disco.webp",
+              styleKey = "man_Newyear_Disco"
+          ),
+          CartoonStyle(
+              name = "Newyear Golden",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/Golden.webp",
+              styleKey = "man_Newyear_Golden"
+          ),
+          CartoonStyle(
+              name = "Newyear Balloons",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/Balloons.webp",
+              styleKey = "man_Newyear_Balloons"
+          ),
+          CartoonStyle(
+              name = "Newyear Party",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/Party.webp",
+              styleKey = "man_Newyear_Party"
+          ),
+          CartoonStyle(
+              name = "Newyear Yacht",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/man/yacht.webp",
+              styleKey = "man_Newyear_yacht"
+          )
+      )
+  */
     private fun getNewyearWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Newyear Sofa",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/woman/Sofa.webp",
-            styleKey = "woman_Newyear_Sofa"
+            styleKey = "Newyear_Sofa",
+            isGender = true
         ),
         CartoonStyle(
             name = "Newyear Disco",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/woman/Disco.webp",
-            styleKey = "woman_Newyear_Disco"
+            styleKey = "Newyear_Disco",
+            isGender = true
         ),
         CartoonStyle(
             name = "Newyear Golden",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/woman/Golden.webp",
-            styleKey = "woman_Newyear_Golden"
+            styleKey = "Newyear_Golden",
+            isGender = true
         ),
         CartoonStyle(
             name = "Newyear Balloons",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/woman/Balloons.webp",
-            styleKey = "woman_Newyear_Balloons"
+            styleKey = "Newyear_Balloons",
+            isGender = true
         ),
         CartoonStyle(
             name = "Newyear Party",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/woman/Party.webp",
-            styleKey = "woman_Newyear_Party"
+            styleKey = "Newyear_Party",
+            isGender = true
         ),
         CartoonStyle(
             name = "Newyear Yacht",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Newyear/woman/yacht.webp",
-            styleKey = "woman_Newyear_yacht"
+            styleKey = "Newyear_yacht",
+            isGender = true
         )
     )
-
     // ── Cute ───────────────────────────────────────────────────────────────
 
-    private fun getCuteManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Cute Hood",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/man/Hood.webp",
-            styleKey = "man_Cute_Hood"
-        ),
-        CartoonStyle(
-            name = "Cute Cheek",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/man/Cheek.webp",
-            styleKey = "man_Cute_Cheek"
-        ),
-        CartoonStyle(
-            name = "Cute Doll",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/man/Doll.webp",
-            styleKey = "man_Cute_Doll"
-        ),
-        CartoonStyle(
-            name = "Cute Giant",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/man/Giant.webp",
-            styleKey = "man_Cute_Giant"
-        )
-    )
+    /* private fun getCuteManStyles(): List<CartoonStyle> = listOf(
+         CartoonStyle(
+             name = "Cute Hood",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/man/Hood.webp",
+             styleKey = "man_Cute_Hood"
+         ),
+         CartoonStyle(
+             name = "Cute Cheek",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/man/Cheek.webp",
+             styleKey = "man_Cute_Cheek"
+         ),
+         CartoonStyle(
+             name = "Cute Doll",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/man/Doll.webp",
+             styleKey = "man_Cute_Doll"
+         ),
+         CartoonStyle(
+             name = "Cute Giant",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/man/Giant.webp",
+             styleKey = "man_Cute_Giant"
+         )
+     )*/
 
     private fun getCuteWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Cute Hood",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/woman/Hood.webp",
-            styleKey = "woman_Cute_Hood"
+            styleKey = "Cute_Hood",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cute Cheek",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/woman/Cheek.webp",
-            styleKey = "woman_Cute_Cheek"
+            styleKey = "Cute_Cheek",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cute Doll",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/woman/Doll.webp",
-            styleKey = "woman_Cute_Doll"
+            styleKey = "Cute_Doll",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cute Giant",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cute/woman/Giant.webp",
-            styleKey = "woman_Cute_Giant"
+            styleKey = "Cute_Giant",
+            isGender = true
         )
     )
 
     // ── Reward ─────────────────────────────────────────────────────────────
 
-    private fun getRewardManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Reward Bag",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Bag.webp",
-            styleKey = "man_Reward_Bag"
-        ),
-        CartoonStyle(
-            name = "Reward Gift",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Gift.webp",
-            styleKey = "man_Reward_Gift"
-        ),
-        CartoonStyle(
-            name = "Reward Box",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Box.webp",
-            styleKey = "man_Reward_Box"
-        ),
-        CartoonStyle(
-            name = "Reward Ornament",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Ornament.webp",
-            styleKey = "man_Reward_Ornament"
-        ),
-        CartoonStyle(
-            name = "Reward Globe",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Globe.webp",
-            styleKey = "man_Reward_Globe"
-        ),
-        CartoonStyle(
-            name = "Reward Dream",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Dream.webp",
-            styleKey = "man_Reward_Dream"
-        )
-    )
+    /* private fun getRewardManStyles(): List<CartoonStyle> = listOf(
+         CartoonStyle(
+             name = "Reward Bag",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Bag.webp",
+             styleKey = "man_Reward_Bag"
+         ),
+         CartoonStyle(
+             name = "Reward Gift",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Gift.webp",
+             styleKey = "man_Reward_Gift"
+         ),
+         CartoonStyle(
+             name = "Reward Box",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Box.webp",
+             styleKey = "man_Reward_Box"
+         ),
+         CartoonStyle(
+             name = "Reward Ornament",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Ornament.webp",
+             styleKey = "man_Reward_Ornament"
+         ),
+         CartoonStyle(
+             name = "Reward Globe",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Globe.webp",
+             styleKey = "man_Reward_Globe"
+         ),
+         CartoonStyle(
+             name = "Reward Dream",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/man/Dream.webp",
+             styleKey = "man_Reward_Dream"
+         )
+     )*/
 
     private fun getRewardWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Reward Bag",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/woman/Bag.webp",
-            styleKey = "woman_Reward_Bag"
+            styleKey = "Reward_Bag",
+            isGender = true
         ),
         CartoonStyle(
             name = "Reward Gift",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/woman/Gift.webp",
-            styleKey = "woman_Reward_Gift"
+            styleKey = "Reward_Gift",
+            isGender = true
         ),
         CartoonStyle(
             name = "Reward Box",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/woman/Box.webp",
-            styleKey = "woman_Reward_Box"
+            styleKey = "Reward_Box",
+            isGender = true
         ),
         CartoonStyle(
             name = "Reward Ornament",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/woman/Ornament.webp",
-            styleKey = "woman_Reward_Ornament"
+            styleKey = "Reward_Ornament",
+            isGender = true
         ),
         CartoonStyle(
             name = "Reward Globe",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/woman/Globe.webp",
-            styleKey = "woman_Reward_Globe"
+            styleKey = "Reward_Globe",
+            isGender = true
         ),
         CartoonStyle(
             name = "Reward Dream",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Reward/woman/Dream.webp",
-            styleKey = "woman_Reward_Dream"
+            styleKey = "Reward_Dream",
+            isGender = true
         )
     )
 
     // ── Edgy ───────────────────────────────────────────────────────────────
 
-    private fun getEdgyManStyles(): List<CartoonStyle> = listOf(
+    /*private fun getEdgyManStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Edgy Caution",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Edgy/man/Caution.webp",
@@ -791,452 +916,494 @@ class MainActivity : AppCompatActivity() {
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Edgy/man/Silk.webp",
             styleKey = "man_Edgy_Silk"
         )
-    )
+    )*/
 
     private fun getEdgyWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Edgy Caution",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Edgy/woman/Caution.webp",
-            styleKey = "woman_Edgy_Caution"
+            styleKey = "Edgy_Caution",
+            isGender = true
         ),
         CartoonStyle(
             name = "Edgy Danger",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Edgy/woman/Danger.webp",
-            styleKey = "woman_Edgy_Danger"
+            styleKey = "Edgy_Danger",
+            isGender = true
         ),
         CartoonStyle(
             name = "Edgy Film",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Edgy/woman/Film.webp",
-            styleKey = "woman_Edgy_Film"
+            styleKey = "Edgy_Film",
+            isGender = true
         ),
         CartoonStyle(
             name = "Edgy Tapes",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Edgy/woman/Tapes.webp",
-            styleKey = "woman_Edgy_Tapes"
+            styleKey = "Edgy_Tapes",
+            isGender = true
         ),
         CartoonStyle(
             name = "Edgy Chain",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Edgy/woman/Chain.webp",
-            styleKey = "woman_Edgy_Chain"
+            styleKey = "Edgy_Chain",
+            isGender = true
         ),
         CartoonStyle(
             name = "Edgy Silk",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Edgy/woman/Silk.webp",
-            styleKey = "woman_Edgy_Silk"
+            styleKey = "Edgy_Silk",
+            isGender = true
         )
     )
 
     // ── Modern ─────────────────────────────────────────────────────────────
 
-    private fun getModernManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Modern Cassette",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Cassette.webp",
-            styleKey = "man_Modern_Cassette"
-        ),
-        CartoonStyle(
-            name = "Modern Chess",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Chess.webp",
-            styleKey = "man_Modern_Chess"
-        ),
-        CartoonStyle(
-            name = "Modern Perfume",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Perfume.webp",
-            styleKey = "man_Modern_Perfume"
-        ),
-        CartoonStyle(
-            name = "Modern Bag",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Bag.webp",
-            styleKey = "man_Modern_Bag"
-        ),
-        CartoonStyle(
-            name = "Modern Camera",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Camera.webp",
-            styleKey = "man_Modern_Camera"
-        ),
-        CartoonStyle(
-            name = "Modern Billiard",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Billiard.webp",
-            styleKey = "man_Modern_Billiard"
-        )
-    )
+    /* private fun getModernManStyles(): List<CartoonStyle> = listOf(
+         CartoonStyle(
+             name = "Modern Cassette",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Cassette.webp",
+             styleKey = "man_Modern_Cassette"
+         ),
+         CartoonStyle(
+             name = "Modern Chess",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Chess.webp",
+             styleKey = "man_Modern_Chess"
+         ),
+         CartoonStyle(
+             name = "Modern Perfume",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Perfume.webp",
+             styleKey = "man_Modern_Perfume"
+         ),
+         CartoonStyle(
+             name = "Modern Bag",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Bag.webp",
+             styleKey = "man_Modern_Bag"
+         ),
+         CartoonStyle(
+             name = "Modern Camera",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Camera.webp",
+             styleKey = "man_Modern_Camera"
+         ),
+         CartoonStyle(
+             name = "Modern Billiard",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/man/Billiard.webp",
+             styleKey = "man_Modern_Billiard"
+         )
+     )*/
 
     private fun getModernWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Modern Cassette",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/woman/Cassette.webp",
-            styleKey = "woman_Modern_Cassette"
+            styleKey = "Modern_Cassette",
+            isGender = true
         ),
         CartoonStyle(
             name = "Modern Chess",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/woman/Chess.webp",
-            styleKey = "woman_Modern_Chess"
+            styleKey = "Modern_Chess",
+            isGender = true
         ),
         CartoonStyle(
             name = "Modern Perfume",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/woman/Perfume.webp",
-            styleKey = "woman_Modern_Perfume"
+            styleKey = "Modern_Perfume",
+            isGender = true
         ),
         CartoonStyle(
             name = "Modern Bag",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/woman/Bag.webp",
-            styleKey = "woman_Modern_Bag"
+            styleKey = "Modern_Bag",
+            isGender = true
         ),
         CartoonStyle(
             name = "Modern Camera",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/woman/Camera.webp",
-            styleKey = "woman_Modern_Camera"
+            styleKey = "Modern_Camera",
+            isGender = true
         ),
         CartoonStyle(
             name = "Modern Billiard",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Modern/woman/Billiard.webp",
-            styleKey = "woman_Modern_Billiard"
+            styleKey = "Modern_Billiard",
+            isGender = true
         )
     )
 
     // ── Cinematic ──────────────────────────────────────────────────────────
 
-    private fun getCinematicManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Cinematic Car",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Car.webp",
-            styleKey = "man_Cinematic_Car"
-        ),
-        CartoonStyle(
-            name = "Cinematic Train",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Train.webp",
-            styleKey = "man_Cinematic_Train"
-        ),
-        CartoonStyle(
-            name = "Cinematic Tram",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Tram.webp",
-            styleKey = "man_Cinematic_Tram"
-        ),
-        CartoonStyle(
-            name = "Cinematic Street",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Street.webp",
-            styleKey = "man_Cinematic_Street"
-        ),
-        CartoonStyle(
-            name = "Cinematic Bus",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Bus.webp",
-            styleKey = "man_Cinematic_Bus"
-        ),
-        CartoonStyle(
-            name = "Cinematic Rain",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Rain.webp",
-            styleKey = "man_Cinematic_Rain"
-        )
-    )
+    /*   private fun getCinematicManStyles(): List<CartoonStyle> = listOf(
+           CartoonStyle(
+               name = "Cinematic Car",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Car.webp",
+               styleKey = "man_Cinematic_Car"
+           ),
+           CartoonStyle(
+               name = "Cinematic Train",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Train.webp",
+               styleKey = "man_Cinematic_Train"
+           ),
+           CartoonStyle(
+               name = "Cinematic Tram",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Tram.webp",
+               styleKey = "man_Cinematic_Tram"
+           ),
+           CartoonStyle(
+               name = "Cinematic Street",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Street.webp",
+               styleKey = "man_Cinematic_Street"
+           ),
+           CartoonStyle(
+               name = "Cinematic Bus",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Bus.webp",
+               styleKey = "man_Cinematic_Bus"
+           ),
+           CartoonStyle(
+               name = "Cinematic Rain",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/man/Rain.webp",
+               styleKey = "man_Cinematic_Rain"
+           )
+       )*/
 
     private fun getCinematicWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Cinematic Car",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/woman/Car.webp",
-            styleKey = "woman_Cinematic_Car"
+            styleKey = "Cinematic_Car",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cinematic Train",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/woman/Train.webp",
-            styleKey = "woman_Cinematic_Train"
+            styleKey = "Cinematic_Train",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cinematic Tram",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/woman/Tram.webp",
-            styleKey = "woman_Cinematic_Tram"
+            styleKey = "Cinematic_Tram",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cinematic Street",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/woman/Street.webp",
-            styleKey = "woman_Cinematic_Street"
+            styleKey = "Cinematic_Street",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cinematic Bus",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/woman/Bus.webp",
-            styleKey = "woman_Cinematic_Bus"
+            styleKey = "Cinematic_Bus",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cinematic Rain",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cinematic/woman/Rain.webp",
-            styleKey = "woman_Cinematic_Rain"
+            styleKey = "Cinematic_Rain",
+            isGender = true
         )
     )
 
     // ── Spotlight ──────────────────────────────────────────────────────────
 
-    private fun getSpotlightManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Spotlight Black",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Black.webp",
-            styleKey = "man_Spotlight_Black"
-        ),
-        CartoonStyle(
-            name = "Spotlight Blue",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Blue.webp",
-            styleKey = "man_Spotlight_Blue"
-        ),
-        CartoonStyle(
-            name = "Spotlight Red",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Red.webp",
-            styleKey = "man_Spotlight_Red"
-        ),
-        CartoonStyle(
-            name = "Spotlight Gray",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Gray.webp",
-            styleKey = "man_Spotlight_Gray"
-        ),
-        CartoonStyle(
-            name = "Spotlight Neon",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Neon.webp",
-            styleKey = "man_Spotlight_Neon"
-        ),
-        CartoonStyle(
-            name = "Spotlight Streak",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Streak.webp",
-            styleKey = "man_Spotlight_Streak"
-        )
-    )
+    /*  private fun getSpotlightManStyles(): List<CartoonStyle> = listOf(
+          CartoonStyle(
+              name = "Spotlight Black",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Black.webp",
+              styleKey = "man_Spotlight_Black"
+          ),
+          CartoonStyle(
+              name = "Spotlight Blue",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Blue.webp",
+              styleKey = "man_Spotlight_Blue"
+          ),
+          CartoonStyle(
+              name = "Spotlight Red",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Red.webp",
+              styleKey = "man_Spotlight_Red"
+          ),
+          CartoonStyle(
+              name = "Spotlight Gray",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Gray.webp",
+              styleKey = "man_Spotlight_Gray"
+          ),
+          CartoonStyle(
+              name = "Spotlight Neon",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Neon.webp",
+              styleKey = "man_Spotlight_Neon"
+          ),
+          CartoonStyle(
+              name = "Spotlight Streak",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/man/Streak.webp",
+              styleKey = "man_Spotlight_Streak"
+          )
+      )*/
 
     private fun getSpotlightWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Spotlight Black",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/woman/Black.webp",
-            styleKey = "woman_Spotlight_Black"
+            styleKey = "Spotlight_Black",
+            isGender = true
         ),
         CartoonStyle(
             name = "Spotlight Blue",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/woman/Blue.webp",
-            styleKey = "woman_Spotlight_Blue"
+            styleKey = "Spotlight_Blue",
+            isGender = true
         ),
         CartoonStyle(
             name = "Spotlight Red",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/woman/Red.webp",
-            styleKey = "woman_Spotlight_Red"
+            styleKey = "Spotlight_Red",
+            isGender = true
         ),
         CartoonStyle(
             name = "Spotlight Gray",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/woman/Gray.webp",
-            styleKey = "woman_Spotlight_Gray"
+            styleKey = "Spotlight_Gray",
+            isGender = true
         ),
         CartoonStyle(
             name = "Spotlight Neon",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/woman/Neon.webp",
-            styleKey = "woman_Spotlight_Neon"
+            styleKey = "Spotlight_Neon",
+            isGender = true
         ),
         CartoonStyle(
             name = "Spotlight Streak",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Spotlight/woman/Streak.webp",
-            styleKey = "woman_Spotlight_Streak"
+            styleKey = "Spotlight_Streak",
+            isGender = true
         )
     )
 
     // ── Golden ─────────────────────────────────────────────────────────────
 
-    private fun getGoldenManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Golden Brown",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Brown.webp",
-            styleKey = "man_Golden_Brown"
-        ),
-        CartoonStyle(
-            name = "Golden Blue",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Blue.webp",
-            styleKey = "man_Golden_Blue"
-        ),
-        CartoonStyle(
-            name = "Golden Gray",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Gray.webp",
-            styleKey = "man_Golden_Gray"
-        ),
-        CartoonStyle(
-            name = "Golden Green",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Green.webp",
-            styleKey = "man_Golden_Green"
-        ),
-        CartoonStyle(
-            name = "Golden Pink",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Pink.webp",
-            styleKey = "man_Golden_Pink"
-        ),
-        CartoonStyle(
-            name = "Golden Light",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Light.webp",
-            styleKey = "man_Golden_Light"
-        )
-    )
+    /* private fun getGoldenManStyles(): List<CartoonStyle> = listOf(
+         CartoonStyle(
+             name = "Golden Brown",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Brown.webp",
+             styleKey = "man_Golden_Brown"
+         ),
+         CartoonStyle(
+             name = "Golden Blue",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Blue.webp",
+             styleKey = "man_Golden_Blue"
+         ),
+         CartoonStyle(
+             name = "Golden Gray",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Gray.webp",
+             styleKey = "man_Golden_Gray"
+         ),
+         CartoonStyle(
+             name = "Golden Green",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Green.webp",
+             styleKey = "man_Golden_Green"
+         ),
+         CartoonStyle(
+             name = "Golden Pink",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Pink.webp",
+             styleKey = "man_Golden_Pink"
+         ),
+         CartoonStyle(
+             name = "Golden Light",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/man/Light.webp",
+             styleKey = "man_Golden_Light"
+         )
+     )*/
 
     private fun getGoldenWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Golden Brown",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/woman/Brown.webp",
-            styleKey = "woman_Golden_Brown"
+            styleKey = "Golden_Brown",
+            isGender = true
         ),
         CartoonStyle(
             name = "Golden Blue",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/woman/Blue.webp",
-            styleKey = "woman_Golden_Blue"
+            styleKey = "Golden_Blue",
+            isGender = true
         ),
         CartoonStyle(
             name = "Golden Gray",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/woman/Gray.webp",
-            styleKey = "woman_Golden_Gray"
+            styleKey = "Golden_Gray",
+            isGender = true
         ),
         CartoonStyle(
             name = "Golden Green",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/woman/Green.webp",
-            styleKey = "woman_Golden_Green"
+            styleKey = "Golden_Green",
+            isGender = true
         ),
         CartoonStyle(
             name = "Golden Pink",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/woman/Pink.webp",
-            styleKey = "woman_Golden_Pink"
+            styleKey = "Golden_Pink",
+            isGender = true
         ),
         CartoonStyle(
             name = "Golden Light",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Golden/woman/Light.webp",
-            styleKey = "woman_Golden_Light"
+            styleKey = "Golden_Light",
+            isGender = true
         )
     )
 
     // ── Circle ─────────────────────────────────────────────────────────────
 
-    private fun getCircleManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Circle Red",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Red.webp",
-            styleKey = "man_Circle_Red"
-        ),
-        CartoonStyle(
-            name = "Circle Orange",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Orange.webp",
-            styleKey = "man_Circle_Orange"
-        ),
-        CartoonStyle(
-            name = "Circle Blue",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Blue.webp",
-            styleKey = "man_Circle_Blue"
-        ),
-        CartoonStyle(
-            name = "Circle Black",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Black.webp",
-            styleKey = "man_Circle_Black"
-        ),
-        CartoonStyle(
-            name = "Circle Yellow",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Yellow.webp",
-            styleKey = "man_Circle_Yellow"
-        ),
-        CartoonStyle(
-            name = "Circle Green",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Green.webp",
-            styleKey = "man_Circle_Green"
-        )
-    )
+    /*  private fun getCircleManStyles(): List<CartoonStyle> = listOf(
+          CartoonStyle(
+              name = "Circle Red",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Red.webp",
+              styleKey = "man_Circle_Red"
+          ),
+          CartoonStyle(
+              name = "Circle Orange",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Orange.webp",
+              styleKey = "man_Circle_Orange"
+          ),
+          CartoonStyle(
+              name = "Circle Blue",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Blue.webp",
+              styleKey = "man_Circle_Blue"
+          ),
+          CartoonStyle(
+              name = "Circle Black",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Black.webp",
+              styleKey = "man_Circle_Black"
+          ),
+          CartoonStyle(
+              name = "Circle Yellow",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Yellow.webp",
+              styleKey = "man_Circle_Yellow"
+          ),
+          CartoonStyle(
+              name = "Circle Green",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/man/Green.webp",
+              styleKey = "man_Circle_Green"
+          )
+      )*/
 
     private fun getCircleWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Circle Red",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/woman/Red.webp",
-            styleKey = "woman_Circle_Red"
+            styleKey = "Circle_Red",
+            isGender = true
         ),
         CartoonStyle(
             name = "Circle Orange",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/woman/Orange.webp",
-            styleKey = "woman_Circle_Orange"
+            styleKey = "Circle_Orange",
+            isGender = true
         ),
         CartoonStyle(
             name = "Circle Blue",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/woman/Blue.webp",
-            styleKey = "woman_Circle_Blue"
+            styleKey = "Circle_Blue",
+            isGender = true
         ),
         CartoonStyle(
             name = "Circle Black",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/woman/Black.webp",
-            styleKey = "woman_Circle_Black"
+            styleKey = "Circle_Black",
+            isGender = true
         ),
         CartoonStyle(
             name = "Circle Yellow",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/woman/Yellow.webp",
-            styleKey = "woman_Circle_Yellow"
+            styleKey = "Circle_Yellow",
+            isGender = true
         ),
         CartoonStyle(
             name = "Circle Green",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Circle/woman/Green.webp",
-            styleKey = "woman_Circle_Green"
+            styleKey = "Circle_Green",
+            isGender = true
         )
     )
 
     // ── Cube ───────────────────────────────────────────────────────────────
 
-    private fun getCubeManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Cube Dice",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Dice.webp",
-            styleKey = "man_Cube_Dice"
-        ),
-        CartoonStyle(
-            name = "Cube Brick",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Brick.webp",
-            styleKey = "man_Cube_Brick"
-        ),
-        CartoonStyle(
-            name = "Cube Ice",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Ice.webp",
-            styleKey = "man_Cube_Ice"
-        ),
-        CartoonStyle(
-            name = "Cube Rubik",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Rubik.webp",
-            styleKey = "man_Cube_Rubik"
-        ),
-        CartoonStyle(
-            name = "Cube Television",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Television.webp",
-            styleKey = "man_Cube_Television"
-        ),
-        CartoonStyle(
-            name = "Cube Insta",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Insta.webp",
-            styleKey = "man_Cube_Insta"
-        )
-    )
+    /* private fun getCubeManStyles(): List<CartoonStyle> = listOf(
+         CartoonStyle(
+             name = "Cube Dice",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Dice.webp",
+             styleKey = "man_Cube_Dice"
+         ),
+         CartoonStyle(
+             name = "Cube Brick",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Brick.webp",
+             styleKey = "man_Cube_Brick"
+         ),
+         CartoonStyle(
+             name = "Cube Ice",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Ice.webp",
+             styleKey = "man_Cube_Ice"
+         ),
+         CartoonStyle(
+             name = "Cube Rubik",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Rubik.webp",
+             styleKey = "man_Cube_Rubik"
+         ),
+         CartoonStyle(
+             name = "Cube Television",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Television.webp",
+             styleKey = "man_Cube_Television"
+         ),
+         CartoonStyle(
+             name = "Cube Insta",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/man/Insta.webp",
+             styleKey = "man_Cube_Insta"
+         )
+     )*/
 
     private fun getCubeWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Cube Dice",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/woman/Dice.webp",
-            styleKey = "woman_Cube_Dice"
+            styleKey = "Cube_Dice",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cube Brick",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/woman/Brick.webp",
-            styleKey = "woman_Cube_Brick"
+            styleKey = "Cube_Brick",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cube Ice",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/woman/Ice.webp",
-            styleKey = "woman_Cube_Ice"
+            styleKey = "Cube_Ice",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cube Rubik",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/woman/Rubik.webp",
-            styleKey = "woman_Cube_Rubik"
+            styleKey = "Cube_Rubik",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cube Television",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/woman/Television.webp",
-            styleKey = "woman_Cube_Television"
+            styleKey = "Cube_Television",
+            isGender = true
         ),
         CartoonStyle(
             name = "Cube Insta",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Cube/woman/Insta.webp",
-            styleKey = "woman_Cube_Insta"
+            styleKey = "Cube_Insta",
+            isGender = true
         )
     )
 
     // ── Studio ─────────────────────────────────────────────────────────────
 
-    private fun getStudioManStyles(): List<CartoonStyle> = listOf(
+    /*private fun getStudioManStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Studio Jacket",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Studio/man/Jacket.webp",
@@ -1267,660 +1434,726 @@ class MainActivity : AppCompatActivity() {
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Studio/man/Chair.webp",
             styleKey = "man_Studio_Chair"
         )
-    )
+    )*/
 
     private fun getStudioWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Studio Jacket",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Studio/woman/Jacket.webp",
-            styleKey = "woman_Studio_Jacket"
+            styleKey = "Studio_Jacket",
+            isGender = true
         ),
         CartoonStyle(
             name = "Studio Black",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Studio/woman/Black.webp",
-            styleKey = "woman_Studio_Black"
+            styleKey = "Studio_Black",
+            isGender = true
         ),
         CartoonStyle(
             name = "Studio Cuboid",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Studio/woman/Cuboid.webp",
-            styleKey = "woman_Studio_Cuboid"
+            styleKey = "Studio_Cuboid",
+            isGender = true
         ),
         CartoonStyle(
             name = "Studio White",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Studio/woman/White.webp",
-            styleKey = "woman_Studio_White"
+            styleKey = "Studio_White",
+            isGender = true
         ),
         CartoonStyle(
             name = "Studio Table",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Studio/woman/Table.webp",
-            styleKey = "woman_Studio_Table"
+            styleKey = "Studio_Table",
+            isGender = true
         ),
         CartoonStyle(
             name = "Studio Chair",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Studio/woman/Chair.webp",
-            styleKey = "woman_Studio_Chair"
+            styleKey = "Studio_Chair",
+            isGender = true
         )
     )
 
     // ── Bwstudio ───────────────────────────────────────────────────────────
 
-    private fun getBwstudioManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Bwstudio Studio",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Studio.webp",
-            styleKey = "man_Bwstudio_Studio"
-        ),
-        CartoonStyle(
-            name = "Bwstudio Fence",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Fence.webp",
-            styleKey = "man_Bwstudio_Fence"
-        ),
-        CartoonStyle(
-            name = "Bwstudio Car",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Car.webp",
-            styleKey = "man_Bwstudio_Car"
-        ),
-        CartoonStyle(
-            name = "Bwstudio Umbrella",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Umbrella.webp",
-            styleKey = "man_Bwstudio_Umbrella"
-        ),
-        CartoonStyle(
-            name = "Bwstudio Field",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Field.webp",
-            styleKey = "man_Bwstudio_Field"
-        ),
-        CartoonStyle(
-            name = "Bwstudio Wall",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Wall.webp",
-            styleKey = "man_Bwstudio_Wall"
-        )
-    )
+    /*  private fun getBwstudioManStyles(): List<CartoonStyle> = listOf(
+          CartoonStyle(
+              name = "Bwstudio Studio",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Studio.webp",
+              styleKey = "man_Bwstudio_Studio"
+          ),
+          CartoonStyle(
+              name = "Bwstudio Fence",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Fence.webp",
+              styleKey = "man_Bwstudio_Fence"
+          ),
+          CartoonStyle(
+              name = "Bwstudio Car",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Car.webp",
+              styleKey = "man_Bwstudio_Car"
+          ),
+          CartoonStyle(
+              name = "Bwstudio Umbrella",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Umbrella.webp",
+              styleKey = "man_Bwstudio_Umbrella"
+          ),
+          CartoonStyle(
+              name = "Bwstudio Field",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Field.webp",
+              styleKey = "man_Bwstudio_Field"
+          ),
+          CartoonStyle(
+              name = "Bwstudio Wall",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/man/Wall.webp",
+              styleKey = "man_Bwstudio_Wall"
+          )
+      )*/
 
     private fun getBwstudioWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Bwstudio Studio",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/woman/Studio.webp",
-            styleKey = "woman_Bwstudio_Studio"
+            styleKey = "Bwstudio_Studio",
+            isGender = true
         ),
         CartoonStyle(
             name = "Bwstudio Fence",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/woman/Fence.webp",
-            styleKey = "woman_Bwstudio_Fence"
+            styleKey = "Bwstudio_Fence",
+            isGender = true
         ),
         CartoonStyle(
             name = "Bwstudio Car",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/woman/Car.webp",
-            styleKey = "woman_Bwstudio_Car"
+            styleKey = "Bwstudio_Car",
+            isGender = true
         ),
         CartoonStyle(
             name = "Bwstudio Umbrella",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/woman/Umbrella.webp",
-            styleKey = "woman_Bwstudio_Umbrella"
+            styleKey = "Bwstudio_Umbrella",
+            isGender = true
         ),
         CartoonStyle(
             name = "Bwstudio Field",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/woman/Field.webp",
-            styleKey = "woman_Bwstudio_Field"
+            styleKey = "Bwstudio_Field",
+            isGender = true
         ),
         CartoonStyle(
             name = "Bwstudio Wall",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Bwstudio/woman/Wall.webp",
-            styleKey = "woman_Bwstudio_Wall"
+            styleKey = "Bwstudio_Wall",
+            isGender = true
         )
     )
 
     // ── Monochromatic ──────────────────────────────────────────────────────
 
-    private fun getMonochromaticManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Monochromatic Orange",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/Orange.webp",
-            styleKey = "man_Monochromatic_Orange"
-        ),
-        CartoonStyle(
-            name = "Monochromatic Gold",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/Gold.webp",
-            styleKey = "man_Monochromatic_Gold"
-        ),
-        CartoonStyle(
-            name = "Monochromatic Purple",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/Purple.webp",
-            styleKey = "man_Monochromatic_Purple"
-        ),
-        CartoonStyle(
-            name = "Monochromatic Red",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/Red.webp",
-            styleKey = "man_Monochromatic_Red"
-        ),
-        CartoonStyle(
-            name = "Monochromatic Blue",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/Blue.webp",
-            styleKey = "man_Monochromatic_Blue"
-        ),
-        CartoonStyle(
-            name = "Monochromatic White",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/White.webp",
-            styleKey = "man_Monochromatic_White"
-        )
-    )
+    /* private fun getMonochromaticManStyles(): List<CartoonStyle> = listOf(
+         CartoonStyle(
+             name = "Monochromatic Orange",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/Orange.webp",
+             styleKey = "man_Monochromatic_Orange"
+         ),
+         CartoonStyle(
+             name = "Monochromatic Gold",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/Gold.webp",
+             styleKey = "man_Monochromatic_Gold"
+         ),
+         CartoonStyle(
+             name = "Monochromatic Purple",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/Purple.webp",
+             styleKey = "man_Monochromatic_Purple"
+         ),
+         CartoonStyle(
+             name = "Monochromatic Red",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/Red.webp",
+             styleKey = "man_Monochromatic_Red"
+         ),
+         CartoonStyle(
+             name = "Monochromatic Blue",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/Blue.webp",
+             styleKey = "man_Monochromatic_Blue"
+         ),
+         CartoonStyle(
+             name = "Monochromatic White",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/man/White.webp",
+             styleKey = "man_Monochromatic_White"
+         )
+     )*/
 
     private fun getMonochromaticWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Monochromatic Orange",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/woman/Orange.webp",
-            styleKey = "woman_Monochromatic_Orange"
+            styleKey = "Monochromatic_Orange",
+            isGender = true
         ),
         CartoonStyle(
             name = "Monochromatic Gold",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/woman/Gold.webp",
-            styleKey = "woman_Monochromatic_Gold"
+            styleKey = "Monochromatic_Gold",
+            isGender = true
         ),
         CartoonStyle(
             name = "Monochromatic Purple",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/woman/Purple.webp",
-            styleKey = "woman_Monochromatic_Purple"
+            styleKey = "Monochromatic_Purple",
+            isGender = true
         ),
         CartoonStyle(
             name = "Monochromatic Red",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/woman/Red.webp",
-            styleKey = "woman_Monochromatic_Red"
+            styleKey = "Monochromatic_Red",
+            isGender = true
         ),
         CartoonStyle(
             name = "Monochromatic Blue",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/woman/Blue.webp",
-            styleKey = "woman_Monochromatic_Blue"
+            styleKey = "Monochromatic_Blue",
+            isGender = true
         ),
         CartoonStyle(
             name = "Monochromatic White",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Monochromatic/woman/White.webp",
-            styleKey = "woman_Monochromatic_White"
+            styleKey = "Monochromatic_White",
+            isGender = true
         )
     )
 
     // ── LinkedIn ───────────────────────────────────────────────────────────
 
-    private fun getLinkedInManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "LinkedIn Pistachio",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/Pistachio.webp",
-            styleKey = "man_LinkedIn_Pistachio"
-        ),
-        CartoonStyle(
-            name = "LinkedIn Black",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/Black.webp",
-            styleKey = "man_LinkedIn_Black"
-        ),
-        CartoonStyle(
-            name = "LinkedIn White",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/White.webp",
-            styleKey = "man_LinkedIn_White"
-        ),
-        CartoonStyle(
-            name = "LinkedIn Navy",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/Navy.webp",
-            styleKey = "man_LinkedIn_Navy"
-        ),
-        CartoonStyle(
-            name = "LinkedIn Beige",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/Beige.webp",
-            styleKey = "man_LinkedIn_Beige"
-        ),
-        CartoonStyle(
-            name = "LinkedIn Grey",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/Grey.webp",
-            styleKey = "man_LinkedIn_Grey"
-        )
-    )
+    /*   private fun getLinkedInManStyles(): List<CartoonStyle> = listOf(
+           CartoonStyle(
+               name = "LinkedIn Pistachio",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/Pistachio.webp",
+               styleKey = "man_LinkedIn_Pistachio"
+           ),
+           CartoonStyle(
+               name = "LinkedIn Black",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/Black.webp",
+               styleKey = "man_LinkedIn_Black"
+           ),
+           CartoonStyle(
+               name = "LinkedIn White",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/White.webp",
+               styleKey = "man_LinkedIn_White"
+           ),
+           CartoonStyle(
+               name = "LinkedIn Navy",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/Navy.webp",
+               styleKey = "man_LinkedIn_Navy"
+           ),
+           CartoonStyle(
+               name = "LinkedIn Beige",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/Beige.webp",
+               styleKey = "man_LinkedIn_Beige"
+           ),
+           CartoonStyle(
+               name = "LinkedIn Grey",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/man/Grey.webp",
+               styleKey = "man_LinkedIn_Grey"
+           )
+       )*/
 
     private fun getLinkedInWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "LinkedIn Pistachio",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/woman/Pistachio.webp",
-            styleKey = "woman_LinkedIn_Pistachio"
+            styleKey = "LinkedIn_Pistachio",
+            isGender = true
         ),
         CartoonStyle(
             name = "LinkedIn Black",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/woman/Black.webp",
-            styleKey = "woman_LinkedIn_Black"
+            styleKey = "LinkedIn_Black",
+            isGender = true
         ),
         CartoonStyle(
             name = "LinkedIn White",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/woman/White.webp",
-            styleKey = "woman_LinkedIn_White"
+            styleKey = "LinkedIn_White",
+            isGender = true
         ),
         CartoonStyle(
             name = "LinkedIn Navy",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/woman/Navy.webp",
-            styleKey = "woman_LinkedIn_Navy"
+            styleKey = "LinkedIn_Navy",
+            isGender = true
         ),
         CartoonStyle(
             name = "LinkedIn Beige",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/woman/Beige.webp",
-            styleKey = "woman_LinkedIn_Beige"
+            styleKey = "LinkedIn_Beige",
+            isGender = true
         ),
         CartoonStyle(
             name = "LinkedIn Grey",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/LinkedIn/woman/Grey.webp",
-            styleKey = "woman_LinkedIn_Grey"
+            styleKey = "LinkedIn_Grey",
+            isGender = true
         )
     )
 
     // ── Suit ───────────────────────────────────────────────────────────────
 
-    private fun getSuitManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Suit Pistachio",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Pistachio.webp",
-            styleKey = "man_Suit_Pistachio"
-        ),
-        CartoonStyle(
-            name = "Suit Black",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Black.webp",
-            styleKey = "man_Suit_Black"
-        ),
-        CartoonStyle(
-            name = "Suit Beige",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Beige.webp",
-            styleKey = "man_Suit_Beige"
-        ),
-        CartoonStyle(
-            name = "Suit Navy",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Navy.webp",
-            styleKey = "man_Suit_Navy"
-        ),
-        CartoonStyle(
-            name = "Suit Grey",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Grey.webp",
-            styleKey = "man_Suit_Grey"
-        ),
-        CartoonStyle(
-            name = "Suit Brown",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Brown.webp",
-            styleKey = "man_Suit_Brown"
-        )
-    )
+    /* private fun getSuitManStyles(): List<CartoonStyle> = listOf(
+         CartoonStyle(
+             name = "Suit Pistachio",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Pistachio.webp",
+             styleKey = "man_Suit_Pistachio"
+         ),
+         CartoonStyle(
+             name = "Suit Black",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Black.webp",
+             styleKey = "man_Suit_Black"
+         ),
+         CartoonStyle(
+             name = "Suit Beige",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Beige.webp",
+             styleKey = "man_Suit_Beige"
+         ),
+         CartoonStyle(
+             name = "Suit Navy",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Navy.webp",
+             styleKey = "man_Suit_Navy"
+         ),
+         CartoonStyle(
+             name = "Suit Grey",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Grey.webp",
+             styleKey = "man_Suit_Grey"
+         ),
+         CartoonStyle(
+             name = "Suit Brown",
+             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/man/Brown.webp",
+             styleKey = "man_Suit_Brown"
+         )
+     )*/
 
     private fun getSuitWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Suit Pistachio",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/woman/Pistachio.webp",
-            styleKey = "woman_Suit_Pistachio"
+            styleKey = "Suit_Pistachio",
+            isGender = true
         ),
         CartoonStyle(
             name = "Suit Black",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/woman/Black.webp",
-            styleKey = "woman_Suit_Black"
+            styleKey = "Suit_Black",
+            isGender = true
         ),
         CartoonStyle(
             name = "Suit Beige",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/woman/Beige.webp",
-            styleKey = "woman_Suit_Beige"
+            styleKey = "Suit_Beige",
+            isGender = true
         ),
         CartoonStyle(
             name = "Suit Navy",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/woman/Navy.webp",
-            styleKey = "woman_Suit_Navy"
+            styleKey = "Suit_Navy",
+            isGender = true
         ),
         CartoonStyle(
             name = "Suit Grey",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/woman/Grey.webp",
-            styleKey = "woman_Suit_Grey"
+            styleKey = "Suit_Grey",
+            isGender = true
         ),
         CartoonStyle(
             name = "Suit Brown",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Suit/woman/Brown.webp",
-            styleKey = "woman_Suit_Brown"
+            styleKey = "Suit_Brown",
+            isGender = true
         )
     )
 
     // ── Christmas ──────────────────────────────────────────────────────────
 
-    private fun getChristmasManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Christmas Red",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/Red.webp",
-            styleKey = "man_Christmas_Red"
-        ),
-        CartoonStyle(
-            name = "Christmas White",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/White.webp",
-            styleKey = "man_Christmas_White"
-        ),
-        CartoonStyle(
-            name = "Christmas Green",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/Green.webp",
-            styleKey = "man_Christmas_Green"
-        ),
-        CartoonStyle(
-            name = "Christmas Gold",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/Gold.webp",
-            styleKey = "man_Christmas_Gold"
-        ),
-        CartoonStyle(
-            name = "Christmas Burgundy",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/Burgundy.webp",
-            styleKey = "man_Christmas_Burgundy"
-        ),
-        CartoonStyle(
-            name = "Christmas Silver",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/Silver.webp",
-            styleKey = "man_Christmas_Silver"
-        )
-    )
+    /*  private fun getChristmasManStyles(): List<CartoonStyle> = listOf(
+          CartoonStyle(
+              name = "Christmas Red",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/Red.webp",
+              styleKey = "man_Christmas_Red"
+          ),
+          CartoonStyle(
+              name = "Christmas White",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/White.webp",
+              styleKey = "man_Christmas_White"
+          ),
+          CartoonStyle(
+              name = "Christmas Green",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/Green.webp",
+              styleKey = "man_Christmas_Green"
+          ),
+          CartoonStyle(
+              name = "Christmas Gold",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/Gold.webp",
+              styleKey = "man_Christmas_Gold"
+          ),
+          CartoonStyle(
+              name = "Christmas Burgundy",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/Burgundy.webp",
+              styleKey = "man_Christmas_Burgundy"
+          ),
+          CartoonStyle(
+              name = "Christmas Silver",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/man/Silver.webp",
+              styleKey = "man_Christmas_Silver"
+          )
+      )*/
 
     private fun getChristmasWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Christmas Red",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/woman/Red.webp",
-            styleKey = "woman_Christmas_Red"
+            styleKey = "Christmas_Red",
+            isGender = true
         ),
         CartoonStyle(
             name = "Christmas White",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/woman/White.webp",
-            styleKey = "woman_Christmas_White"
+            styleKey = "Christmas_White",
+            isGender = true
         ),
         CartoonStyle(
             name = "Christmas Green",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/woman/Green.webp",
-            styleKey = "woman_Christmas_Green"
+            styleKey = "Christmas_Green",
+            isGender = true
         ),
         CartoonStyle(
             name = "Christmas Gold",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/woman/Gold.webp",
-            styleKey = "woman_Christmas_Gold"
+            styleKey = "Christmas_Gold",
+            isGender = true
         ),
         CartoonStyle(
             name = "Christmas Burgundy",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/woman/Burgundy.webp",
-            styleKey = "woman_Christmas_Burgundy"
+            styleKey = "Christmas_Burgundy",
+            isGender = true
         ),
         CartoonStyle(
             name = "Christmas Silver",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Christmas/woman/Silver.webp",
-            styleKey = "woman_Christmas_Silver"
+            styleKey = "Christmas_Silver",
+            isGender = true
         )
     )
 
     // ── BabyChristmas ──────────────────────────────────────────────────────
 
-    private fun getBabyChristmasManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "BabyChristmas Cozy",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Cozy.webp",
-            styleKey = "man_BabyChristmas_Cozy"
-        ),
-        CartoonStyle(
-            name = "BabyChristmas Winter",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Winter.webp",
-            styleKey = "man_BabyChristmas_Winter"
-        ),
-        CartoonStyle(
-            name = "BabyChristmas Tiny",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Tiny.webp",
-            styleKey = "man_BabyChristmas_Tiny"
-        ),
-        CartoonStyle(
-            name = "BabyChristmas Sweet",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Sweet.webp",
-            styleKey = "man_BabyChristmas_Sweet"
-        ),
-        CartoonStyle(
-            name = "BabyChristmas Dream",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Dream.webp",
-            styleKey = "man_BabyChristmas_Dream"
-        ),
-        CartoonStyle(
-            name = "BabyChristmas Soft",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Soft.webp",
-            styleKey = "man_BabyChristmas_Soft"
-        )
-    )
+    /*  private fun getBabyChristmasManStyles(): List<CartoonStyle> = listOf(
+          CartoonStyle(
+              name = "BabyChristmas Cozy",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Cozy.webp",
+              styleKey = "man_BabyChristmas_Cozy"
+          ),
+          CartoonStyle(
+              name = "BabyChristmas Winter",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Winter.webp",
+              styleKey = "man_BabyChristmas_Winter"
+          ),
+          CartoonStyle(
+              name = "BabyChristmas Tiny",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Tiny.webp",
+              styleKey = "man_BabyChristmas_Tiny"
+          ),
+          CartoonStyle(
+              name = "BabyChristmas Sweet",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Sweet.webp",
+              styleKey = "man_BabyChristmas_Sweet"
+          ),
+          CartoonStyle(
+              name = "BabyChristmas Dream",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Dream.webp",
+              styleKey = "man_BabyChristmas_Dream"
+          ),
+          CartoonStyle(
+              name = "BabyChristmas Soft",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/man/Soft.webp",
+              styleKey = "man_BabyChristmas_Soft"
+          )
+      )*/
 
     private fun getBabyChristmasWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "BabyChristmas Cozy",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/woman/Cozy.webp",
-            styleKey = "woman_BabyChristmas_Cozy"
+            styleKey = "BabyChristmas_Cozy",
+            isGender = true
         ),
         CartoonStyle(
             name = "BabyChristmas Winter",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/woman/Winter.webp",
-            styleKey = "woman_BabyChristmas_Winter"
+            styleKey = "BabyChristmas_Winter",
+            isGender = true
         ),
         CartoonStyle(
             name = "BabyChristmas Tiny",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/woman/Tiny.webp",
-            styleKey = "woman_BabyChristmas_Tiny"
+            styleKey = "BabyChristmas_Tiny",
+            isGender = true
         ),
         CartoonStyle(
             name = "BabyChristmas Sweet",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/woman/Sweet.webp",
-            styleKey = "woman_BabyChristmas_Sweet"
+            styleKey = "BabyChristmas_Sweet",
+            isGender = true
         ),
         CartoonStyle(
             name = "BabyChristmas Dream",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/woman/Dream.webp",
-            styleKey = "woman_BabyChristmas_Dream"
+            styleKey = "BabyChristmas_Dream",
+            isGender = true
         ),
         CartoonStyle(
             name = "BabyChristmas Soft",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/BabyChristmas/woman/Soft.webp",
-            styleKey = "woman_BabyChristmas_Soft"
+            styleKey = "BabyChristmas_Soft",
+            isGender = true
         )
     )
+
 
     // ── Lunar ──────────────────────────────────────────────────────────────
 
-    private fun getLunarManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Lunar Lion",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Lion.webp",
-            styleKey = "man_Lunar_Lion"
-        ),
-        CartoonStyle(
-            name = "Lunar Greeting",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Greeting.webp",
-            styleKey = "man_Lunar_Greeting"
-        ),
-        CartoonStyle(
-            name = "Lunar Envelopes",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Envelopes.webp",
-            styleKey = "man_Lunar_Envelopes"
-        ),
-        CartoonStyle(
-            name = "Lunar Heritage",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Heritage.webp",
-            styleKey = "man_Lunar_Heritage"
-        ),
-        CartoonStyle(
-            name = "Lunar Porcelain",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Porcelain.webp",
-            styleKey = "man_Lunar_Porcelain"
-        ),
-        CartoonStyle(
-            name = "Lunar Fortune",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Fortune.webp",
-            styleKey = "man_Lunar_Fortune"
-        )
-    )
+    /*  private fun getLunarManStyles(): List<CartoonStyle> = listOf(
+          CartoonStyle(
+              name = "Lunar Lion",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Lion.webp",
+              styleKey = "man_Lunar_Lion"
+          ),
+          CartoonStyle(
+              name = "Lunar Greeting",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Greeting.webp",
+              styleKey = "man_Lunar_Greeting"
+          ),
+          CartoonStyle(
+              name = "Lunar Envelopes",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Envelopes.webp",
+              styleKey = "man_Lunar_Envelopes"
+          ),
+          CartoonStyle(
+              name = "Lunar Heritage",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Heritage.webp",
+              styleKey = "man_Lunar_Heritage"
+          ),
+          CartoonStyle(
+              name = "Lunar Porcelain",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Porcelain.webp",
+              styleKey = "man_Lunar_Porcelain"
+          ),
+          CartoonStyle(
+              name = "Lunar Fortune",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/man/Fortune.webp",
+              styleKey = "man_Lunar_Fortune"
+          )
+      )*/
+
 
     private fun getLunarWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Lunar Lion",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/woman/Lion.webp",
-            styleKey = "woman_Lunar_Lion"
+            styleKey = "Lunar_Lion",
+            isGender = true
         ),
         CartoonStyle(
             name = "Lunar Greeting",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/woman/Greeting.webp",
-            styleKey = "woman_Lunar_Greeting"
+            styleKey = "Lunar_Greeting",
+            isGender = true
         ),
         CartoonStyle(
             name = "Lunar Envelopes",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/woman/Envelopes.webp",
-            styleKey = "woman_Lunar_Envelopes"
+            styleKey = "Lunar_Envelopes",
+            isGender = true
         ),
         CartoonStyle(
             name = "Lunar Heritage",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/woman/Heritage.webp",
-            styleKey = "woman_Lunar_Heritage"
+            styleKey = "Lunar_Heritage",
+            isGender = true
         ),
         CartoonStyle(
             name = "Lunar Porcelain",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/woman/Porcelain.webp",
-            styleKey = "woman_Lunar_Porcelain"
+            styleKey = "Lunar_Porcelain",
+            isGender = true
         ),
         CartoonStyle(
             name = "Lunar Fortune",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/Lunar/woman/Fortune.webp",
-            styleKey = "woman_Lunar_Fortune"
+            styleKey = "Lunar_Fortune",
+            isGender = true
         )
     )
+
 
     // ── VNLuna ─────────────────────────────────────────────────────────────
 
-    private fun getVNLunaManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "VNLuna Banhchung",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Banhchung.webp",
-            styleKey = "man_VNLuna_Banhchung"
-        ),
-        CartoonStyle(
-            name = "VNLuna Mai",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Mai.webp",
-            styleKey = "man_VNLuna_Mai"
-        ),
-        CartoonStyle(
-            name = "VNLuna Dao",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Dao.webp",
-            styleKey = "man_VNLuna_Dao"
-        ),
-        CartoonStyle(
-            name = "VNLuna Candy",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Candy.webp",
-            styleKey = "man_VNLuna_Candy"
-        ),
-        CartoonStyle(
-            name = "VNLuna Lucky",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Lucky.webp",
-            styleKey = "man_VNLuna_Lucky"
-        ),
-        CartoonStyle(
-            name = "VNLuna Horse",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Horse.webp",
-            styleKey = "man_VNLuna_Horse"
-        )
-    )
+    /*  private fun getVNLunaManStyles(): List<CartoonStyle> = listOf(
+          CartoonStyle(
+              name = "VNLuna Banhchung",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Banhchung.webp",
+              styleKey = "man_VNLuna_Banhchung"
+          ),
+          CartoonStyle(
+              name = "VNLuna Mai",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Mai.webp",
+              styleKey = "man_VNLuna_Mai"
+          ),
+          CartoonStyle(
+              name = "VNLuna Dao",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Dao.webp",
+              styleKey = "man_VNLuna_Dao"
+          ),
+          CartoonStyle(
+              name = "VNLuna Candy",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Candy.webp",
+              styleKey = "man_VNLuna_Candy"
+          ),
+          CartoonStyle(
+              name = "VNLuna Lucky",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Lucky.webp",
+              styleKey = "man_VNLuna_Lucky"
+          ),
+          CartoonStyle(
+              name = "VNLuna Horse",
+              iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/man/Horse.webp",
+              styleKey = "man_VNLuna_Horse"
+          )
+      )*/
 
     private fun getVNLunaWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "VNLuna Banhchung",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/woman/Banhchung.webp",
-            styleKey = "woman_VNLuna_Banhchung"
+            styleKey = "VNLuna_Banhchung",
+            isGender = true
         ),
         CartoonStyle(
             name = "VNLuna Mai",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/woman/Mai.webp",
-            styleKey = "woman_VNLuna_Mai"
+            styleKey = "VNLuna_Mai",
+            isGender = true
         ),
         CartoonStyle(
             name = "VNLuna Dao",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/woman/Dao.webp",
-            styleKey = "woman_VNLuna_Dao"
+            styleKey = "VNLuna_Dao",
+            isGender = true
         ),
         CartoonStyle(
             name = "VNLuna Candy",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/woman/Candy.webp",
-            styleKey = "woman_VNLuna_Candy"
+            styleKey = "VNLuna_Candy",
+            isGender = true
         ),
         CartoonStyle(
             name = "VNLuna Lucky",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/woman/Lucky.webp",
-            styleKey = "woman_VNLuna_Lucky"
+            styleKey = "VNLuna_Lucky",
+            isGender = true
         ),
         CartoonStyle(
             name = "VNLuna Horse",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/headshotstyles/VNLuna/woman/Horse.webp",
-            styleKey = "woman_VNLuna_Horse"
+            styleKey = "VNLuna_Horse",
+            isGender = true
         )
     )
+
 
     // ── Aging ──────────────────────────────────────────────────────────────
 
-    private fun getAgingManStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Aging 20",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "man_aging20"
-        ),
-        CartoonStyle(
-            name = "Aging 30",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "man_aging30"
-        ),
-        CartoonStyle(
-            name = "Aging 40",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "man_aging40"
-        ),
-        CartoonStyle(
-            name = "Aging 50",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "man_aging50"
-        ),
-        CartoonStyle(
-            name = "Aging 60",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "man_aging60"
-        ),
-        CartoonStyle(
-            name = "Aging 70",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "man_aging70"
-        ),
-        CartoonStyle(
-            name = "Aging 80",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "man_aging80"
-        )
-    )
+    /* private fun getAgingManStyles(): List<CartoonStyle> = listOf(
+         CartoonStyle(
+             name = "Aging 20",
+             iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_man_aging20_1779641724595.jpg",
+             styleKey = "man_aging20"
+         ),
+         CartoonStyle(
+             name = "Aging 30",
+             iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_man_aging30_1779641050451.jpg",
+             styleKey = "man_aging30"
+         ),
+         CartoonStyle(
+             name = "Aging 40",
+             iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_man_aging40_1779641846047.jpg",
+             styleKey = "man_aging40"
+         ),
+         CartoonStyle(
+             name = "Aging 50",
+             iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_man_aging50_1779641966107.jpg",
+             styleKey = "man_aging50"
+         ),
+         CartoonStyle(
+             name = "Aging 60",
+             iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_man_aging60_1779642117904.jpg",
+             styleKey = "man_aging60"
+         ),
+         CartoonStyle(
+             name = "Aging 70",
+             iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_man_aging70_1779642205634.jpg",
+             styleKey = "man_aging70"
+         ),
+         CartoonStyle(
+             name = "Aging 80",
+             iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_man_aging80_1779642337986.jpg",
+             styleKey = "man_aging80"
+         )
+     )*/
+
 
     private fun getAgingWomanStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Aging 20",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "woman_aging20"
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_woman_aging20_1779641267139.jpg",
+            styleKey = "aging20",
+            isGender = true
         ),
         CartoonStyle(
             name = "Aging 30",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "woman_aging30"
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_woman_aging30_1779641067037.jpg",
+            styleKey = "aging30",
+            isGender = true
         ),
         CartoonStyle(
             name = "Aging 40",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "woman_aging40"
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_woman_aging40_1779641763429.jpg",
+            styleKey = "aging40",
+            isGender = true
         ),
         CartoonStyle(
             name = "Aging 50",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "woman_aging50"
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_woman_aging50_1779642602648.jpg",
+            styleKey = "aging50",
+            isGender = true
         ),
         CartoonStyle(
             name = "Aging 60",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "woman_aging60"
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_woman_aging50_1779642195578.jpg",
+            styleKey = "aging60",
+            isGender = true
         ),
         CartoonStyle(
             name = "Aging 70",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "woman_aging70"
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_woman_aging70_1779642276014.jpg",
+            styleKey = "aging70",
+            isGender = true
         ),
         CartoonStyle(
             name = "Aging 80",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "woman_aging80"
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_woman_aging80_1779642386051.jpg",
+            styleKey = "aging80",
+            isGender = true
         )
     )
     // ── Haircut Styles ─────────────────────────────────────────────────────
@@ -1928,7 +2161,7 @@ class MainActivity : AppCompatActivity() {
     private fun getHaircutStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Bod",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_haircut_bod_1779639501728.jpg",
             styleKey = "haircut_bod"
         ),
         CartoonStyle(
@@ -1949,7 +2182,7 @@ class MainActivity : AppCompatActivity() {
         CartoonStyle(
             name = "Panytail",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "haircut_panytail"
+            styleKey = "haircut_ponytail"
         ),
         CartoonStyle(
             name = "Short Box",
@@ -1988,17 +2221,17 @@ class MainActivity : AppCompatActivity() {
     private fun getFigurineStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Figurine 02",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_figurine02_1779634146222.jpg",
             styleKey = "figurine02"
         ),
         CartoonStyle(
             name = "Ghibli",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_ghibli_runninghub_1946470668230619137_1779591514733.jpg",
             styleKey = "ghibli_runninghub_1946470668230619137"
         ),
         CartoonStyle(
             name = "3D Blind Box",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_3dblindbox_1779634183561.jpg",
             styleKey = "3dblindbox"
         ),
         CartoonStyle(
@@ -2008,17 +2241,17 @@ class MainActivity : AppCompatActivity() {
         ),
         CartoonStyle(
             name = "PVC Figure",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_pvc_figure_1779634799746.jpg",
             styleKey = "pvc_figure"
         ),
         CartoonStyle(
             name = "GTA 5",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_gta5_1779627039461.jpg",
             styleKey = "gta5"
         ),
         CartoonStyle(
             name = "Retro Old Movies",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_retro_style_old_movies_1779639200221.jpg",
             styleKey = "retro_style_old_movies"
         ),
         CartoonStyle(
@@ -2028,12 +2261,12 @@ class MainActivity : AppCompatActivity() {
         ),
         CartoonStyle(
             name = "Comic Lineart",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_comic_lineart_1779633216134.jpg",
             styleKey = "comic_lineart"
         ),
         CartoonStyle(
             name = "Pixel 2",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_pixel2_1779637036213.jpg",
             styleKey = "pixel2"
         ),
         CartoonStyle(
@@ -2043,42 +2276,42 @@ class MainActivity : AppCompatActivity() {
         ),
         CartoonStyle(
             name = "Animesh Flower",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_animeshflower_1779637414545.jpg",
             styleKey = "animeshflower"
         ),
         CartoonStyle(
             name = "Simpsons",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_simpsons_1779638756793.jpg",
             styleKey = "simpsons"
         ),
         CartoonStyle(
             name = "Chibi Sunflower",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_chibisunflower_1779634945383.jpg",
             styleKey = "chibisunflower"
         ),
         CartoonStyle(
             name = "Animesh Flat",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_animesh_flat_1779637721293.jpg",
             styleKey = "animesh_flat"
         ),
         CartoonStyle(
             name = "GTA 5 Artwork",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_gta5_artwork_1779627663537.jpg",
             styleKey = "gta5_artwork"
         ),
         CartoonStyle(
             name = "Toonify",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_toonify_1779637854004.jpg",
             styleKey = "toonify"
         )
     )
 
     private fun getAIPhotoCartoonStyles(): List<CartoonStyle> = listOf(
-        CartoonStyle(
-            name = "Ghibli",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "ghibli_runninghub_1946470668230619137"
-        ),
+        /*  CartoonStyle(
+              name = "Ghibli",
+              iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_ghibli_runninghub_1946470668230619137_1779591514733.jpg",
+              styleKey = "ghibli_runninghub_1946470668230619137"
+          ),*/
         CartoonStyle(
             name = "Anime Style",
             iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
@@ -2086,53 +2319,58 @@ class MainActivity : AppCompatActivity() {
         ),
         CartoonStyle(
             name = "Retro Style",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_retro_style_old_movies_1779636813985.jpg",
             styleKey = "retro_style_old_movies"
         ),
         CartoonStyle(
             name = "Toonify 2",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_toonify2_1779636947515.jpg",
             styleKey = "toonify2"
         ),
         CartoonStyle(
             name = "Pixel 2",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_pixel2_1779637036213.jpg",
             styleKey = "pixel2"
         ),
         CartoonStyle(
             name = "Pixel 1",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_pixel_1779637219147.jpg",
             styleKey = "pixel"
         ),
         CartoonStyle(
             name = "Animesh Flower",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_animeshflower_1779637414545.jpg",
             styleKey = "animeshflower"
         ),
         CartoonStyle(
             name = "Anime Flat",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_animesh_flat_1779637721293.jpg",
             styleKey = "animesh_flat"
         ),
         CartoonStyle(
             name = "Toonify",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_toonify_1779637854004.jpg",
             styleKey = "toonify"
         ),
         CartoonStyle(
             name = "Mistoon Anime",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_mistoon_anime_1779638024531.jpg",
             styleKey = "mistoon_anime"
         ),
         CartoonStyle(
             name = "Pastel",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_pastel_1779638067945.jpg",
             styleKey = "pastel"
         ),
         CartoonStyle(
             name = "Manmaru Mix",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_manmarumix_1779638128168.jpg",
             styleKey = "manmarumix"
+        ),
+        CartoonStyle(
+            name = "Simpsons",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_simpsons_1779638756793.jpg",
+            styleKey = "simpsons"
         )
     )
 
@@ -2140,47 +2378,47 @@ class MainActivity : AppCompatActivity() {
     private fun get3DCartoonStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Figurine 3D",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_figurine02_1779634146222.jpg",
             styleKey = "figurine02"
         ),
         CartoonStyle(
             name = "3D Blind Box",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_3dblindbox_1779634183561.jpg",
             styleKey = "3dblindbox"
         ),
         CartoonStyle(
             name = "Chibi Cute",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_chibi_cute_1779634580845.jpg",
             styleKey = "chibi_cute"
         ),
         CartoonStyle(
             name = "3D Cartoon",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_cartoon3d2_1779638965798.jpg",
             styleKey = "cartoon3d2"
         ),
         CartoonStyle(
             name = "PVC Figure",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_pvc_figure_1779634799746.jpg",
             styleKey = "pvc_figure"
         ),
         CartoonStyle(
             name = "Chibi Sunflower",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_chibisunflower_1779634945383.jpg",
             styleKey = "chibisunflower"
         ),
         CartoonStyle(
             name = "Spring Corner",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_springcorner_1779635071797.jpg",
             styleKey = "springcorner"
         ),
         CartoonStyle(
             name = "Toonify Chibi",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_toonifychibi_1779635195352.jpg",
             styleKey = "toonifychibi"
         ),
         CartoonStyle(
             name = "Chibi Space",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_chibispace_1779635241045.jpg",
             styleKey = "chibispace"
         )
     )
@@ -2188,37 +2426,37 @@ class MainActivity : AppCompatActivity() {
     private fun getComicStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Dragon Ball",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://iili.io/C2pjDiB.md.png",
             styleKey = "dragon_ball"
         ),
         CartoonStyle(
             name = "Comic Lineart",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://iili.io/C2pNaQR.md.jpg",
             styleKey = "comic_lineart"
         ),
         CartoonStyle(
             name = "Comic Cartoonish",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://iili.io/C2pSU8B.md.jpg",
             styleKey = "comic_cartoonish"
         ),
         CartoonStyle(
             name = "Comic Sketch",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://iili.io/C2pUXlR.jpg",
             styleKey = "comic_sketch"
         ),
         CartoonStyle(
             name = "Comic Flat",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://iili.io/C2pbkYX.jpg",
             styleKey = "comic_flat"
         ),
         CartoonStyle(
             name = "Comic Sepia",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://iili.io/C2pDgqB.jpg",
             styleKey = "comic_sepia"
         ),
         CartoonStyle(
             name = "Comic 2",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_comic2_1779633782125.jpg",
             styleKey = "comic2"
         )
     )
@@ -2226,67 +2464,67 @@ class MainActivity : AppCompatActivity() {
     private fun getToonmixStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "GTA V",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_gta5_1779627039461.jpg",
             styleKey = "gta5"
         ),
-        CartoonStyle(
-            name = "Game Style",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
-            styleKey = "ylt_game_character_design"
-        ),
+        /*   CartoonStyle(
+               name = "Game Style",
+               iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+               styleKey = "ylt_game_character_design"
+           ),*/
         CartoonStyle(
             name = "Cute Painting",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_cutepainting_1779627464194.jpg",
             styleKey = "cutepainting"
         ),
         CartoonStyle(
             name = "Clay World",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_3d_cartoon_clay_1779627588235.jpg",
             styleKey = "3d_cartoon_clay"
         ),
         CartoonStyle(
             name = "GTA 5 Artwork",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_gta5_artwork_1779627663537.jpg",
             styleKey = "gta5_artwork"
         ),
         CartoonStyle(
             name = "Animesh",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_animesh_1779627947985.jpg",
             styleKey = "animesh"
         ),
         CartoonStyle(
             name = "Wool Felt",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_woolfelt_1779628274251.jpg",
             styleKey = "woolfelt"
         ),
         CartoonStyle(
             name = "Elf",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_elf_1779628377175.jpg",
             styleKey = "elf"
         ),
         CartoonStyle(
             name = "Toon Mix",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_toonmix_1779628487106.jpg",
             styleKey = "toonmix"
         ),
         CartoonStyle(
             name = "Snow White",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_snow_white_1779628585494.jpg",
             styleKey = "snow_white"
         ),
         CartoonStyle(
             name = "Majic Mix Lux",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_majicmixlux_1779628739361.jpg",
             styleKey = "majicmixlux"
         ),
         CartoonStyle(
             name = "Toon You",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_toonyou_1779628849767.jpg",
             styleKey = "toonyou"
         ),
         CartoonStyle(
             name = "Cartoon Vision",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_cartoonvision_1779628970979.jpg",
             styleKey = "cartoonvision"
         ),
         CartoonStyle(
@@ -2299,42 +2537,42 @@ class MainActivity : AppCompatActivity() {
     private fun getIllustrationStyles(): List<CartoonStyle> = listOf(
         CartoonStyle(
             name = "Pop Art",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_pop_art_1779735227242.jpg",
             styleKey = "pop_art"
         ),
         CartoonStyle(
             name = "Flat Children Illustrations",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_flat_children_illustrations_1779619019582.jpg",
             styleKey = "flat_children_illustrations"
         ),
         CartoonStyle(
             name = "Dreamy Watercolor",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_dreamy_watercolor_1779735373884.jpg",
             styleKey = "dreamy_watercolor"
         ),
         CartoonStyle(
             name = "Brush Strokes",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_brush_strokes_1779619914657.jpg",
             styleKey = "brush_strokes"
         ),
         CartoonStyle(
             name = "Flat Illustration Style",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_flat_illustration_style_1779734778205.jpg",
             styleKey = "flat_illustration_style"
         ),
         CartoonStyle(
             name = "Water Anime",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_wateranime_1779620134486.jpg",
             styleKey = "wateranime"
         ),
         CartoonStyle(
             name = "Illustration",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_illustration_1779620521928.jpg",
             styleKey = "illustration"
         ),
         CartoonStyle(
             name = "Monet Oil Painting",
-            iconUrl = "https://res.zeezoo.mobi/aiphoto/hairstyles/black.webp",
+            iconUrl = "https://api.photoshoot.zeezoo.mobi/aiphoto_cartoon_monet_oil_painting_v1_1779735059303.jpg",
             styleKey = "monet_oil_painting_v1"
         )
     )
@@ -2373,6 +2611,9 @@ class MainActivity : AppCompatActivity() {
 
             Bundle()
             toolEnhance?.feature
+
+            Log.e("toolEnhance", "initActivityTool: " + toolEnhance.feature)
+
         }
 
         // Bind fully operational tool layout down to interface layer

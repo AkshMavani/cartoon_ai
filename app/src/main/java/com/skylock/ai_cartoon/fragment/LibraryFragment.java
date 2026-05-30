@@ -45,17 +45,19 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
     private long lastSelectImage;
     private int pos;
     private int positionImg;
+    private Boolean isGender;
     private String style;
     private String feature = "library_fragment";
     private List<ImageModel> photos = new ArrayList<>();
     private PhotoLibraryNewAdapter photoLibraryAdapter;
 
-    public static LibraryFragment newInstance(int pos, List<ImageModel> photos, String style, int positionImg) {
+    public static LibraryFragment newInstance(int pos, List<ImageModel> photos, String style, int positionImg, boolean isGender) {
         LibraryFragment fragment = new LibraryFragment();
         fragment.photos = photos != null ? photos : new ArrayList<>();
         fragment.pos = pos;
         fragment.style = style;
         fragment.positionImg = positionImg;
+        fragment.isGender = isGender;
         return fragment;
     }
 
@@ -261,6 +263,7 @@ public final class LibraryFragment extends BaseFragment<FragmentLibraryBinding> 
         intent.putExtra("image_height", photo.getHeight());
         intent.putExtra("feature", this.feature);
         intent.putExtra("style", this.style);
+        intent.putExtra("is_gender", this.isGender);
         intent.putExtra("position_img", this.positionImg);
         startActivity(intent);
     }

@@ -198,7 +198,7 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:text="@string/label_result_call_to_action"
             android:textColor="@color/text_tertiary"
-            android:textSize="13sp" />
+            android:textSize="@dimen/_16sdp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -215,6 +215,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/llRecycelview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_10sdp"
@@ -241,6 +242,7 @@
 
 
                 <RelativeLayout
+                    android:id="@+id/layoutTickClose"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginTop="@dimen/_10sdp"

@@ -1,5 +1,8 @@
 package com.skylock.ai_cartoon.enhance;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +19,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +36,8 @@ import com.skylock.ai_cartoon.R;
 import com.skylock.ai_cartoon.activity.AIAvatarProcessingActivity;
 import com.skylock.ai_cartoon.activity.ActivityProcess;
 import com.skylock.ai_cartoon.model.SizeImage;
+import com.skylock.ai_cartoon.remove_obj.RemoveObjActivity;
+import com.skylock.ai_cartoon.util.Feature;
 
 import java.io.File;
 import java.io.OutputStream;
@@ -67,6 +74,7 @@ public class ActivityEnhanceResult extends AppCompatActivity
     // ─── State ────────────────────────────────────────────────────────────────
     private String beforeImageUrl = "";
     private String afterImageUrl = "";
+
     private String featureSelected = "enhance";
     private int displayWidth = 0;
     private int displayHeight = 0;
@@ -87,6 +95,7 @@ public class ActivityEnhanceResult extends AppCompatActivity
         setupClickListeners();
         loadImageAndSetupSlider();
         showTooltipDelayed();
+        selectedItemSet();
     }
 
     // ─── Intent ───────────────────────────────────────────────────────────────
@@ -96,10 +105,17 @@ public class ActivityEnhanceResult extends AppCompatActivity
                 ? getIntent().getStringExtra("before_path") : "";
         afterImageUrl = getIntent().getStringExtra("after_url") != null
                 ? getIntent().getStringExtra("after_url") : "";
-        featureSelected = getIntent().getStringExtra("feature") != null
-                ? getIntent().getStringExtra("feature") : "enhance";
+        featureSelected = getIntent().getStringExtra("feature") != null ? getIntent().getStringExtra("feature") : "enhance";
     }
 
+    private void selectedItemSet() {
+        TextView tvCallToAction = findViewById(R.id.tvCallToAction);
+        if (featureSelected.equals(Feature.ENHANCE.getValue())) {
+            tvCallToAction.setText(getString(R.string.preview_call_to_action));
+        } else {
+
+        }
+    }
     // ─── Views ────────────────────────────────────────────────────────────────
 
     private void initViews() {
@@ -107,17 +123,92 @@ public class ActivityEnhanceResult extends AppCompatActivity
         btnSave = findViewById(R.id.btnSave);
         btnGenerate = findViewById(R.id.btnGenerate);
         View showCase = findViewById(R.id.showCase);
+        View moreTool = findViewById(R.id.moreTool);
         btnContinue = showCase.findViewById(R.id.btn_continue);
         tooltipView = showCase.findViewById(R.id.showCase);
         rvResult = findViewById(R.id.rvResult);
+        AppCompatImageView imgTick = findViewById(R.id.itemResultSaveChange);
+        AppCompatImageView imgClose = findViewById(R.id.itemResultClose);
+        LinearLayout llRecycleView = findViewById(R.id.llRecycelview);
+        RelativeLayout layoutTickClose = findViewById(R.id.layoutTickClose);
+        FrameLayout imgBack = findViewById(R.id.imgBack);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getOnBackPressedDispatcher().onBackPressed();
+            }
+        });
+        imgTick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageBeforeAfterSlider.setFlipBackVisibility(true);
+                imageBeforeAfterSlider.setSeekSlider(false);
 
-        if (tooltipView != null) tooltipView.setVisibility(View.GONE);
-        if (btnContinue != null) btnContinue.setVisibility(View.GONE);
+                llRecycleView.setVisibility(GONE);
+                moreTool.setVisibility(VISIBLE);
+                layoutTickClose.setVisibility(GONE);
+
+            }
+        });
+        imgClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        if (tooltipView != null) tooltipView.setVisibility(GONE);
+        if (btnContinue != null) btnContinue.setVisibility(GONE);
         if (imageBeforeAfterSlider != null) {
             imageBeforeAfterSlider.setOnClickViewListener(this);
         }
+
+        moreTool.findViewById(R.id.cvEnhance).setOnClickListener(v -> {
+            launchAIProcessing(Feature.ENHANCE.getValue());
+        });
+
+        moreTool.findViewById(R.id.cvCartoon).setOnClickListener(v -> {
+            launchAIProcessing(Feature.RETOUCH.getValue());
+        });
+
+        moreTool.findViewById(R.id.cvRemoveObj).setOnClickListener(v -> {
+            String imageToUse = (faceSelected != null && faceSelected.getUrlAfter() != null)
+                    ? faceSelected.getUrlAfter()
+                    : afterImageUrl;
+            Intent intent = new Intent(this, RemoveObjActivity.class);
+            intent.putExtra("image_uri", imageToUse);
+            startActivity(intent);
+            finish();
+        });
+
+        moreTool.findViewById(R.id.cvDescratch).setOnClickListener(v -> {
+            launchAIProcessing(Feature.DESCRATCH.getValue());
+        });
+
+        moreTool.findViewById(R.id.cvColorize).setOnClickListener(v -> {
+            launchAIProcessing(Feature.COLORIZE.getValue());
+        });
+
+        moreTool.findViewById(R.id.cvDehaze).setOnClickListener(v -> {
+            launchAIProcessing(Feature.DESCRATCH.getValue());
+        });
+
+        moreTool.findViewById(R.id.cvBrighten).setOnClickListener(v -> {
+            launchAIProcessing(Feature.BRIGHTEN.getValue());
+        });
+
     }
 
+    private void launchAIProcessing(String feature) {
+        String imageToUse = (faceSelected != null && faceSelected.getUrlAfter() != null)
+                ? faceSelected.getUrlAfter()
+                : afterImageUrl;
+
+        Intent intent = new Intent(this, AIAvatarProcessingActivity.class);
+        intent.putExtra("image_before", imageToUse);
+        intent.putExtra("feature", feature);
+        startActivity(intent);
+        finish();
+    }
     // ─── RecyclerView ─────────────────────────────────────────────────────────
 
     private void setupRecyclerView() {
@@ -208,7 +299,7 @@ public class ActivityEnhanceResult extends AppCompatActivity
         if (btnContinue != null) {
             btnContinue.setOnClickListener(v -> {
                 //  if (!isSafeClick()) return;
-                if (tooltipView != null) tooltipView.setVisibility(View.GONE);
+                if (tooltipView != null) tooltipView.setVisibility(GONE);
                 //gotoResultTool();
             });
         }
@@ -224,7 +315,7 @@ public class ActivityEnhanceResult extends AppCompatActivity
     private void showTooltipDelayed() {
         uiHandler.postDelayed(() -> {
             if (!isFinishing() && !isDestroyed() && tooltipView != null) {
-                tooltipView.setVisibility(View.VISIBLE);
+                tooltipView.setVisibility(VISIBLE);
                 tooltipView.setAlpha(0f);
                 tooltipView.animate().alpha(1f).setDuration(300).start();
             }
@@ -234,7 +325,7 @@ public class ActivityEnhanceResult extends AppCompatActivity
     private void hideTooltip() {
         if (tooltipView != null) {
             tooltipView.animate().alpha(0f).setDuration(200).withEndAction(() ->
-                    tooltipView.setVisibility(View.GONE)).start();
+                    tooltipView.setVisibility(GONE)).start();
         }
     }
 
@@ -317,7 +408,7 @@ public class ActivityEnhanceResult extends AppCompatActivity
 
         // Show continue button when user selects a result
         if (btnContinue != null) {
-            btnContinue.setVisibility(View.VISIBLE);
+            btnContinue.setVisibility(VISIBLE);
         }
     }
 
@@ -348,7 +439,7 @@ public class ActivityEnhanceResult extends AppCompatActivity
 
         // Show continue button
         if (btnContinue != null) {
-            btnContinue.setVisibility(View.VISIBLE);
+            btnContinue.setVisibility(VISIBLE);
         }
 
         // Update slider
@@ -430,7 +521,7 @@ public class ActivityEnhanceResult extends AppCompatActivity
 
         imageBeforeAfterSlider.setEnableChangePhoto(false);
         imageBeforeAfterSlider.setEnableFaceIcon(false, false);
-        imageBeforeAfterSlider.setAutoSlideDuration(2000, true);
+        //     imageBeforeAfterSlider.setAutoSlideDuration(2000, true);
         imageBeforeAfterSlider.setLockVibrate(false);
         imageBeforeAfterSlider.setSeekSlider(true);
         imageBeforeAfterSlider.setFlipBackVisibility(false);

@@ -216,7 +216,7 @@ public class ImageBeforeAfterSlider extends CardView {
                     ImageBeforeAfterSlider.this.flBefore.setLayoutParams(layoutParams);
                 }
             });
-            this.imgFlipback.setOnTouchListener(new OnTouchListener() { // from class: mobi.zeezoo.photoenhancer.feature.view.ImageBeforeAfterSlider.3
+            /*this.imgFlipback.setOnTouchListener(new OnTouchListener() { // from class: mobi.zeezoo.photoenhancer.feature.view.ImageBeforeAfterSlider.3
                 @Override // android.view.View.OnTouchListener
                 public boolean onTouch(View view, MotionEvent motionEvent) {
                     ImageBeforeAfterSlider.this.logger.info("MotionEvent:  " + motionEvent.getAction());
@@ -241,6 +241,56 @@ public class ImageBeforeAfterSlider extends CardView {
                             ImageBeforeAfterSlider.this.rlAfter.setVisibility(View.GONE);
                         }
                     }
+                    return true;
+                }
+            });*/
+
+            this.imgFlipback.setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+
+                        // ✅ Hide the entire after side + slider UI
+                        ImageBeforeAfterSlider.this.rlAfter.setVisibility(View.INVISIBLE);
+                        ImageBeforeAfterSlider.this.seekSlider.setVisibility(View.GONE);
+                        ImageBeforeAfterSlider.this.flSlider.setVisibility(View.GONE);
+                        ImageBeforeAfterSlider.this.tvAfter.setVisibility(View.GONE);
+                        ImageBeforeAfterSlider.this.tvBefore.setVisibility(View.GONE);
+
+                        // ✅ Expand flBefore to FULL width so imgBefore shows completely
+                        ViewGroup.LayoutParams params = ImageBeforeAfterSlider.this.flBefore.getLayoutParams();
+                        params.width = ImageBeforeAfterSlider.this.width;
+                        params.height = ImageBeforeAfterSlider.this.height;
+                        ImageBeforeAfterSlider.this.flBefore.setLayoutParams(params);
+                        ImageBeforeAfterSlider.this.flBefore.setVisibility(View.VISIBLE);
+
+                    } else if (motionEvent.getAction() == MotionEvent.ACTION_UP
+                            || motionEvent.getAction() == MotionEvent.ACTION_CANCEL) {
+
+                        // ✅ Restore after image
+                        ImageBeforeAfterSlider.this.rlAfter.setVisibility(View.VISIBLE);
+
+                        if (ImageBeforeAfterSlider.this.isFlipBackActive) {
+                            // Slider mode: restore seekSlider + labels and shrink flBefore
+                            // back to the current slider progress position.
+                            ImageBeforeAfterSlider.this.seekSlider.setVisibility(View.VISIBLE);
+                            ImageBeforeAfterSlider.this.flSlider.setVisibility(View.VISIBLE);
+                            ImageBeforeAfterSlider.this.tvAfter.setVisibility(View.VISIBLE);
+                            ImageBeforeAfterSlider.this.tvBefore.setVisibility(View.VISIBLE);
+
+                            ViewGroup.LayoutParams params = ImageBeforeAfterSlider.this.flBefore.getLayoutParams();
+                            params.width = ImageBeforeAfterSlider.this.seekSlider.getProgress();
+                            params.height = ImageBeforeAfterSlider.this.height;
+                            ImageBeforeAfterSlider.this.flBefore.setLayoutParams(params);
+                            ImageBeforeAfterSlider.this.flBefore.setVisibility(View.VISIBLE);
+                        } else {
+                            // Flipback-only mode: just hide flBefore so the full
+                            // after image is shown cleanly — no partial overlay.
+                            ImageBeforeAfterSlider.this.flBefore.setVisibility(View.GONE);
+                        }
+                    }
+
                     return true;
                 }
             });
@@ -758,4 +808,6 @@ public class ImageBeforeAfterSlider extends CardView {
 
         void onClickChangePhoto();
     }
+
+
 }

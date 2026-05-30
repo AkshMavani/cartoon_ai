@@ -49,13 +49,26 @@ public class CropImageActivity extends BaseActivity {
     // Lifecycle
     // ------------------------------------------------------------------
 
+    public static boolean deleteDir(File file) {
+        if (file != null && file.isDirectory()) {
+            for (String str : file.list()) {
+                if (!deleteDir(new File(file, str))) {
+                    return false;
+                }
+            }
+        }
+        return file.delete();
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityCropImageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        showGenderBottomSheet();
+        if (getIntent().getBooleanExtra("is_gender", false)) {
+            showGenderBottomSheet();
+        }
 
 
         // Ad banner height
@@ -65,7 +78,7 @@ public class CropImageActivity extends BaseActivity {
 
         // Read intent extras
         final String imageUri = getIntent().getStringExtra("image_uri");
-        final String feature  = getIntent().getStringExtra("feature");
+        final String feature = getIntent().getStringExtra("feature");
         final int positionImg = getIntent().getIntExtra("position_img", 0);
 
         Log.d(TAG, "onCreate positionImg: " + positionImg);
@@ -82,7 +95,7 @@ public class CropImageActivity extends BaseActivity {
         updateStatusViewSelect(binding.bottomCrop.ratio34btn);
 
         // Image dimensions from intent (used later when launching processing activity)
-        imageWidth  = getIntent().getIntExtra("image_width", 0);
+        imageWidth = getIntent().getIntExtra("image_width", 0);
         imageHeight = getIntent().getIntExtra("image_height", 0);
 
         // Aspect-ratio buttons
@@ -117,10 +130,14 @@ public class CropImageActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-            binding.bottomCrop.viewPremium.setVisibility(View.VISIBLE);
-            binding.bottomCrop.tvWatchAd.setText(getString(R.string.watch_ads));
+        binding.bottomCrop.viewPremium.setVisibility(View.VISIBLE);
+        binding.bottomCrop.tvWatchAd.setText(getString(R.string.watch_ads));
 
     }
+
+    // ------------------------------------------------------------------
+    // Generate (normal feature flow)
+    // ------------------------------------------------------------------
 
     @Override
     protected void onDestroy() {
@@ -128,18 +145,17 @@ public class CropImageActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    // ------------------------------------------------------------------
-    // Generate (normal feature flow)
-    // ------------------------------------------------------------------
-
     private void onGenerateClick(String feature) {
         // Premium gate
-
 
 
         binding.loading.setVisibility(View.VISIBLE);
         new Thread(() -> cropAndLaunchProcessing(feature)).start();
     }
+
+    // ------------------------------------------------------------------
+    // AI Hugging flow
+    // ------------------------------------------------------------------
 
     private void cropAndLaunchProcessing(String feature) {
         if (binding.imageCropView.isChangingScale()) return;
@@ -159,10 +175,6 @@ public class CropImageActivity extends BaseActivity {
         });
     }
 
-    // ------------------------------------------------------------------
-    // AI Hugging flow
-    // ------------------------------------------------------------------
-
     private void setupAiHuggingMode(int positionImg) {
         binding.bottomCrop.btnGenerate.setVisibility(View.GONE);
         binding.bottomCrop.btnDone.setVisibility(View.VISIBLE);
@@ -173,6 +185,10 @@ public class CropImageActivity extends BaseActivity {
         binding.loading.setVisibility(View.VISIBLE);
         new Thread(() -> cropAndSaveForHugging(positionImg)).start();
     }
+
+    // ------------------------------------------------------------------
+    // Crop helpers
+    // ------------------------------------------------------------------
 
     private void cropAndSaveForHugging(int positionImg) {
         if (binding.imageCropView.isChangingScale()) return;
@@ -211,10 +227,6 @@ public class CropImageActivity extends BaseActivity {
         }
     }
 
-    // ------------------------------------------------------------------
-    // Crop helpers
-    // ------------------------------------------------------------------
-
     private void crop(View clickedView, int widthRatio, int heightRatio) {
         // Block while loading
         if (binding.loading.getVisibility() != View.GONE) return;
@@ -235,21 +247,13 @@ public class CropImageActivity extends BaseActivity {
     }
 
     private void updateStatusViewSelect(View selectedView) {
-        setRatioBtnBackground(binding.bottomCrop.ratio11btn,  selectedView);
-        setRatioBtnBackground(binding.bottomCrop.ratio34btn,  selectedView);
-        setRatioBtnBackground(binding.bottomCrop.ratio43btn,  selectedView);
+        setRatioBtnBackground(binding.bottomCrop.ratio11btn, selectedView);
+        setRatioBtnBackground(binding.bottomCrop.ratio34btn, selectedView);
+        setRatioBtnBackground(binding.bottomCrop.ratio43btn, selectedView);
         setRatioBtnBackground(binding.bottomCrop.ratio169btn, selectedView);
         setRatioBtnBackground(binding.bottomCrop.ratio916btn, selectedView);
-        setRatioBtnBackground(binding.bottomCrop.ratio45btn,  selectedView);
-        setRatioBtnBackground(binding.bottomCrop.ratio54btn,  selectedView);
-    }
-
-    private void setRatioBtnBackground(View btn, View selectedView) {
-        btn.setBackgroundResource(
-                btn == selectedView
-                        ? R.drawable.bg_border_crop_selected
-                        : R.drawable.bg_border_crop
-        );
+        setRatioBtnBackground(binding.bottomCrop.ratio45btn, selectedView);
+        setRatioBtnBackground(binding.bottomCrop.ratio54btn, selectedView);
     }
 
     // ------------------------------------------------------------------
@@ -329,21 +333,33 @@ public class CropImageActivity extends BaseActivity {
     // Intent builder for AIAvatarProcessingActivity
     // ------------------------------------------------------------------
 
-    private Intent buildProcessingIntent(File file, String style, String feature) {
-        Intent intent = new Intent(this, AIAvatarProcessingActivity.class);
-        Log.e(TAG, "buildProcessingIntent: "+file.getAbsolutePath() );
-        intent.putExtra("image_before", file.getAbsolutePath());
-        intent.putExtra("image_width",   imageWidth);
-        intent.putExtra("image_height",  imageHeight);
-        intent.putExtra("style",         style);
-        intent.putExtra("gender",        gender);
-        intent.putExtra("feature", feature);
-        return intent;
+    private void setRatioBtnBackground(View btn, View selectedView) {
+        btn.setBackgroundResource(
+                btn == selectedView
+                        ? R.drawable.bg_border_crop_selected
+                        : R.drawable.bg_border_crop
+        );
     }
 
     // ------------------------------------------------------------------
     // Bitmap → File
     // ------------------------------------------------------------------
+
+    private Intent buildProcessingIntent(File file, String style, String feature) {
+        Intent intent = new Intent(this, AIAvatarProcessingActivity.class);
+        Log.e(TAG, "buildProcessingIntent: " + file.getAbsolutePath());
+        Log.e("TAG_gender", "selected gender: " + gender);
+        intent.putExtra("image_before", file.getAbsolutePath());
+        intent.putExtra("image_width", imageWidth);
+        intent.putExtra("image_height", imageHeight);
+        intent.putExtra("style", style);
+        intent.putExtra("gender", gender);
+        intent.putExtra("feature", feature);
+        final Boolean isGender = getIntent().getBooleanExtra("is_gender", false);
+        intent.putExtra("is_gender", isGender);
+
+        return intent;
+    }
 
     /**
      * Saves the given bitmap to a temporary JPEG file in the cache directory.
@@ -366,7 +382,7 @@ public class CropImageActivity extends BaseActivity {
             fos.flush();
 
             imageHeight = bitmap.getHeight();
-            imageWidth  = bitmap.getWidth();
+            imageWidth = bitmap.getWidth();
 
             // Notify media scanner
             MediaScannerConnection.scanFile(
@@ -381,7 +397,11 @@ public class CropImageActivity extends BaseActivity {
             outputFile = new File(""); // signal failure with empty path
         } finally {
             if (fos != null) {
-                try { fos.close(); } catch (Exception e) { e.printStackTrace(); }
+                try {
+                    fos.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -402,16 +422,7 @@ public class CropImageActivity extends BaseActivity {
             }
         }
     }
-    public static boolean deleteDir(File file) {
-        if (file != null && file.isDirectory()) {
-            for (String str : file.list()) {
-                if (!deleteDir(new File(file, str))) {
-                    return false;
-                }
-            }
-        }
-        return file.delete();
-    }
+
     @NonNull
     @Override
     public ViewBinding inflateBinding(@NotNull LayoutInflater inflater) {

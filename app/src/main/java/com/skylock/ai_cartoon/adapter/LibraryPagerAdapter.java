@@ -24,16 +24,20 @@ public final class LibraryPagerAdapter extends FragmentStateAdapter {
 
     private final List<AlbumModel> albumModels;
     private final String style;
+    private final Boolean isGender;
     private final int positionImg;
 
     public LibraryPagerAdapter(@NonNull FragmentManager fragmentManager,
                                @NonNull Lifecycle lifecycle,
                                @NonNull List<AlbumModel> albumModels,
                                @NonNull String style,
+                               @NonNull Boolean gender,
+
                                int positionImg) {
         super(fragmentManager, lifecycle);
         this.albumModels = albumModels;
         this.style = style;
+        this.isGender = gender;
         this.positionImg = positionImg;
     }
 
@@ -42,21 +46,21 @@ public final class LibraryPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         // Validation check for empty data or out-of-bounds positions
         if (this.albumModels.isEmpty() || position < 0 || position >= this.albumModels.size()) {
-            return LibraryFragment.newInstance(position, new ArrayList<>(), this.style, this.positionImg);
+            return LibraryFragment.newInstance(position, new ArrayList<>(), this.style, this.positionImg, isGender);
         }
 
         AlbumModel albumModel = this.albumModels.get(position);
 
         // Handling null album models
         if (albumModel == null) {
-            return LibraryFragment.newInstance(position, new ArrayList<>(), this.style, this.positionImg);
+            return LibraryFragment.newInstance(position, new ArrayList<>(), this.style, this.positionImg, isGender);
         }
 
         // Extracting photos from the album model
         ArrayList<ImageModel> albumPhotos = albumModel.getAlbumPhotos();
         ArrayList<ImageModel> photosList = (albumPhotos != null) ? new ArrayList<>(albumPhotos) : new ArrayList<>();
 
-        return LibraryFragment.newInstance(position, photosList, this.style, this.positionImg);
+        return LibraryFragment.newInstance(position, photosList, this.style, this.positionImg, isGender);
     }
 
     /**
@@ -64,7 +68,7 @@ public final class LibraryPagerAdapter extends FragmentStateAdapter {
      * ViewPager2 naming convention.
      */
     @Nullable
-    public final LibraryFragment getFragmentAtPosition(@NonNull FragmentManager fragmentManager, int position) {
+    public LibraryFragment getFragmentAtPosition(@NonNull FragmentManager fragmentManager, int position) {
         // ViewPager2 uses "f" + position as the default tag for its fragments
         Fragment fragment = fragmentManager.findFragmentByTag("f" + position);
         if (fragment instanceof LibraryFragment) {

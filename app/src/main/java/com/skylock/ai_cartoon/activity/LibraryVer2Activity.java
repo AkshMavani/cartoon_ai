@@ -79,6 +79,7 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
     // Lazy-read intent extras (read once, cached)
     private String featureCache;
     private String styleCache;
+    private Boolean genderCache;
 
     // Permission & dialog
     private ActivityResultLauncher<String> requestPermissionCameraLauncher;
@@ -111,6 +112,13 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
             styleCache = getIntent().getStringExtra("style");
         }
         return styleCache;
+    }
+
+    private Boolean getGender() {
+        if (genderCache == null) {
+            genderCache = getIntent().getBooleanExtra("is_gender", false);
+        }
+        return genderCache;
     }
 
     private int getPositionImg() {
@@ -384,9 +392,11 @@ public final class LibraryVer2Activity extends BaseActivity<ActivityLibraryVer2B
     private void initViewPagerLambda12(final List<AlbumModel> safeAlbumModels) {
         FragmentManager fm = getSupportFragmentManager();
         String style = getStyle();
+        Boolean gender = getGender();
         if (style == null) style = "";
+        if (gender == null) gender = false;
 
-        libraryPagerViewPager = new LibraryPagerAdapter(fm, getLifecycle(), safeAlbumModels, style, getPositionImg());
+        libraryPagerViewPager = new LibraryPagerAdapter(fm, getLifecycle(), safeAlbumModels, style, gender, getPositionImg());
 
         getBinding().viewPager.setOffscreenPageLimit(1);
         getBinding().viewPager.setAdapter(libraryPagerViewPager);

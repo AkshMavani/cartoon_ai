@@ -556,6 +556,7 @@
     <string name="label_crop_update_pro">Access to all features, unlimited styles</string>
     <string name="label_delete">Remove</string>
     <string name="label_descratch">Remove Scratch</string>
+    <string name="label_remove_bg">Remove Bg</string>
     <string name="label_discard">Discard</string>
     <string name="label_discover_new_style">Discover new style</string>
     <string name="label_don_t_offer_again">Don’t offer again</string>

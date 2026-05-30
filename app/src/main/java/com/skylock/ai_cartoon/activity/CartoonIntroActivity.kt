@@ -11,6 +11,7 @@ class CartoonIntroActivity : BaseActivity<ActivityCartoonIntroBinding>() {
 
     private var selectedStyle: String? = null
     private var featureName: String? = null
+    var isGender: Boolean = false
     override fun inflateBinding(inflater: LayoutInflater): ActivityCartoonIntroBinding {
         return ActivityCartoonIntroBinding.inflate(layoutInflater)
     }
@@ -21,6 +22,7 @@ class CartoonIntroActivity : BaseActivity<ActivityCartoonIntroBinding>() {
         // Receive data from the Intent
         selectedStyle = intent.getStringExtra("style")
         featureName = intent.getStringExtra("feature")
+        isGender = intent.getBooleanExtra("is_gender", false)
 
         // Setup Video (Removed Ads/Premium logic)
         binding.video.setRawData(R.raw.video_intro_cartoon)
@@ -36,9 +38,11 @@ class CartoonIntroActivity : BaseActivity<ActivityCartoonIntroBinding>() {
             val intent = Intent(this, LibraryVer2Activity::class.java).apply {
                 putExtra("feature", featureName)
                 putExtra("style", selectedStyle)
+                putExtra("is_gender", isGender)
+
             }
             startActivity(intent)
-           // ActivityExtKt.applyTransition(this, R.anim.slide_in_right, R.anim.slide_nothing)
+            // ActivityExtKt.applyTransition(this, R.anim.slide_in_right, R.anim.slide_nothing)
         }
 
         binding.imgBack.setOnClickListener {

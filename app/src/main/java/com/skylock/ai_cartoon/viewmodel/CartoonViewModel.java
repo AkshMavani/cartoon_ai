@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.Objects;
+import java.util.Random;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -48,7 +50,7 @@ public class CartoonViewModel extends ViewModel {
     // Max silent auto-retries before showing dialog to user (generate phase only)
     private static final int MAX_PROCESS_RETRY = 2;
     // Max poll attempts (~80 × 2 s = ~160 s) before showing "taking too long" dialog
-    private static final int MAX_POLL_COUNT = 85;
+    private static final int MAX_POLL_COUNT = 70;
     private static final long POLL_INTERVAL_MS = 2000L;
 
     private static final String AUTH_TOKEN = "Bearer NU4IYAS4D0F8CVBSI26R5NU21E0HW737GPJ07WAM";
@@ -72,15 +74,36 @@ public class CartoonViewModel extends ViewModel {
     private double lastStrength;
     private String lastGender;
 
+    private String selctedGender = "man";
     // ─────────────────────────────────────────────────────────────────────────
     // Public API
     // ─────────────────────────────────────────────────────────────────────────
 
     public void onCartoon(String imageUri, String aiFaceUri, double strength,
-                          String gender, String style) {
+                          String gender, String style, boolean isGender) {
+        Log.e("getCarttonIS", "onCartoon: " + gender);
+        Log.e("getCarttonIS", "onCartoon: " + style);
+
         this.uriAiFace = aiFaceUri;
         this.lastImageUri = imageUri;
-        this.lastStyle = style;
+
+        if (isGender) {
+            if (Objects.equals(gender, "other")) {
+                Log.e("getCarttonIS", "onCartoon: othes");
+                if (new Random().nextBoolean()) {
+                    selctedGender = "man";
+                } else {
+                    selctedGender = "woman";
+                }
+                Log.e("getCarttonIS", "onCartoon:>>>>>>>>>>>>" + selctedGender);
+            } else {
+                selctedGender = gender;
+            }
+            this.lastStyle = selctedGender + "_" + style;
+        } else {
+            this.lastStyle = style;
+        }
+        Log.e("getCarttonIS", "onCartoon: " + lastStyle);
         this.lastStrength = strength;
         this.lastGender = gender;
         this.processRetryCount = 0;
@@ -89,7 +112,7 @@ public class CartoonViewModel extends ViewModel {
         stopPolling();
 
         AiphotoService.CARTOON_URL = CARTOON_BASE_URL;
-        processZeeZoo(AUTH_TOKEN, imageUri, style, strength, resolveGender(gender));
+        processZeeZoo(AUTH_TOKEN, imageUri, lastStyle, strength, resolveGender(gender));
     }
 
     /**

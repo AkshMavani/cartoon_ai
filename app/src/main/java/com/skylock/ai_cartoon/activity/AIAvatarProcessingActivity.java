@@ -24,6 +24,7 @@ import com.skylock.ai_cartoon.enhance.ActivityEnhanceResult;
 import com.skylock.ai_cartoon.enhance.EnhancerViewModel;
 import com.skylock.ai_cartoon.enhance.EnhancerViewModelFactory;
 import com.skylock.ai_cartoon.enhance.ProcessTypeConfig;
+import com.skylock.ai_cartoon.model.Gender;
 import com.skylock.ai_cartoon.model.ImageModel;
 import com.skylock.ai_cartoon.model.ImageResponse;
 import com.skylock.ai_cartoon.util.Constants;
@@ -48,7 +49,7 @@ import io.reactivex.rxjava3.disposables.Disposable;
 
 public final class AIAvatarProcessingActivity extends BaseActivity {
 
-    private static final String TAG = "AIAvatarProcessingActivity";
+    private static final String TAG = "AIAvatarProcessingActivity11";
 
     // ── Progress animation constants ─────────────────────────────────────────
     private static final long PROGRESS_INTERVAL_MS = 800L;
@@ -82,7 +83,8 @@ public final class AIAvatarProcessingActivity extends BaseActivity {
     // ── Intent data ──────────────────────────────────────────────────────────
     private String imageUri = "";
     private String style = "";
-    private String gender = "other";
+    private Gender gender = Gender.OTHER;
+    private boolean isGender = false;
     private String feature = "";
 
     // ── Triple-upscale state ─────────────────────────────────────────────────
@@ -406,8 +408,7 @@ public final class AIAvatarProcessingActivity extends BaseActivity {
 
                 boolean returnToExisting = getIntent().getBooleanExtra("return_to_enhance_result", false);
 
-                Intent intent = new Intent(AIAvatarProcessingActivity.this,
-                        ActivityEnhanceResult.class);
+                Intent intent = new Intent(AIAvatarProcessingActivity.this, ActivityEnhanceResult.class);
                 intent.putExtra("before_path", beforeToShow);
                 intent.putExtra("after_url", resultUrl);
 
@@ -580,8 +581,8 @@ public final class AIAvatarProcessingActivity extends BaseActivity {
             }
             enhancerViewModel.processPhoto(imageFile, "");
         } else if (cartoonViewModel != null) {
-            cartoonViewModel.onCartoon(imageUri, null, 1.0, gender,
-                    getIntent().getStringExtra("style"));
+            cartoonViewModel.onCartoon(imageUri, null, 2.0, gender.getValue(),
+                    getIntent().getStringExtra("style"), isGender);
         } else {
             Log.e(TAG, "No ViewModel initialized");
             handleErrorEvent(ErrorEvent.SERVER_ERROR);
@@ -783,8 +784,10 @@ public final class AIAvatarProcessingActivity extends BaseActivity {
         imageUri = i.getStringExtra("image_before") != null ? i.getStringExtra("image_before") : "";
         feature = i.getStringExtra("feature") != null ? i.getStringExtra("feature") : "";
         style = i.getStringExtra("style") != null ? i.getStringExtra("style") : "christmas";
-        gender = i.getStringExtra("gender") != null ? i.getStringExtra("gender") : "other";
+        gender = (Gender) getIntent().getSerializableExtra("gender");
+        isGender = getIntent().getBooleanExtra("is_gender", false);
 
+        Log.e("getStringgggg", "readIntentExtras: " + gender);
         // Triple-upscale extras (0 / "" when not a chained call)
         totalUpscalePasses = i.getIntExtra("total_upscale_passes", 0);
         upscaleRemaining = i.getIntExtra("upscale_remaining", 0);

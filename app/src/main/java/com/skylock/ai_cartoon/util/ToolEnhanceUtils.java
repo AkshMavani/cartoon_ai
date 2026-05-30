@@ -1,6 +1,7 @@
 package com.skylock.ai_cartoon.util;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.skylock.ai_cartoon.R;
@@ -15,7 +16,8 @@ import java.util.Objects;
 public final class ToolEnhanceUtils {
 
     // Private constructor to prevent instantiation (Utility Pattern)
-    private ToolEnhanceUtils() {}
+    private ToolEnhanceUtils() {
+    }
 
     /**
      * Returns a list of available enhancement tools.
@@ -66,6 +68,21 @@ public final class ToolEnhanceUtils {
                 context.getString(R.string.label_descratch),
                 R.drawable.ic_remove_sratchs,
                 Feature.DESCRATCH.getValue()
+        ));
+        list.add(new ToolEnhance(
+                context.getString(R.string.dehaze),
+                R.drawable.ic_dehaze,
+                Feature.DEHAZE.getValue()
+        ));
+        list.add(new ToolEnhance(
+                context.getString(R.string.brighten),
+                R.drawable.ic_brighten,
+                Feature.BRIGHTEN.getValue()
+        ));
+        list.add(new ToolEnhance(
+                context.getString(R.string.label_remove_bg),
+                R.drawable.ic_remove_bg,
+                Feature.BLUR_BG.getValue()
         ));
 
         return list;
